@@ -26,7 +26,7 @@ private:
 MyFrame::MyFrame(wxString title)
 	:wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(600, 400))
 {
-    this->SetBackgroundColour(wxColour(0,175,200));
+    this->SetBackgroundColour(wxColour(0,175,230));
 	wxBoxSizer* topSizer = new wxBoxSizer(wxVERTICAL);
 	wxBoxSizer* textSizer = new wxBoxSizer(wxHORIZONTAL);
 	wxBoxSizer* firsthor = new wxBoxSizer(wxHORIZONTAL);
