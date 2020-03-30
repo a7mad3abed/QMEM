@@ -9,9 +9,9 @@ MyFrame::MyFrame(wxString title)
 	wxBoxSizer* textSizer = new wxBoxSizer(wxHORIZONTAL);
 	wxBoxSizer* firsthor = new wxBoxSizer(wxHORIZONTAL);
 
-	firstText = new wxTextCtrl(this, -1, "", wxDefaultPosition, wxSize(400, 300), wxTE_MULTILINE);
-	firstText->LoadFile("textTest.txt", wxTEXT_TYPE_ANY);
-	secondText = new wxTextCtrl(this, -1, "", wxDefaultPosition, wxSize(400, 300), wxTE_MULTILINE);
+	firstText = new wxTextCtrl(this, -1, "", wxDefaultPosition, wxSize(400, 300),  wxTE_MULTILINE|wxTE_RICH2);
+	firstText->LoadFile("text01.txt", wxTEXT_TYPE_ANY);
+	secondText = new wxTextCtrl(this, -1, "", wxDefaultPosition, wxSize(400, 300), wxTE_MULTILINE | wxTE_RICH2);
 	textSizer->Add(firstText,
         1,            // make vertically stretchable
         wxEXPAND |    // make horizontally stretchable
@@ -55,8 +55,9 @@ void MyFrame::OnCompButtonClicked(wxCommandEvent& event)
 		}
 		else
 		{
-			if (firstText->SetStyle(0, 2, wxTextAttr(wxColour(200, 0, 20))))
-				wxMessageBox("changed");
+			wxTextAttr attr;
+			attr.SetTextColour(*wxRED);
+			firstText->SetStyle(4, 8, attr);
 			wxMessageBox(wxString::Format("Line %d is different", i));
 		}
 	}

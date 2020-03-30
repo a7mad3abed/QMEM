@@ -1,5 +1,6 @@
 #pragma once
 #include "wx/wx.h"
+#include "wx/richtext/richtextctrl.h"
 
 
 class MyFrame : public wxFrame
