@@ -54,7 +54,11 @@ void MyFrame::OnCompButtonClicked(wxCommandEvent& event)
 			wxMessageBox(wxString::Format("Line %d It's ok", i) );
 		}
 		else
-			wxMessageBox(wxString::Format("Line %d is different", i) );
+		{
+			if (firstText->SetStyle(0, 2, wxTextAttr(wxColour(200, 0, 20))))
+				wxMessageBox("changed");
+			wxMessageBox(wxString::Format("Line %d is different", i));
+		}
 	}
 
 }
