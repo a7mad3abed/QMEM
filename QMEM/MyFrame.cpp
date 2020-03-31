@@ -7,11 +7,13 @@ MyFrame::MyFrame(wxString title)
     SetBackgroundColour(wxColour(200,55,70));
 	wxBoxSizer* topSizer = new wxBoxSizer(wxVERTICAL);
 	wxBoxSizer* textSizer = new wxBoxSizer(wxHORIZONTAL);
+	wxBoxSizer* resultSizer = new wxBoxSizer(wxHORIZONTAL);
 	wxBoxSizer* firsthor = new wxBoxSizer(wxHORIZONTAL);
 
 	firstText = new wxTextCtrl(this, -1, "", wxDefaultPosition, wxSize(400, 300),  wxTE_MULTILINE|wxTE_RICH2);
 	firstText->LoadFile("text01.txt", wxTEXT_TYPE_ANY);
 	secondText = new wxTextCtrl(this, -1, "", wxDefaultPosition, wxSize(400, 300), wxTE_MULTILINE | wxTE_RICH2);
+	resultText = new wxStaticText(this, wxID_ANY, "results", wxDefaultPosition, wxSize(400, 100), wxALIGN_RIGHT);
 	textSizer->Add(firstText,
         1,            // make vertically stretchable
         wxEXPAND |    // make horizontally stretchable
@@ -37,6 +39,7 @@ MyFrame::MyFrame(wxString title)
 		0,
 		wxALL,
 		10);
+	firsthor->Add(resultText, 1, wxEXPAND | wxALL, 10);
 	topSizer->Add(firsthor);
 	SetSizerAndFit(topSizer);
 
@@ -45,22 +48,23 @@ MyFrame::MyFrame(wxString title)
 
 void MyFrame::OnCompButtonClicked(wxCommandEvent& event)
 {
+	wxString str;
+	str.append("Results\n");
 	for (int i = 0; i < firstText->GetNumberOfLines() || i < secondText->GetNumberOfLines(); i++)
 	{
 		wxString txt01 = firstText->GetLineText(i);
 		wxString txt02 = secondText->GetLineText(i);
-		if (txt01 == txt02)
-		{
-			wxMessageBox(wxString::Format("Line %d It's ok", i) );
-		}
-		else
+		if (txt01 != txt02)
 		{
 			wxTextAttr attr;
 			attr.SetTextColour(*wxRED);
 			firstText->SetStyle(4, 8, attr);
-			wxMessageBox(wxString::Format("Line %d is different", i));
+			//wxMessageBox(wxString::Format("Line %d is different", i));
+			//resultText->SetLabelText(wxString::Format("Line %d is different", i));
+			str.append(wxString::Format("Line %d is different\n", i));
 		}
 	}
+	resultText->SetLabelText(str);
 
 }
 

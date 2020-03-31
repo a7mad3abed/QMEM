@@ -11,6 +11,7 @@ public:
 private:
 	wxTextCtrl* firstText;
 	wxTextCtrl* secondText;
+	wxStaticText* resultText;
 
 };
 
