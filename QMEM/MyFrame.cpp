@@ -4,7 +4,7 @@
 MyFrame::MyFrame(wxString title)
 	:wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(600, 400))
 {
-    SetBackgroundColour(wxColour(200,55,70));
+    SetBackgroundColour(wxColour(58, 168, 199));
 	wxBoxSizer* topSizer = new wxBoxSizer(wxVERTICAL);
 	wxBoxSizer* textSizer = new wxBoxSizer(wxHORIZONTAL);
 	wxBoxSizer* resultSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -13,7 +13,7 @@ MyFrame::MyFrame(wxString title)
 	firstText = new wxTextCtrl(this, -1, "", wxDefaultPosition, wxSize(400, 300),  wxTE_MULTILINE|wxTE_RICH2);
 	firstText->LoadFile("text01.txt", wxTEXT_TYPE_ANY);
 	secondText = new wxTextCtrl(this, -1, "", wxDefaultPosition, wxSize(400, 300), wxTE_MULTILINE | wxTE_RICH2);
-	resultText = new wxStaticText(this, wxID_ANY, "results", wxDefaultPosition, wxSize(400, 100), wxALIGN_RIGHT);
+	resultText = new wxStaticText(this, wxID_ANY, "Results", wxDefaultPosition, wxSize(400, 100), wxALIGN_CENTER);
 	textSizer->Add(firstText,
         1,            // make vertically stretchable
         wxEXPAND |    // make horizontally stretchable
