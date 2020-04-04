@@ -59,8 +59,6 @@ void MyFrame::OnCompButtonClicked(wxCommandEvent& event)
 			wxTextAttr attr;
 			attr.SetTextColour(*wxRED);
 			firstText->SetStyle(4, 8, attr);
-			//wxMessageBox(wxString::Format("Line %d is different", i));
-			//resultText->SetLabelText(wxString::Format("Line %d is different", i));
 			str.append(wxString::Format("Line %d is different\n", i));
 		}
 	}
