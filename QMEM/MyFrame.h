@@ -8,6 +8,7 @@ public:
 	MyFrame(wxString title);
 	void OnCompButtonClicked(wxCommandEvent &event);
 	void OnCancelButtonClicked(wxCommandEvent& event);
+	void OnTextChanged(wxCommandEvent& event);
 private:
 	wxTextCtrl* firstText;
 	wxTextCtrl* secondText;

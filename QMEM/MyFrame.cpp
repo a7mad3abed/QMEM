@@ -10,10 +10,11 @@ MyFrame::MyFrame(wxString title)
 	wxBoxSizer* resultSizer = new wxBoxSizer(wxHORIZONTAL);
 	wxBoxSizer* firsthor = new wxBoxSizer(wxHORIZONTAL);
 
-	firstText = new wxTextCtrl(this, -1, "", wxDefaultPosition, wxSize(400, 300),  wxTE_MULTILINE|wxTE_RICH2);
+	firstText = new wxTextCtrl(this, -1, "", wxDefaultPosition, wxSize(400, 300),  wxTE_MULTILINE|wxTE_RICH2|wxTE_READONLY);
 	firstText->LoadFile("text01.txt", wxTEXT_TYPE_ANY);
 	secondText = new wxTextCtrl(this, -1, "", wxDefaultPosition, wxSize(400, 300), wxTE_MULTILINE | wxTE_RICH2);
-	resultText = new wxStaticText(this, wxID_ANY, "Results", wxDefaultPosition, wxSize(400, 100), wxALIGN_CENTER);
+    secondText->Bind(wxEVT_TEXT, &MyFrame::OnTextChanged, this);
+	resultText = new wxStaticText(this, wxID_ANY, "Results\n", wxDefaultPosition, wxSize(400, 100), wxALIGN_CENTER);
 	textSizer->Add(firstText,
         1,            // make vertically stretchable
         wxEXPAND |    // make horizontally stretchable
@@ -72,4 +73,26 @@ void MyFrame::OnCancelButtonClicked(wxCommandEvent& event)
 
 }
 
+void MyFrame::OnTextChanged(wxCommandEvent& event)
+{
+        auto pos1 = firstText->GetLastPosition();
+        auto pos2 = secondText->GetLastPosition();
+		wxString txt01 = firstText->GetValue();
+		wxString txt02 = secondText->GetValue();
+		if (txt01.GetChar(pos1) != txt02.GetChar(pos1))
+		{
+            resultText->SetLabelText(wxString::Format("%d",pos1));
+            resultText->SetLabelText(wxString::Format("%d",pos2));
+			wxTextAttr attr;
+			attr.SetTextColour(*wxRED);
+			secondText->SetStyle(pos2,pos2,attr);
+		//	str.append(wxString::Format("Line %d is different\n", i));
+		}
+	//resultText->SetLabelText(str);
+
+    //wxString str = resultText->GetLabelText();
+    //str.append("text Changed!\n");
+    //resultText->SetLabelText(str);
+
+}
 
