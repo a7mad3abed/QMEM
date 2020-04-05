@@ -64,6 +64,8 @@ void MyFrame::OnCompButtonClicked(wxCommandEvent& event)
 		}
 	}
 	resultText->SetLabelText(str);
+	//testing the source control in vsc
+
 
 }
 
