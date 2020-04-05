@@ -13,6 +13,7 @@ private:
 	wxTextCtrl* firstText;
 	wxTextCtrl* secondText;
 	wxStaticText* resultText;
+	wxTextAttr origAttr;
 
 };
 

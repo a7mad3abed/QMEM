@@ -14,6 +14,7 @@ MyFrame::MyFrame(wxString title)
 	firstText->LoadFile("text01.txt", wxTEXT_TYPE_ANY);
 	secondText = new wxTextCtrl(this, -1, "", wxDefaultPosition, wxSize(400, 300), wxTE_MULTILINE | wxTE_RICH2);
     secondText->Bind(wxEVT_TEXT, &MyFrame::OnTextChanged, this);
+	secondText->GetStyle(0, origAttr);
 	resultText = new wxStaticText(this, wxID_ANY, "Results\n", wxDefaultPosition, wxSize(400, 100), wxALIGN_CENTER);
 	textSizer->Add(firstText,
         1,            // make vertically stretchable
@@ -75,18 +76,25 @@ void MyFrame::OnCancelButtonClicked(wxCommandEvent& event)
 
 void MyFrame::OnTextChanged(wxCommandEvent& event)
 {
-        auto pos1 = firstText->GetLastPosition();
+        //auto pos1 = firstText->GetLastPosition();
         auto pos2 = secondText->GetLastPosition();
-		wxString txt01 = firstText->GetValue();
-		wxString txt02 = secondText->GetValue();
-		if (txt01.GetChar(pos1) != txt02.GetChar(pos1))
+		resultText->SetLabelText(wxString::Format("%d\n", pos2));
+
+		auto txt01 = firstText->GetValue();
+		auto txt02 = secondText->GetValue();
+		
+		if (pos2 == 0) secondText->SetStyle(0, 100, origAttr);
+		if (pos2 != 0 && (txt01[pos2-1] != txt02[pos2-1]))
 		{
-            resultText->SetLabelText(wxString::Format("%d",pos1));
-            resultText->SetLabelText(wxString::Format("%d",pos2));
 			wxTextAttr attr;
 			attr.SetTextColour(*wxRED);
-			secondText->SetStyle(pos2,pos2,attr);
+			secondText->SetStyle(pos2-1, pos2, attr);
 		//	str.append(wxString::Format("Line %d is different\n", i));
+		}
+		if (pos2 != 0 && (txt01[pos2 - 1] == txt02[pos2 - 1]))
+		{
+			secondText->SetStyle(pos2, pos2+1, origAttr);
+
 		}
 	//resultText->SetLabelText(str);
 
