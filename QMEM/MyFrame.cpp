@@ -92,7 +92,7 @@ void MyFrame::OnTextChanged(wxCommandEvent& event)
 		if (pos2 == 0) secondText->SetStyle(0, 100, origAttr);
 		if (pos2 != 0 && (txt01[pos2-1] != txt02[pos2-1]))
 		{
-            wxBell();
+            ::wxBell();
 			wxTextAttr attr;
 			attr.SetTextColour(*wxRED);
 			secondText->SetStyle(pos2-1, pos2, attr);
@@ -100,7 +100,6 @@ void MyFrame::OnTextChanged(wxCommandEvent& event)
 		if (pos2 != 0 && (txt01[pos2 - 1] == txt02[pos2 - 1]))
 		{
 			secondText->SetStyle(pos2, pos2+1, origAttr);
-
 		}
 }
 
