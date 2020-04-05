@@ -15,6 +15,7 @@ MyFrame::MyFrame(wxString title)
 	secondText = new wxTextCtrl(this, -1, "", wxDefaultPosition, wxSize(400, 300), wxTE_MULTILINE | wxTE_RICH2);
     secondText->Bind(wxEVT_TEXT, &MyFrame::OnTextChanged, this);
 	secondText->GetStyle(0, origAttr);
+	secondText->SetFocus();
 	resultText = new wxStaticText(this, wxID_ANY, "Results\n", wxDefaultPosition, wxSize(400, 100), wxALIGN_CENTER);
 	textSizer->Add(firstText,
         1,            // make vertically stretchable
@@ -42,6 +43,7 @@ MyFrame::MyFrame(wxString title)
 		wxALL,
 		10);
 	firsthor->Add(resultText, 1, wxEXPAND | wxALL, 10);
+
 	topSizer->Add(firsthor);
 	SetSizerAndFit(topSizer);
 
