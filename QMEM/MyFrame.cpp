@@ -4,7 +4,7 @@
 MyFrame::MyFrame(wxString title)
 	:wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(600, 400))
 {
-    SetBackgroundColour(wxColour(58, 168, 199));
+    SetBackgroundColour(wxColour(187,25,25));
 	wxBoxSizer* topSizer = new wxBoxSizer(wxVERTICAL);
 	wxBoxSizer* textSizer = new wxBoxSizer(wxHORIZONTAL);
 	wxBoxSizer* resultSizer = new wxBoxSizer(wxHORIZONTAL);
