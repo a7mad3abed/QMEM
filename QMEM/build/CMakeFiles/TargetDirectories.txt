@@ -1,0 +1,3 @@
+/home/ibrahiah/QMEM/QMEM/build/CMakeFiles/rebuild_cache.dir
+/home/ibrahiah/QMEM/QMEM/build/CMakeFiles/Qmem.dir
+/home/ibrahiah/QMEM/QMEM/build/CMakeFiles/edit_cache.dir

@@ -61,7 +61,6 @@ void MyFrame::OnCompButtonClicked(wxCommandEvent& event)
 			wxTextAttr attr;
 			attr.SetTextColour(*wxRED);
 			firstText->SetStyle(4, 8, attr);
-			str.append(wxString::Format("Line %d is different\n", i));
 		}
 	}
 	resultText->SetLabelText(str);
@@ -76,9 +75,8 @@ void MyFrame::OnCancelButtonClicked(wxCommandEvent& event)
 
 void MyFrame::OnTextChanged(wxCommandEvent& event)
 {
-        //auto pos1 = firstText->GetLastPosition();
         auto pos2 = secondText->GetLastPosition();
-		resultText->SetLabelText(wxString::Format("%d\n", pos2));
+		resultText->SetLabelText(wxString::Format("%ld\n", pos2));
 
 		auto txt01 = firstText->GetValue();
 		auto txt02 = secondText->GetValue();
@@ -89,18 +87,11 @@ void MyFrame::OnTextChanged(wxCommandEvent& event)
 			wxTextAttr attr;
 			attr.SetTextColour(*wxRED);
 			secondText->SetStyle(pos2-1, pos2, attr);
-		//	str.append(wxString::Format("Line %d is different\n", i));
 		}
 		if (pos2 != 0 && (txt01[pos2 - 1] == txt02[pos2 - 1]))
 		{
 			secondText->SetStyle(pos2, pos2+1, origAttr);
 
 		}
-	//resultText->SetLabelText(str);
-
-    //wxString str = resultText->GetLabelText();
-    //str.append("text Changed!\n");
-    //resultText->SetLabelText(str);
-
 }
 

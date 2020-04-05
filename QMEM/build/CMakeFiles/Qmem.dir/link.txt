@@ -1,0 +1,1 @@
+/usr/bin/c++   -pthread   CMakeFiles/Qmem.dir/main.cpp.o CMakeFiles/Qmem.dir/MyFrame.cpp.o  -o Qmem -L/usr/lib/x86_64-linux-gnu -pthread -lwx_gtk2u_core-3.0 -lwx_baseu-3.0 
