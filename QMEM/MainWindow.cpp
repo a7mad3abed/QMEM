@@ -20,12 +20,12 @@ MainWindow::MainWindow(wxString title)
     baseSizer->Add(topSizer, 1,  wxEXPAND | wxALL);
     auto CoreSizer = new wxBoxSizer(wxHORIZONTAL);
     auto rightCoreSizer = new wxBoxSizer(wxVERTICAL);
-    auto rightPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(400, 450));
-    auto RCText = new wxStaticText(rightPanel, wxID_ANY, "\nWelcome to QMEM",wxDefaultPosition, wxSize(350,400), wxALIGN_CENTER);
+    auto rightPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(400, 500));
+    auto RCText = new wxStaticText(rightPanel, wxID_ANY, "\nWelcome to QMEM",wxDefaultPosition, wxSize(400,500), wxALIGN_CENTER);
     rightCoreSizer->Add(rightPanel,1, wxEXPAND|wxALL);
     auto leftCoreSizer = new wxBoxSizer(wxVERTICAL);
-    auto leftPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(400, 450));
-    auto LCText = new wxStaticText(leftPanel, wxID_ANY, "\nWelcome to QMEM",wxDefaultPosition, wxSize(350,400), wxALIGN_CENTER);
+    auto leftPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(400, 500));
+    auto LCText = new wxStaticText(leftPanel, wxID_ANY, "\nWelcome to QMEM",wxDefaultPosition, wxSize(400,500), wxALIGN_CENTER);
     leftCoreSizer->Add(leftPanel, 1, wxEXPAND|wxALL);
     CoreSizer->Add(rightCoreSizer);
     CoreSizer->Add(leftCoreSizer);
