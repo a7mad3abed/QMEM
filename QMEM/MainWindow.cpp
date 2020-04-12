@@ -1,17 +1,34 @@
 #include "MainWindow.h"
+#include "textEntryDialog.h"
 
+enum {
+    NEWTEXT = 45
+};
 
 MainWindow::MainWindow(wxString title)
     :wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(800, 600))
 {
     CenterOnScreen();
-    auto menubar = new wxMenuBar();
+    // making a new menu with name file
     auto file = new wxMenu();
-    auto exit = new wxMenuItem(file, wxID_CLOSE, "close");
+
+    // making a new menu item with the name exit and binding it to the corresponding event
+    auto exit = new wxMenuItem(file, wxID_CLOSE, "Exit");
+    file->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainWindow::onExitSelected, this, wxID_CLOSE);
+
+    // making a new menu item with the name newText and binding it to the corresponding event
+    auto newText = new wxMenuItem(file, NEWTEXT, "new text");
+    file->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainWindow::onNewTextSelected, this, NEWTEXT);
+
+    // now adding the to menu items to the menu
+    file->Append(newText);
     file->Append(exit);
-    file->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainWindow::onExitSelected, this);
-    menubar->Append(file, "Exit");
+
+    // now making the menuar and adding the file menu to it then setting it as the menubar of the frame
+    auto menubar = new wxMenuBar();
+    menubar->Append(file, "File");
     SetMenuBar(menubar);
+
     auto baseSizer = new wxBoxSizer(wxVERTICAL);
     auto topSizer = new wxBoxSizer(wxHORIZONTAL);
     auto topPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(800, 100));
@@ -31,6 +48,16 @@ MainWindow::MainWindow(wxString title)
     CoreSizer->Add(leftCoreSizer);
     baseSizer->Add(CoreSizer);
     SetSizer(baseSizer);
+
+}
+
+void MainWindow::onNewTextSelected(wxCommandEvent& event)
+{
+    //auto newTextDialog = new wxDialog(this, wxID_ANY, "New Text", wxDefaultPosition, wxSize(400, 500));
+    auto newTextDialog = new textEntryDialog(this, "New Text", wxSize(400, 500));
+
+    
+    newTextDialog->Show();
 
 }
 

@@ -155,11 +155,13 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="textEntryDialog.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="MyFrame.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="textEntryDialog.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="MyFrame.h" />
   </ItemGroup>
