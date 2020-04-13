@@ -37,21 +37,21 @@ textEntryDialog::textEntryDialog(wxWindow *parent, wxString title, wxSize size)
 
 void textEntryDialog::OnSaveButtonClicked(wxCommandEvent& event)
 {
-    wxString fileName = "";
-    wxTextEntryDialog dlg(this, "enter a name for the memo", wxGetTextFromUserPromptStr, "");
-    dlg.SetTextValidator(wxFILTER_ALPHANUMERIC|wxFILTER_SPACE);
-    if (dlg.ShowModal() == wxID_OK)
-    {
-        fileName = dlg.GetValue();
-    }
     if (!wxFileName::Exists("saved mems"))
     {
         if (!wxFileName::Mkdir("saved mems", wxS_DIR_DEFAULT)) wxMessageBox("directory can not be made");
     }
-    if (textEntry->SaveFile(wxString::Format("./saved mems/%s.txt", fileName), wxTEXT_TYPE_ANY))
+    wxString fileName = "";
+    wxTextEntryDialog dlg(this, "enter a name for the memo", wxGetTextFromUserPromptStr, "");
+    dlg.SetTextValidator(wxFILTER_ALPHANUMERIC|wxFILTER_SPACE|wxFILTER_EMPTY);
+    if (dlg.ShowModal() == wxID_OK)
     {
-        wxMessageBox("saved successfully!");
-        Destroy();
+        if((fileName = dlg.GetValue()) != "") {
+            if (textEntry->SaveFile(wxString::Format("./saved mems/%s.txt", fileName), wxTEXT_TYPE_ANY)) {
+                wxMessageBox("saved successfully!");
+                Destroy();
+            }
+        }
     }
 }
 
