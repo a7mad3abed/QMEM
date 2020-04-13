@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\a7mad\source\repos\a7mad3abed\QMEM\QMEM\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a7mad\source\repos\a7mad3abed\QMEM\QMEM\MainWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a7mad\source\repos\a7mad3abed\QMEM\QMEM\MyFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\a7mad\source\repos\a7mad3abed\QMEM\QMEM\textEntryDialog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\a7mad\source\repos\a7mad3abed\QMEM\QMEM\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{7EFD4996-91DC-3D11-B26F-731CCA9FC988}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

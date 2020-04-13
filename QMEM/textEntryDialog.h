@@ -7,6 +7,7 @@ class textEntryDialog :
 public:
     textEntryDialog(wxWindow *parent, wxString title, wxSize size);
     void OnSaveButtonClicked(wxCommandEvent& event);
+    void OnCancelButtonClicked(wxCommandEvent& event);
     void OnAlignLeftButtonClicked(wxCommandEvent& event);
     void OnAlignRightButtonClicked(wxCommandEvent& event);
 private:
