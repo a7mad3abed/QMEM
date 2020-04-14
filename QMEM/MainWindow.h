@@ -8,5 +8,6 @@ public:
     void onNewTextSelected(wxCommandEvent& event);
     void onExitSelected(wxCommandEvent& event);
 
+    void onLearnSelected(wxCommandEvent &event);
 };
 

@@ -1,11 +1,11 @@
 #pragma once
 #include "wx/wx.h"
 
-class textEntryDialog :
+class TextEntryDialog :
 	public wxDialog
 {
 public:
-    textEntryDialog(wxWindow *parent, wxString title, wxSize size);
+    TextEntryDialog(wxWindow *parent, wxString title, wxSize size);
     void OnSaveButtonClicked(wxCommandEvent& event);
     void OnCancelButtonClicked(wxCommandEvent& event);
     void OnAlignLeftButtonClicked(wxCommandEvent& event);

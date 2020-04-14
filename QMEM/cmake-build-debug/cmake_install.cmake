@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/a7mad/source/repos/a7mad3abed/QMEM/QMEM
+# Install script for directory: C:/Workspace/QMEM/QMEM
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -40,5 +40,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "C:/Users/a7mad/source/repos/a7mad3abed/QMEM/QMEM/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "C:/Workspace/QMEM/QMEM/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

@@ -2,11 +2,17 @@
 #include "textEntryDialog.h"
 
 enum {
-    NEWTEXT = 45
+    NEWTEXT = 45,
+    LEARN
 };
 
 MainWindow::MainWindow(wxString title)
-    :wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(800, 600))
+    :wxFrame(
+            NULL,
+            wxID_ANY,
+            title,
+            wxDefaultPosition,
+            wxSize(800, 600))
 {
     CenterOnScreen();
     // making a new menu with name file
@@ -14,14 +20,30 @@ MainWindow::MainWindow(wxString title)
 
     // making a new menu item with the name exit and binding it to the corresponding event
     auto exit = new wxMenuItem(file, wxID_CLOSE, "Exit");
-    file->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainWindow::onExitSelected, this, wxID_CLOSE);
+    file->Bind(
+            wxEVT_COMMAND_MENU_SELECTED,
+            &MainWindow::onExitSelected,
+            this,
+            wxID_CLOSE);
 
     // making a new menu item with the name newText and binding it to the corresponding event
     auto newText = new wxMenuItem(file, NEWTEXT, "new text");
-    file->Bind(wxEVT_COMMAND_MENU_SELECTED, &MainWindow::onNewTextSelected, this, NEWTEXT);
+    file->Bind(
+            wxEVT_COMMAND_MENU_SELECTED,
+            &MainWindow::onNewTextSelected,
+            this,
+            NEWTEXT);
+
+    auto learn = new wxMenuItem(file, LEARN, "learn");
+    file->Bind(
+            wxEVT_COMMAND_MENU_SELECTED,
+            &MainWindow::onLearnSelected,
+            this,
+            LEARN);
 
     // now adding the to menu items to the menu
     file->Append(newText);
+    file->Append(learn);
     file->Append(exit);
 
     // now making the menuar and adding the file menu to it then setting it as the menubar of the frame
@@ -31,18 +53,48 @@ MainWindow::MainWindow(wxString title)
 
     auto baseSizer = new wxBoxSizer(wxVERTICAL);
     auto topSizer = new wxBoxSizer(wxHORIZONTAL);
-    auto topPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(800, 100));
-    auto welcomeText = new wxStaticText(topPanel, wxID_ANY, "\nWelcome to QMEM",wxDefaultPosition, wxSize(700,100), wxALIGN_CENTER);
+    auto topPanel = new wxPanel(
+            this,
+            wxID_ANY,
+            wxDefaultPosition,
+            wxSize(800, 100));
+    auto welcomeText = new wxStaticText(
+            topPanel,
+            wxID_ANY,
+            "\nWelcome to QMEM",
+            wxDefaultPosition,
+            wxSize(700,100),
+            wxALIGN_CENTER);
     topSizer->Add(topPanel);
     baseSizer->Add(topSizer, 1,  wxEXPAND | wxALL);
     auto CoreSizer = new wxBoxSizer(wxHORIZONTAL);
     auto rightCoreSizer = new wxBoxSizer(wxVERTICAL);
-    auto rightPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(400, 500));
-    auto RCText = new wxStaticText(rightPanel, wxID_ANY, "\nWelcome to QMEM",wxDefaultPosition, wxSize(400,500), wxALIGN_CENTER);
+    auto rightPanel = new wxPanel(
+            this,
+            wxID_ANY,
+            wxDefaultPosition,
+            wxSize(400, 500));
+    auto RCText = new wxStaticText(
+            rightPanel,
+            wxID_ANY,
+            "\nWelcome to QMEM",
+            wxDefaultPosition,
+            wxSize(400,500),
+            wxALIGN_CENTER);
     rightCoreSizer->Add(rightPanel,1, wxEXPAND|wxALL);
     auto leftCoreSizer = new wxBoxSizer(wxVERTICAL);
-    auto leftPanel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxSize(400, 500));
-    auto LCText = new wxStaticText(leftPanel, wxID_ANY, "\nWelcome to QMEM",wxDefaultPosition, wxSize(400,500), wxALIGN_CENTER);
+    auto leftPanel = new wxPanel(
+            this,
+            wxID_ANY,
+            wxDefaultPosition,
+            wxSize(400, 500));
+    auto LCText = new wxStaticText(
+            leftPanel,
+            wxID_ANY,
+            "\nWelcome to QMEM",
+            wxDefaultPosition,
+            wxSize(400,500),
+            wxALIGN_CENTER);
     leftCoreSizer->Add(leftPanel, 1, wxEXPAND|wxALL);
     CoreSizer->Add(rightCoreSizer);
     CoreSizer->Add(leftCoreSizer);
@@ -53,8 +105,7 @@ MainWindow::MainWindow(wxString title)
 
 void MainWindow::onNewTextSelected(wxCommandEvent& event)
 {
-    //auto newTextDialog = new wxDialog(this, wxID_ANY, "New Text", wxDefaultPosition, wxSize(400, 500));
-    auto newTextDialog = new textEntryDialog(this, "New Text", wxSize(400, 500));
+    auto newTextDialog = new TextEntryDialog(this, "New Text", wxSize(400, 500));
 
     
     newTextDialog->Show();
@@ -64,4 +115,9 @@ void MainWindow::onNewTextSelected(wxCommandEvent& event)
 void MainWindow::onExitSelected(wxCommandEvent& event)
 {
     Destroy();
+}
+
+void MainWindow::onLearnSelected(wxCommandEvent &event) {
+   wxMessageBox("learn");
+
 }
