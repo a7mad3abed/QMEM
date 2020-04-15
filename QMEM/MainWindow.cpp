@@ -1,5 +1,6 @@
 #include "MainWindow.h"
 #include "textEntryDialog.h"
+#include "MyFrame.h"
 
 enum {
     NEWTEXT = 45,
@@ -117,7 +118,9 @@ void MainWindow::onExitSelected(wxCommandEvent& event)
     Destroy();
 }
 
-void MainWindow::onLearnSelected(wxCommandEvent &event) {
-   wxMessageBox("learn");
+void MainWindow::onLearnSelected(wxCommandEvent &event)
+{
+    MyFrame myFrame(this, "Learn");
+    myFrame.Show(true);
 
 }

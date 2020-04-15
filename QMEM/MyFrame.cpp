@@ -1,8 +1,13 @@
 #include "MyFrame.h"
 
 
-MyFrame::MyFrame(wxString title)
-	:wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(600, 400))
+MyFrame::MyFrame(wxWindow *parent, wxString title)
+	:wxFrame(
+        parent,
+        wxID_ANY,
+        title,
+        wxDefaultPosition,
+        wxSize(600, 400))
 {
     SetBackgroundColour(wxColour(187,25,25));
 	wxBoxSizer* topSizer = new wxBoxSizer(wxVERTICAL);
@@ -10,13 +15,35 @@ MyFrame::MyFrame(wxString title)
 	wxBoxSizer* resultSizer = new wxBoxSizer(wxHORIZONTAL);
 	wxBoxSizer* firsthor = new wxBoxSizer(wxHORIZONTAL);
 
-	firstText = new wxTextCtrl(this, -1, "", wxDefaultPosition, wxSize(400, 300),  wxTE_MULTILINE|wxTE_RICH2|wxTE_READONLY);
-	firstText->LoadFile("text01.txt", wxTEXT_TYPE_ANY);
-	secondText = new wxTextCtrl(this, -1, "", wxDefaultPosition, wxSize(400, 300), wxTE_MULTILINE | wxTE_RICH2);
+	firstText = new wxTextCtrl(
+        this,
+        -1,
+        "",
+        wxDefaultPosition,
+        wxSize(400, 300),
+        wxTE_MULTILINE|wxTE_RICH2|wxTE_READONLY);
+
+	//firstText->LoadFile("text01.txt", wxTEXT_TYPE_ANY);
+	secondText = new wxTextCtrl(
+        this,
+        -1,
+        "",
+        wxDefaultPosition,
+        wxSize(400, 300),
+        wxTE_MULTILINE | wxTE_RICH2);
+
     secondText->Bind(wxEVT_TEXT, &MyFrame::OnTextChanged, this);
 	secondText->GetStyle(0, origAttr);
 	secondText->SetFocus();
-	resultText = new wxStaticText(this, wxID_ANY, "Results\n", wxDefaultPosition, wxSize(400, 100), wxALIGN_CENTER);
+
+	resultText = new wxStaticText(
+        this,
+        wxID_ANY,
+        "Results\n",
+        wxDefaultPosition,
+        wxSize(400, 100),
+        wxALIGN_CENTER);
+
 	textSizer->Add(firstText,
         1,            // make vertically stretchable
         wxEXPAND |    // make horizontally stretchable
@@ -31,11 +58,11 @@ MyFrame::MyFrame(wxString title)
 
 	topSizer->Add(textSizer);
 
-	wxButton* compButton = new wxButton(this, wxID_OK, "OK");
-	compButton->Bind(wxEVT_BUTTON, &MyFrame::OnCompButtonClicked, this);
+	wxButton* openButton = new wxButton(this, wxID_OK, "OK");
+	openButton->Bind(wxEVT_BUTTON, &MyFrame::OnOpenButtonClicked, this);
 	wxButton* cancelButton = new wxButton(this, wxID_CANCEL, "Cancel");
 	cancelButton->Bind(wxEVT_BUTTON, &MyFrame::OnCancelButtonClicked, this);
-	firsthor->Add(compButton, 0, wxALL, 10);
+	firsthor->Add(openButton, 0, wxALL, 10);
 
 	firsthor->Add(
 		cancelButton,
@@ -54,23 +81,14 @@ MyFrame::~MyFrame()
 }
 
 
-void MyFrame::OnCompButtonClicked(wxCommandEvent& event)
+void MyFrame::OnOpenButtonClicked(wxCommandEvent& event)
 {
 	wxString str;
-	str.append("Results\n");
-	for (int i = 0; i < firstText->GetNumberOfLines() || i < secondText->GetNumberOfLines(); i++)
-	{
-		wxString txt01 = firstText->GetLineText(i);
-		wxString txt02 = secondText->GetLineText(i);
-		if (txt01 != txt02)
-		{
-			wxTextAttr attr;
-			attr.SetTextColour(*wxRED);
-			firstText->SetStyle(4, 8, attr);
-		}
-	}
-	resultText->SetLabelText(str);
-	//testing the source control in vsc
+    wxFileDialog openFileDialog(this, _("Open text file"), "", "", "text files (*.txt)|*.txt", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+
+    if (openFileDialog.ShowModal() == wxID_CANCEL)
+        return;
+    firstText->LoadFile(openFileDialog.GetPath(), 0);
 
 
 }
