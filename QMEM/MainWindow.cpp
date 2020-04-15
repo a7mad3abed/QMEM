@@ -13,9 +13,13 @@ MainWindow::MainWindow(wxString title)
             wxID_ANY,
             title,
             wxDefaultPosition,
-            wxSize(800, 600))
+            wxSize(800, 600),
+        wxDEFAULT_FRAME_STYLE ^ wxMAXIMIZE_BOX ^ wxRESIZE_BORDER
+    )
+
 {
     CenterOnScreen();
+    
     // making a new menu with name file
     auto file = new wxMenu();
 
@@ -100,7 +104,7 @@ MainWindow::MainWindow(wxString title)
     CoreSizer->Add(rightCoreSizer);
     CoreSizer->Add(leftCoreSizer);
     baseSizer->Add(CoreSizer);
-    SetSizer(baseSizer);
+    SetSizerAndFit(baseSizer);
 
 }
 
