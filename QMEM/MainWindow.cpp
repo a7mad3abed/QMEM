@@ -120,7 +120,8 @@ void MainWindow::onExitSelected(wxCommandEvent& event)
 
 void MainWindow::onLearnSelected(wxCommandEvent &event)
 {
-    MyFrame myFrame(this, "Learn");
-    myFrame.Show(true);
+    auto myFrame = new MyFrame(this, "Learn");
+
+    myFrame->Show();
 
 }
