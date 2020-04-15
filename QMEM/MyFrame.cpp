@@ -106,7 +106,11 @@ void MyFrame::OnTextChanged(wxCommandEvent& event)
 
 		auto txt01 = firstText->GetValue();
 		auto txt02 = secondText->GetValue();
-		
+
+		auto lengthOftxt01 = firstText->GetValue().length();
+		auto lengthOftxt02 = secondText->GetValue().length();
+
+
 		if (pos2 == 0) secondText->SetStyle(0, 100, origAttr);
 		if (pos2 != 0 && (txt01[pos2-1] != txt02[pos2-1]))
 		{
@@ -119,5 +123,10 @@ void MyFrame::OnTextChanged(wxCommandEvent& event)
 		{
 			secondText->SetStyle(pos2, pos2+1, origAttr);
 		}
+
+    if(lengthOftxt01 == lengthOftxt02) {
+        wxMessageBox("Congratulation!");
+        Destroy();
+    }
 }
 
