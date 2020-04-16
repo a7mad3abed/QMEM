@@ -1,7 +1,7 @@
-#include "MyFrame.h"
+#include "LearnWindow.h"
 
 
-MyFrame::MyFrame(wxWindow *parent, wxString title)
+LearnWindow::LearnWindow(wxWindow *parent, wxString title)
 	:wxFrame(
         parent,
         wxID_ANY,
@@ -18,10 +18,11 @@ MyFrame::MyFrame(wxWindow *parent, wxString title)
 	firstText = new wxTextCtrl(
         this,
         -1,
-        "",
+        "click open to load a learn file",
         wxDefaultPosition,
         wxSize(400, 300),
         wxTE_MULTILINE|wxTE_RICH2|wxTE_READONLY);
+    
 
 	//firstText->LoadFile("text01.txt", wxTEXT_TYPE_ANY);
 	secondText = new wxTextCtrl(
@@ -32,9 +33,11 @@ MyFrame::MyFrame(wxWindow *parent, wxString title)
         wxSize(400, 300),
         wxTE_MULTILINE | wxTE_RICH2);
 
-    secondText->Bind(wxEVT_TEXT, &MyFrame::OnTextChanged, this);
+    secondText->Bind(wxEVT_TEXT, &LearnWindow::OnTextChanged, this);
 	secondText->GetStyle(0, origAttr);
 	secondText->SetFocus();
+    secondText->Show(false);
+
 
 	resultText = new wxStaticText(
         this,
@@ -58,10 +61,10 @@ MyFrame::MyFrame(wxWindow *parent, wxString title)
 
 	topSizer->Add(textSizer);
 
-	wxButton* openButton = new wxButton(this, wxID_OK, "OK");
-	openButton->Bind(wxEVT_BUTTON, &MyFrame::OnOpenButtonClicked, this);
+	wxButton* openButton = new wxButton(this, wxID_OK, "Open");
+	openButton->Bind(wxEVT_BUTTON, &LearnWindow::OnOpenButtonClicked, this);
 	wxButton* cancelButton = new wxButton(this, wxID_CANCEL, "Cancel");
-	cancelButton->Bind(wxEVT_BUTTON, &MyFrame::OnCancelButtonClicked, this);
+	cancelButton->Bind(wxEVT_BUTTON, &LearnWindow::OnCancelButtonClicked, this);
 	firsthor->Add(openButton, 0, wxALL, 10);
 
 	firsthor->Add(
@@ -76,30 +79,32 @@ MyFrame::MyFrame(wxWindow *parent, wxString title)
 
 };
 
-MyFrame::~MyFrame()
+LearnWindow::~LearnWindow()
 {
 }
 
 
-void MyFrame::OnOpenButtonClicked(wxCommandEvent& event)
+void LearnWindow::OnOpenButtonClicked(wxCommandEvent& event)
 {
+
 	wxString str;
     wxFileDialog openFileDialog(this, _("Open text file"), "", "", "text files (*.txt)|*.txt", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 
     if (openFileDialog.ShowModal() == wxID_CANCEL)
         return;
     firstText->LoadFile(openFileDialog.GetPath(), 0);
+    secondText->Show(true);
 
 
 }
 
-void MyFrame::OnCancelButtonClicked(wxCommandEvent& event)
+void LearnWindow::OnCancelButtonClicked(wxCommandEvent& event)
 {
 	this->Destroy();
 
 }
 
-void MyFrame::OnTextChanged(wxCommandEvent& event)
+void LearnWindow::OnTextChanged(wxCommandEvent& event)
 {
         auto pos2 = secondText->GetLastPosition();
 		resultText->SetLabelText(wxString::Format("%ld\n", pos2));

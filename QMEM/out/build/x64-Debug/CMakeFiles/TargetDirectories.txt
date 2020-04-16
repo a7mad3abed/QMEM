@@ -1,0 +1,3 @@
+C:/Users/a7mad/source/repos/a7mad3abed/QMEM/QMEM/out/build/x64-Debug/CMakeFiles/rebuild_cache.dir
+C:/Users/a7mad/source/repos/a7mad3abed/QMEM/QMEM/out/build/x64-Debug/CMakeFiles/QMEM.dir
+C:/Users/a7mad/source/repos/a7mad3abed/QMEM/QMEM/out/build/x64-Debug/CMakeFiles/edit_cache.dir

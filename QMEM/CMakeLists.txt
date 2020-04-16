@@ -6,7 +6,7 @@ find_package(wxWidgets REQUIRED COMPONENTS core base)
 
 include(${wxWidgets_USE_FILE})
 
-set(SRCS main.cpp MainWindow.cpp MyFrame.h MyFrame.cpp textEntryDialog.h textEntryDialog.cpp)
+set(SRCS main.cpp MainWindow.cpp LearnWindow.h LearnWindow.cpp textEntryDialog.h textEntryDialog.cpp)
 
 add_executable(QMEM WIN32 ${SRCS})
 

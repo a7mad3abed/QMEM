@@ -158,12 +158,12 @@
     <ClCompile Include="textEntryDialog.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainWindow.cpp" />
-    <ClCompile Include="MyFrame.cpp" />
+    <ClCompile Include="LearnWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="textEntryDialog.h" />
     <ClInclude Include="MainWindow.h" />
-    <ClInclude Include="MyFrame.h" />
+    <ClInclude Include="LearnWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

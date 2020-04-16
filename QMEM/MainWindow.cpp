@@ -1,6 +1,6 @@
 #include "MainWindow.h"
 #include "textEntryDialog.h"
-#include "MyFrame.h"
+#include "LearnWindow.h"
 
 enum {
     NEWTEXT = 45,
@@ -124,7 +124,7 @@ void MainWindow::onExitSelected(wxCommandEvent& event)
 
 void MainWindow::onLearnSelected(wxCommandEvent &event)
 {
-    auto myFrame = new MyFrame(this, "Learn");
+    auto myFrame = new LearnWindow(this, "Learn");
 
     myFrame->Show();
 

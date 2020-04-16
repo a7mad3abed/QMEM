@@ -2,11 +2,11 @@
 #include "wx/wx.h"
 
 
-class MyFrame : public wxFrame
+class LearnWindow : public wxFrame
 {
 public:
-	MyFrame(wxWindow *parent, wxString title);
-    ~MyFrame();
+	LearnWindow(wxWindow *parent, wxString title);
+    ~LearnWindow();
 	void OnOpenButtonClicked(wxCommandEvent &event);
 	void OnCancelButtonClicked(wxCommandEvent& event);
 	void OnTextChanged(wxCommandEvent& event);
