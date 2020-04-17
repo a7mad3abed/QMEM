@@ -7,11 +7,15 @@ LearnWindow::LearnWindow(wxWindow *parent, wxString title)
         wxID_ANY,
         title,
         wxDefaultPosition,
-        wxSize(600, 400))
+        wxSize(800, 600),
+        wxDEFAULT_FRAME_STYLE ^ wxMAXIMIZE_BOX ^ wxRESIZE_BORDER
+	)
 {
     SetBackgroundColour(wxColour(187,25,25));
 	wxBoxSizer* topSizer = new wxBoxSizer(wxVERTICAL);
-	wxBoxSizer* textSizer = new wxBoxSizer(wxHORIZONTAL);
+	wxBoxSizer* commenTextSizer = new wxBoxSizer(wxHORIZONTAL);
+	wxBoxSizer* firstTextSizer = new wxBoxSizer(wxHORIZONTAL);
+	wxBoxSizer* secondTextSizer = new wxBoxSizer(wxHORIZONTAL);
 	wxBoxSizer* resultSizer = new wxBoxSizer(wxHORIZONTAL);
 	wxBoxSizer* firsthor = new wxBoxSizer(wxHORIZONTAL);
 
@@ -20,8 +24,8 @@ LearnWindow::LearnWindow(wxWindow *parent, wxString title)
         -1,
         "click open to load a learn file",
         wxDefaultPosition,
-        wxSize(400, 300),
-        wxTE_MULTILINE|wxTE_RICH2|wxTE_READONLY);
+        wxSize(350, 300),
+        wxTE_MULTILINE|wxTE_RICH2|wxTE_READONLY|wxALIGN_LEFT);
     
 
 	//firstText->LoadFile("text01.txt", wxTEXT_TYPE_ANY);
@@ -30,13 +34,12 @@ LearnWindow::LearnWindow(wxWindow *parent, wxString title)
         -1,
         "",
         wxDefaultPosition,
-        wxSize(400, 300),
-        wxTE_MULTILINE | wxTE_RICH2);
+        wxSize(350, 300),
+        wxTE_MULTILINE | wxTE_RICH2| wxALIGN_RIGHT);
 
     secondText->Bind(wxEVT_TEXT, &LearnWindow::OnTextChanged, this);
 	secondText->GetStyle(0, origAttr);
-	secondText->SetFocus();
-    secondText->Show(false);
+	secondText->SetEditable(false);
 
 
 	resultText = new wxStaticText(
@@ -47,19 +50,22 @@ LearnWindow::LearnWindow(wxWindow *parent, wxString title)
         wxSize(400, 100),
         wxALIGN_CENTER);
 
-	textSizer->Add(firstText,
+	firstTextSizer->Add(firstText,
         1,            // make vertically stretchable
         wxEXPAND |    // make horizontally stretchable
         wxALL,        //   and make border all around
         10 );         // set border width to 10)
 
-	textSizer->Add(secondText,
+
+	secondTextSizer->Add(secondText,
         1,            // make vertically stretchableM
         wxEXPAND |    // make horizontally stretchable
         wxALL,        //   and make border all around
         10 );         // set border width to 10)
 
-	topSizer->Add(textSizer);
+	commenTextSizer->Add(firstTextSizer);
+	commenTextSizer->Add(secondTextSizer);
+	topSizer->Add(commenTextSizer);
 
 	wxButton* openButton = new wxButton(this, wxID_OK, "Open");
 	openButton->Bind(wxEVT_BUTTON, &LearnWindow::OnOpenButtonClicked, this);
@@ -75,7 +81,7 @@ LearnWindow::LearnWindow(wxWindow *parent, wxString title)
 	firsthor->Add(resultText, 1, wxEXPAND | wxALL, 10);
 
 	topSizer->Add(firsthor);
-	SetSizerAndFit(topSizer);
+	SetSizer(topSizer);
 
 };
 
@@ -93,7 +99,8 @@ void LearnWindow::OnOpenButtonClicked(wxCommandEvent& event)
     if (openFileDialog.ShowModal() == wxID_CANCEL)
         return;
     firstText->LoadFile(openFileDialog.GetPath(), 0);
-    secondText->Show(true);
+    secondText->SetEditable(true);
+	secondText->SetFocus();
 
 
 }
