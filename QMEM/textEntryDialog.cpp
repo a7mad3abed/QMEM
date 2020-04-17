@@ -15,50 +15,44 @@ TextEntryDialog::TextEntryDialog(wxWindow *parent, const wxString &title, wxSize
             wxDefaultPosition,
             size)
 {
-    
-    auto textPanel = new wxPanel(
-            this,
-            wxID_ANY,
-            wxPoint(0,0),
-            wxSize(400, 400),
-            wxALIGN_TOP);
+
+    auto baseSizer = new wxBoxSizer(wxVERTICAL);
     textEntry = new wxTextCtrl(
-            textPanel,
+            this,
             wxID_ANY,
             "",
             wxDefaultPosition,
             wxSize(400, 400),
             wxTE_MULTILINE|wxTE_RICH2|wxTE_RIGHT);
-    auto controlPanel = new wxPanel(
-            this,
-            wxID_ANY,
-            wxPoint(0,400),
-            wxSize(400, 100),
-            wxALIGN_BOTTOM);
+    baseSizer->Add(
+            textEntry,
+            0,
+            wxEXPAND|wxALL,
+            10);
     auto controlSizer = new wxBoxSizer( wxHORIZONTAL);
     auto saveButton = new wxButton(
-            controlPanel,
+            this,
             SAVE_BUTTON,
             "save",
             wxDefaultPosition,
             wxDefaultSize,
             wxBU_TOP);
     auto cancelButton = new wxButton(
-            controlPanel,
+            this,
             wxID_CANCEL,
             "cancel",
             wxDefaultPosition,
             wxDefaultSize,
             wxBU_TOP);
     auto alignLeftButton = new wxButton(
-            controlPanel,
+            this,
             ALIGN_LEFT_BUTTON,
             "align left",
             wxDefaultPosition,
             wxDefaultSize,
             wxBU_TOP);
     auto alignRightButton = new wxButton(
-            controlPanel,
+            this,
             ALIGN_RIGHT_BUTTON,
             "align right",
             wxDefaultPosition,
@@ -85,14 +79,15 @@ TextEntryDialog::TextEntryDialog(wxWindow *parent, const wxString &title, wxSize
             this,
             ALIGN_RIGHT_BUTTON);
     controlSizer->AddSpacer(5);
-    controlSizer->Add(saveButton, wxALIGN_LEFT | wxEXPAND);
+    controlSizer->Add(saveButton, 1,  wxEXPAND|wxALL);
     controlSizer->AddSpacer(5);
-    controlSizer->Add(cancelButton, wxALIGN_LEFT | wxEXPAND);
+    controlSizer->Add(cancelButton,1,  wxEXPAND|wxALL );
     controlSizer->AddSpacer(5);
-    controlSizer->Add(alignLeftButton, wxALIGN_LEFT | wxEXPAND);
+    controlSizer->Add(alignLeftButton,1,  wxEXPAND|wxALL);
     controlSizer->AddSpacer(5);
-    controlSizer->Add(alignRightButton, wxALIGN_LEFT | wxEXPAND);
-    controlPanel->SetSizerAndFit(controlSizer);
+    controlSizer->Add(alignRightButton,1,  wxEXPAND|wxALL);
+    baseSizer->Add(controlSizer, 1, wxALL|wxEXPAND, 10);
+    SetSizerAndFit(baseSizer);
 
 }
 

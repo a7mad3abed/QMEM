@@ -7,24 +7,21 @@ LearnWindow::LearnWindow(wxWindow *parent, wxString title)
         wxID_ANY,
         title,
         wxDefaultPosition,
-        wxSize(800, 600),
-        wxDEFAULT_FRAME_STYLE ^ wxMAXIMIZE_BOX ^ wxRESIZE_BORDER
+        wxDefaultSize,
+        wxDEFAULT_FRAME_STYLE
 	)
 {
     SetBackgroundColour(wxColour(187,25,25));
     auto* topSizer = new wxBoxSizer(wxVERTICAL);
-    auto* commenTextSizer = new wxBoxSizer(wxHORIZONTAL);
-	auto* firstTextSizer = new wxBoxSizer(wxHORIZONTAL);
-	auto* secondTextSizer = new wxBoxSizer(wxHORIZONTAL);
-	auto resultSizer = new wxBoxSizer(wxHORIZONTAL);
-	auto firsthor = new wxBoxSizer(wxHORIZONTAL);
+    auto* textSizer = new wxBoxSizer(wxHORIZONTAL);
+	auto controlSizer = new wxBoxSizer(wxHORIZONTAL);
 
 	firstText = new wxTextCtrl(
         this,
         -1,
         "click open to load a learn file",
         wxDefaultPosition,
-        wxSize(350, 300),
+        wxSize(300, 300),
         wxTE_MULTILINE|wxTE_RICH2|wxTE_READONLY|wxALIGN_LEFT);
     
 
@@ -47,41 +44,43 @@ LearnWindow::LearnWindow(wxWindow *parent, wxString title)
         wxID_ANY,
         "Results\n",
         wxDefaultPosition,
-        wxSize(400, 100),
-        wxALIGN_CENTER);
+        wxSize(400, 20),
+        wxALIGN_RIGHT
+        );
 
-	firstTextSizer->Add(firstText,
+	textSizer->Add(firstText,
         1,            // make vertically stretchable
         wxEXPAND |    // make horizontally stretchable
         wxALL,        //   and make border all around
         10 );         // set border width to 10)
 
 
-	secondTextSizer->Add(secondText,
+	textSizer->Add(secondText,
         1,            // make vertically stretchableM
         wxEXPAND |    // make horizontally stretchable
         wxALL,        //   and make border all around
         10 );         // set border width to 10)
 
-	commenTextSizer->Add(firstTextSizer);
-	commenTextSizer->Add(secondTextSizer);
-	topSizer->Add(commenTextSizer);
+	topSizer->Add(textSizer, 1, wxEXPAND|wxALL);
 
-	wxButton* openButton = new wxButton(this, wxID_OK, "Open");
+	auto openButton = new wxButton(this, wxID_OK, "Open");
 	openButton->Bind(wxEVT_BUTTON, &LearnWindow::OnOpenButtonClicked, this);
-	wxButton* cancelButton = new wxButton(this, wxID_CANCEL, "Cancel");
+	auto cancelButton = new wxButton(this, wxID_CANCEL, "Cancel");
 	cancelButton->Bind(wxEVT_BUTTON, &LearnWindow::OnCancelButtonClicked, this);
-	firsthor->Add(openButton, 0, wxALL, 10);
+	controlSizer->AddSpacer(10);
+	controlSizer->Add(openButton, 0, wxALL, 10);
+    controlSizer->AddSpacer(5);
 
-	firsthor->Add(
+	controlSizer->Add(
 		cancelButton,
 		0,
 		wxALL,
 		10);
-	firsthor->Add(resultText, 1, wxEXPAND | wxALL, 10);
 
-	topSizer->Add(firsthor);
-	SetSizer(topSizer);
+	controlSizer->Add(resultText, 0, wxALL, 10);
+
+	topSizer->Add(controlSizer, 0, wxEXPAND|wxALL);
+	SetSizerAndFit(topSizer);
 
 };
 

@@ -13,8 +13,8 @@ MainWindow::MainWindow(const wxString& title)
             wxID_ANY,
             title,
             wxDefaultPosition,
-            wxSize(800, 600),
-        wxDEFAULT_FRAME_STYLE ^ wxMAXIMIZE_BOX ^ wxRESIZE_BORDER
+            wxDefaultSize,
+        wxDEFAULT_FRAME_STYLE
     )
 
 {
@@ -51,59 +51,60 @@ MainWindow::MainWindow(const wxString& title)
     file->Append(learn);
     file->Append(exit);
 
-    // now making the menuar and adding the file menu to it then setting it as the menubar of the frame
+    // now making the menubar and adding the file menu to it then setting it as the menubar of the frame
     auto menubar = new wxMenuBar();
     menubar->Append(file, "File");
     SetMenuBar(menubar);
 
     auto baseSizer = new wxBoxSizer(wxVERTICAL);
     auto topSizer = new wxBoxSizer(wxHORIZONTAL);
-    auto topPanel = new wxPanel(
-            this,
-            wxID_ANY,
-            wxDefaultPosition,
-            wxSize(800, 100));
     auto welcomeText = new wxStaticText(
-            topPanel,
+            this,
             wxID_ANY,
             "\nWelcome to QMEM",
             wxDefaultPosition,
-            wxSize(700,100),
+            wxSize(600, 50),
             wxALIGN_CENTER);
-    topSizer->Add(topPanel);
-    baseSizer->Add(topSizer, 1,  wxEXPAND | wxALL);
+    topSizer->Add(welcomeText, 1, wxEXPAND|wxALL, 10);
+    baseSizer->Add(topSizer, 0,   wxALIGN_CENTRE|wxALL, 10);
     auto CoreSizer = new wxBoxSizer(wxHORIZONTAL);
     auto rightCoreSizer = new wxBoxSizer(wxVERTICAL);
-    auto rightPanel = new wxPanel(
-            this,
-            wxID_ANY,
-            wxDefaultPosition,
-            wxSize(400, 500));
     auto RCText = new wxStaticText(
-            rightPanel,
-            wxID_ANY,
-            "\nWelcome to QMEM",
-            wxDefaultPosition,
-            wxSize(400,500),
-            wxALIGN_CENTER);
-    rightCoreSizer->Add(rightPanel,1, wxEXPAND|wxALL);
-    auto leftCoreSizer = new wxBoxSizer(wxVERTICAL);
-    auto leftPanel = new wxPanel(
             this,
             wxID_ANY,
+            "\nWelcome to QMEM",
             wxDefaultPosition,
-            wxSize(400, 500));
-    auto LCText = new wxStaticText(
-            leftPanel,
+            wxSize(300, 50),
+            wxALIGN_CENTER);
+    auto RCText01 = new wxStaticText(
+            this,
             wxID_ANY,
             "\nWelcome to QMEM",
             wxDefaultPosition,
-            wxSize(400,500),
+            wxDefaultSize,
             wxALIGN_CENTER);
-    leftCoreSizer->Add(leftPanel, 1, wxEXPAND|wxALL);
-    CoreSizer->Add(rightCoreSizer);
-    CoreSizer->Add(leftCoreSizer);
-    baseSizer->Add(CoreSizer);
+    auto RCText02 = new wxStaticText(
+            this,
+            wxID_ANY,
+            "\nWelcome to QMEM",
+            wxDefaultPosition,
+            wxDefaultSize,
+            wxALIGN_CENTER);
+    rightCoreSizer->Add(RCText,1, wxEXPAND|wxALL, 10);
+    rightCoreSizer->Add(RCText01,1, wxEXPAND|wxALL, 10);
+    rightCoreSizer->Add(RCText02,1, wxEXPAND|wxALL, 10);
+    auto leftCoreSizer = new wxBoxSizer(wxVERTICAL);
+    auto LCText = new wxStaticText(
+            this,
+            wxID_ANY,
+            "\nWelcome to QMEM",
+            wxDefaultPosition,
+            wxSize(300, 50),
+            wxALIGN_CENTER);
+    leftCoreSizer->Add(LCText, 0, wxALL, 10);
+    CoreSizer->Add(leftCoreSizer, 1, wxEXPAND|wxALL);
+    CoreSizer->Add(rightCoreSizer, 1, wxEXPAND|wxALL);
+    baseSizer->Add(CoreSizer, 1, wxEXPAND|wxALL);
     SetSizerAndFit(baseSizer);
 
 }
