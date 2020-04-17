@@ -7,7 +7,7 @@ enum {
     LEARN
 };
 
-MainWindow::MainWindow(wxString title)
+MainWindow::MainWindow(const wxString& title)
     :wxFrame(
             NULL,
             wxID_ANY,

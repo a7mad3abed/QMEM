@@ -4,7 +4,7 @@
 class MainWindow : public wxFrame
 {
 public:
-    MainWindow(wxString title);
+    MainWindow(const wxString& title);
     void onNewTextSelected(wxCommandEvent& event);
     void onExitSelected(wxCommandEvent& event);
 

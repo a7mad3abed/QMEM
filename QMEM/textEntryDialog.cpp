@@ -7,7 +7,7 @@ enum {
     ALIGN_LEFT_BUTTON
 };
 
-TextEntryDialog::TextEntryDialog(wxWindow *parent, wxString title, wxSize size)
+TextEntryDialog::TextEntryDialog(wxWindow *parent, const wxString &title, wxSize size)
     :wxDialog(
             parent,
             wxID_ANY,
