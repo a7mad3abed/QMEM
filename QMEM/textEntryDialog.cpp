@@ -108,7 +108,7 @@ void TextEntryDialog::OnSaveButtonClicked(wxCommandEvent& event)
             "enter a name for the memo",
             wxGetTextFromUserPromptStr,
             "");
-    dlg.SetTextValidator(wxFILTER_ALPHANUMERIC|wxFILTER_SPACE|wxFILTER_EMPTY);
+    dlg.SetTextValidator(wxFILTER_ALPHANUMERIC|wxFILTER_NONE|wxFILTER_EMPTY);
     if (dlg.ShowModal() == wxID_OK)
     {
         if((fileName = dlg.GetValue()) != "") {

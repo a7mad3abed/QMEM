@@ -12,12 +12,12 @@ LearnWindow::LearnWindow(wxWindow *parent, wxString title)
 	)
 {
     SetBackgroundColour(wxColour(187,25,25));
-	wxBoxSizer* topSizer = new wxBoxSizer(wxVERTICAL);
-	wxBoxSizer* commenTextSizer = new wxBoxSizer(wxHORIZONTAL);
-	wxBoxSizer* firstTextSizer = new wxBoxSizer(wxHORIZONTAL);
-	wxBoxSizer* secondTextSizer = new wxBoxSizer(wxHORIZONTAL);
-	wxBoxSizer* resultSizer = new wxBoxSizer(wxHORIZONTAL);
-	wxBoxSizer* firsthor = new wxBoxSizer(wxHORIZONTAL);
+    auto* topSizer = new wxBoxSizer(wxVERTICAL);
+    auto* commenTextSizer = new wxBoxSizer(wxHORIZONTAL);
+	auto* firstTextSizer = new wxBoxSizer(wxHORIZONTAL);
+	auto* secondTextSizer = new wxBoxSizer(wxHORIZONTAL);
+	auto resultSizer = new wxBoxSizer(wxHORIZONTAL);
+	auto firsthor = new wxBoxSizer(wxHORIZONTAL);
 
 	firstText = new wxTextCtrl(
         this,
@@ -86,8 +86,7 @@ LearnWindow::LearnWindow(wxWindow *parent, wxString title)
 };
 
 LearnWindow::~LearnWindow()
-{
-}
+= default;
 
 
 void LearnWindow::OnOpenButtonClicked(wxCommandEvent& event)
@@ -134,11 +133,11 @@ void LearnWindow::OnTextChanged(wxCommandEvent& event)
 		if (pos2 != 0 && (txt01[pos2 - 1] == txt02[pos2 - 1]))
 		{
 			secondText->SetStyle(pos2, pos2+1, origAttr);
+            if(lengthOftxt01 == lengthOftxt02) {
+                wxMessageBox("Congratulation!");
+                Destroy();
+            }
 		}
 
-    if(lengthOftxt01 == lengthOftxt02) {
-        wxMessageBox("Congratulation!");
-        Destroy();
-    }
 }
 
