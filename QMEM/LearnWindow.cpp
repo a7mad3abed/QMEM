@@ -21,7 +21,7 @@ LearnWindow::LearnWindow(wxWindow *parent, wxString title)
         -1,
         "click open to load a learn file",
         wxDefaultPosition,
-        wxSize(300, 300),
+        wxSize(350, 300),
         wxTE_MULTILINE|wxTE_RICH2|wxTE_READONLY|wxALIGN_LEFT);
     
 
@@ -36,7 +36,8 @@ LearnWindow::LearnWindow(wxWindow *parent, wxString title)
 
     secondText->Bind(wxEVT_TEXT, &LearnWindow::OnTextChanged, this);
 	secondText->GetStyle(0, origAttr);
-	secondText->SetEditable(false);
+	//secondText->SetEditable(false);
+	secondText->Show(false);
 
 
 	resultText = new wxStaticText(
@@ -49,16 +50,15 @@ LearnWindow::LearnWindow(wxWindow *parent, wxString title)
         );
 
 	textSizer->Add(firstText,
-        1,            // make vertically stretchable
-        wxEXPAND |    // make horizontally stretchable
-        wxALL,        //   and make border all around
+        0,            // make vertically stretchable
+        wxALL,
         10 );         // set border width to 10)
 
 
 	textSizer->Add(secondText,
-        1,            // make vertically stretchableM
-        wxEXPAND |    // make horizontally stretchable
-        wxALL,        //   and make border all around
+        0,            // make vertically stretchableM
+        wxALL|        //   and make border all around
+        wxRESERVE_SPACE_EVEN_IF_HIDDEN,        //   and make border all around
         10 );         // set border width to 10)
 
 	topSizer->Add(textSizer, 1, wxEXPAND|wxALL);
@@ -97,7 +97,8 @@ void LearnWindow::OnOpenButtonClicked(wxCommandEvent& event)
     if (openFileDialog.ShowModal() == wxID_CANCEL)
         return;
     firstText->LoadFile(openFileDialog.GetPath(), 0);
-    secondText->SetEditable(true);
+    //secondText->SetEditable(true);
+    secondText->Show(true);
 	secondText->SetFocus();
 
 

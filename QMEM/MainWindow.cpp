@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "textEntryDialog.h"
 #include "LearnWindow.h"
+#include "horse.xpm"
 
 enum {
     NEWTEXT = 45,
@@ -18,6 +19,9 @@ MainWindow::MainWindow(const wxString& title)
     )
 
 {
+    wxIcon mainIcon;
+    mainIcon.LoadFile("Qmem.ico", wxBITMAP_TYPE_ICO);
+    this->SetIcon(mainIcon);
     CenterOnScreen();
     
     // making a new menu with name file
@@ -56,15 +60,29 @@ MainWindow::MainWindow(const wxString& title)
     menubar->Append(file, "File");
     SetMenuBar(menubar);
 
+    wxFont f(
+            18,
+            wxFONTFAMILY_DEFAULT,
+            wxFONTSTYLE_ITALIC,
+            wxFONTWEIGHT_BOLD,
+            false,
+            "Arial");
+
     auto baseSizer = new wxBoxSizer(wxVERTICAL);
     auto topSizer = new wxBoxSizer(wxHORIZONTAL);
+
     auto welcomeText = new wxStaticText(
             this,
             wxID_ANY,
-            "\nWelcome to QMEM",
+            "",
             wxDefaultPosition,
             wxSize(600, 50),
             wxALIGN_CENTER);
+
+    welcomeText->SetLabel("Welcome to Qmem");
+    welcomeText->SetFont(f);
+    welcomeText->SetForegroundColour(wxColour("red"));
+
     topSizer->Add(welcomeText, 1, wxEXPAND|wxALL, 10);
     baseSizer->Add(topSizer, 0,   wxALIGN_CENTRE|wxALL, 10);
     auto CoreSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -72,24 +90,25 @@ MainWindow::MainWindow(const wxString& title)
     auto RCText = new wxStaticText(
             this,
             wxID_ANY,
-            "\nWelcome to QMEM",
+            "",
             wxDefaultPosition,
             wxSize(300, 50),
             wxALIGN_CENTER);
     auto RCText01 = new wxStaticText(
             this,
             wxID_ANY,
-            "\nWelcome to QMEM",
+            "",
             wxDefaultPosition,
             wxDefaultSize,
             wxALIGN_CENTER);
     auto RCText02 = new wxStaticText(
             this,
             wxID_ANY,
-            "\nWelcome to QMEM",
+            "",
             wxDefaultPosition,
             wxDefaultSize,
             wxALIGN_CENTER);
+
     rightCoreSizer->Add(RCText,1, wxEXPAND|wxALL, 10);
     rightCoreSizer->Add(RCText01,1, wxEXPAND|wxALL, 10);
     rightCoreSizer->Add(RCText02,1, wxEXPAND|wxALL, 10);
@@ -97,7 +116,7 @@ MainWindow::MainWindow(const wxString& title)
     auto LCText = new wxStaticText(
             this,
             wxID_ANY,
-            "\nWelcome to QMEM",
+            "",
             wxDefaultPosition,
             wxSize(300, 50),
             wxALIGN_CENTER);
