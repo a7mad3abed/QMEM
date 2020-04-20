@@ -4,10 +4,10 @@
 class MainWindow : public wxFrame
 {
 public:
-    MainWindow(const wxString& title);
-    void onNewTextSelected(wxCommandEvent& event);
-    void onExitSelected(wxCommandEvent& event);
+	explicit MainWindow(const wxString& title);
+    void on_new_text_selected(wxCommandEvent& event);
+    void on_exit_selected(wxCommandEvent& event);
 
-    void onLearnSelected(wxCommandEvent &event);
+    void on_learn_selected(wxCommandEvent &event);
 };
 

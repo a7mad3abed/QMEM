@@ -7,7 +7,7 @@ enum {
     ALIGN_LEFT_BUTTON
 };
 
-TextEntryDialog::TextEntryDialog(wxWindow *parent, const wxString &title, wxSize size)
+TextEntryDialog::TextEntryDialog(wxWindow *parent, const wxString &title, const wxSize &size)
     :wxDialog(
             parent,
             wxID_ANY,
@@ -60,22 +60,22 @@ TextEntryDialog::TextEntryDialog(wxWindow *parent, const wxString &title, wxSize
             wxBU_TOP);
     saveButton->Bind(
             wxEVT_BUTTON,
-            &TextEntryDialog::OnSaveButtonClicked,
+            &TextEntryDialog::on_save_button_clicked,
             this,
             SAVE_BUTTON);
     saveButton->Bind(
             wxEVT_BUTTON,
-            &TextEntryDialog::OnCancelButtonClicked,
+            &TextEntryDialog::on_cancel_button_clicked,
             this,
             wxID_CANCEL);
     alignLeftButton->Bind(
             wxEVT_BUTTON,
-            &TextEntryDialog::OnAlignLeftButtonClicked,
+            &TextEntryDialog::on_align_left_button_clicked,
             this,
             ALIGN_LEFT_BUTTON);
     alignRightButton->Bind(
             wxEVT_BUTTON,
-            &TextEntryDialog::OnAlignRightButtonClicked,
+            &TextEntryDialog::on_align_right_button_clicked,
             this,
             ALIGN_RIGHT_BUTTON);
     controlSizer->AddSpacer(5);
@@ -91,7 +91,7 @@ TextEntryDialog::TextEntryDialog(wxWindow *parent, const wxString &title, wxSize
 
 }
 
-void TextEntryDialog::OnSaveButtonClicked(wxCommandEvent& event)
+void TextEntryDialog::on_save_button_clicked(wxCommandEvent& event)
 {
     if (!wxFileName::Exists("saved mems"))
     {
@@ -104,29 +104,27 @@ void TextEntryDialog::OnSaveButtonClicked(wxCommandEvent& event)
             wxGetTextFromUserPromptStr,
             "");
     dlg.SetTextValidator(wxFILTER_ALPHANUMERIC|wxFILTER_NONE|wxFILTER_EMPTY);
-    if (dlg.ShowModal() == wxID_OK)
+    if (dlg.ShowModal() == wxID_OK && 
+        (!(fileName = dlg.GetValue()).empty() && 
+            textEntry->SaveFile(wxString::Format("./saved mems/%s.txt", fileName), wxTEXT_TYPE_ANY)))
     {
-        if((fileName = dlg.GetValue()) != "") {
-            if (textEntry->SaveFile(wxString::Format("./saved mems/%s.txt", fileName), wxTEXT_TYPE_ANY)) {
-                wxMessageBox("saved successfully!");
-                Destroy();
-            }
-        }
+	    wxMessageBox("saved successfully!");
+	    Destroy();
     }
 }
 
-void TextEntryDialog::OnCancelButtonClicked(wxCommandEvent& event)
+void TextEntryDialog::on_cancel_button_clicked(wxCommandEvent& event)
 {
     Destroy();
 }
 
-void TextEntryDialog::OnAlignLeftButtonClicked(wxCommandEvent& event)
+void TextEntryDialog::on_align_left_button_clicked(wxCommandEvent& event)
 {
     textEntry->SetWindowStyleFlag(wxTE_MULTILINE | wxTE_RICH2 | wxTE_LEFT);
     textEntry->SetFocus();
 }
 
-void TextEntryDialog::OnAlignRightButtonClicked(wxCommandEvent& event)
+void TextEntryDialog::on_align_right_button_clicked(wxCommandEvent& event)
 {
     textEntry->SetWindowStyleFlag(wxTE_MULTILINE | wxTE_RICH2 | wxTE_RIGHT);
     textEntry->SetFocus();

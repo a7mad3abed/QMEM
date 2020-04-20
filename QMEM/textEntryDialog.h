@@ -5,11 +5,11 @@ class TextEntryDialog :
 	public wxDialog
 {
 public:
-    TextEntryDialog(wxWindow *parent, const wxString &title, wxSize size);
-    void OnSaveButtonClicked(wxCommandEvent& event);
-    void OnCancelButtonClicked(wxCommandEvent& event);
-    void OnAlignLeftButtonClicked(wxCommandEvent& event);
-    void OnAlignRightButtonClicked(wxCommandEvent& event);
+    TextEntryDialog(wxWindow *parent, const wxString &title, const wxSize &size);
+    void on_save_button_clicked(wxCommandEvent& event);
+    void on_cancel_button_clicked(wxCommandEvent& event);
+    void on_align_left_button_clicked(wxCommandEvent& event);
+    void on_align_right_button_clicked(wxCommandEvent& event);
 private:
     wxTextCtrl* textEntry;
 

@@ -1,7 +1,6 @@
 #include "MainWindow.h"
 #include "textEntryDialog.h"
 #include "LearnWindow.h"
-#include "horse.xpm"
 
 enum {
     NEWTEXT = 45,
@@ -10,7 +9,7 @@ enum {
 
 MainWindow::MainWindow(const wxString& title)
     :wxFrame(
-            NULL,
+            nullptr,
             wxID_ANY,
             title,
             wxDefaultPosition,
@@ -31,27 +30,29 @@ MainWindow::MainWindow(const wxString& title)
     auto exit = new wxMenuItem(file, wxID_CLOSE, "Exit");
     file->Bind(
             wxEVT_COMMAND_MENU_SELECTED,
-            &MainWindow::onExitSelected,
+            &MainWindow::on_exit_selected,
             this,
             wxID_CLOSE);
 
+	
+
     // making a new menu item with the name newText and binding it to the corresponding event
-    auto newText = new wxMenuItem(file, NEWTEXT, "new text");
+    auto new_text = new wxMenuItem(file, NEWTEXT, "New text");
     file->Bind(
             wxEVT_COMMAND_MENU_SELECTED,
-            &MainWindow::onNewTextSelected,
+            &MainWindow::on_new_text_selected,
             this,
             NEWTEXT);
 
-    auto learn = new wxMenuItem(file, LEARN, "learn");
+    auto learn = new wxMenuItem(file, LEARN, "Learn");
     file->Bind(
             wxEVT_COMMAND_MENU_SELECTED,
-            &MainWindow::onLearnSelected,
+            &MainWindow::on_learn_selected,
             this,
             LEARN);
 
     // now adding the to menu items to the menu
-    file->Append(newText);
+    file->Append(new_text);
     file->Append(learn);
     file->Append(exit);
 
@@ -63,10 +64,10 @@ MainWindow::MainWindow(const wxString& title)
     wxFont f(
             18,
             wxFONTFAMILY_DEFAULT,
-            wxFONTSTYLE_ITALIC,
+            wxFONTSTYLE_NORMAL,
             wxFONTWEIGHT_BOLD,
             false,
-            "Arial");
+            "Tahoma");
 
     auto baseSizer = new wxBoxSizer(wxVERTICAL);
     auto topSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -85,23 +86,23 @@ MainWindow::MainWindow(const wxString& title)
 
     topSizer->Add(welcomeText, 1, wxEXPAND|wxALL, 10);
     baseSizer->Add(topSizer, 0,   wxALIGN_CENTRE|wxALL, 10);
-    auto CoreSizer = new wxBoxSizer(wxHORIZONTAL);
-    auto rightCoreSizer = new wxBoxSizer(wxVERTICAL);
-    auto RCText = new wxStaticText(
+    auto *core_sizer = new wxBoxSizer(wxHORIZONTAL);
+    auto *right_core_sizer = new wxBoxSizer(wxVERTICAL);
+    auto *rc_text = new wxStaticText(
             this,
             wxID_ANY,
             "",
             wxDefaultPosition,
             wxSize(300, 50),
             wxALIGN_CENTER);
-    auto RCText01 = new wxStaticText(
+    auto rc_text01 = new wxStaticText(
             this,
             wxID_ANY,
             "",
             wxDefaultPosition,
             wxDefaultSize,
             wxALIGN_CENTER);
-    auto RCText02 = new wxStaticText(
+    auto rc_text02 = new wxStaticText(
             this,
             wxID_ANY,
             "",
@@ -109,43 +110,43 @@ MainWindow::MainWindow(const wxString& title)
             wxDefaultSize,
             wxALIGN_CENTER);
 
-    rightCoreSizer->Add(RCText,1, wxEXPAND|wxALL, 10);
-    rightCoreSizer->Add(RCText01,1, wxEXPAND|wxALL, 10);
-    rightCoreSizer->Add(RCText02,1, wxEXPAND|wxALL, 10);
+    right_core_sizer->Add(rc_text,1, wxEXPAND|wxALL, 10);
+    right_core_sizer->Add(rc_text01,1, wxEXPAND|wxALL, 10);
+    right_core_sizer->Add(rc_text02,1, wxEXPAND|wxALL, 10);
     auto leftCoreSizer = new wxBoxSizer(wxVERTICAL);
-    auto LCText = new wxStaticText(
+    auto lc_text = new wxStaticText(
             this,
             wxID_ANY,
             "",
             wxDefaultPosition,
             wxSize(300, 50),
             wxALIGN_CENTER);
-    leftCoreSizer->Add(LCText, 0, wxALL, 10);
-    CoreSizer->Add(leftCoreSizer, 1, wxEXPAND|wxALL);
-    CoreSizer->Add(rightCoreSizer, 1, wxEXPAND|wxALL);
-    baseSizer->Add(CoreSizer, 1, wxEXPAND|wxALL);
+    leftCoreSizer->Add(lc_text, 0, wxALL, 10);
+    core_sizer->Add(leftCoreSizer, 1, wxEXPAND|wxALL);
+    core_sizer->Add(right_core_sizer, 1, wxEXPAND|wxALL);
+    baseSizer->Add(core_sizer, 1, wxEXPAND|wxALL);
     SetSizerAndFit(baseSizer);
 
 }
 
-void MainWindow::onNewTextSelected(wxCommandEvent& event)
+void MainWindow::on_new_text_selected(wxCommandEvent& event)
 {
-    auto newTextDialog = new TextEntryDialog(this, "New Text", wxSize(400, 500));
+    auto new_text_dialog = new TextEntryDialog(this, "New Text", wxSize(400, 500));
 
     
-    newTextDialog->Show();
+    new_text_dialog->Show();
 
 }
 
-void MainWindow::onExitSelected(wxCommandEvent& event)
+void MainWindow::on_exit_selected(wxCommandEvent& event)
 {
     Destroy();
 }
 
-void MainWindow::onLearnSelected(wxCommandEvent &event)
+void MainWindow::on_learn_selected(wxCommandEvent &event)
 {
-    auto myFrame = new LearnWindow(this, "Learn");
+    auto my_frame = new LearnWindow(this, "Learn");
 
-    myFrame->Show();
+    my_frame->Show();
 
 }

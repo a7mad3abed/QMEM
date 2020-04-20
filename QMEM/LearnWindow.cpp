@@ -1,7 +1,12 @@
 #include "LearnWindow.h"
 
 
-LearnWindow::LearnWindow(wxWindow *parent, wxString title)
+/**
+ * \brief 
+ * \param parent 
+ * \param title 
+ */
+LearnWindow::LearnWindow(wxWindow *parent, const wxString &title)
 	:wxFrame(
         parent,
         wxID_ANY,
@@ -11,12 +16,12 @@ LearnWindow::LearnWindow(wxWindow *parent, wxString title)
         wxDEFAULT_FRAME_STYLE
 	)
 {
-    SetBackgroundColour(wxColour(187,25,25));
-    auto* topSizer = new wxBoxSizer(wxVERTICAL);
-    auto* textSizer = new wxBoxSizer(wxHORIZONTAL);
-	auto controlSizer = new wxBoxSizer(wxHORIZONTAL);
+	wxWindowBase::SetBackgroundColour(wxColour(187,25,25));
+    auto* top_sizer = new wxBoxSizer(wxVERTICAL);
+    auto* text_sizer = new wxBoxSizer(wxHORIZONTAL);
+	auto* control_sizer = new wxBoxSizer(wxHORIZONTAL);
 
-	firstText = new wxTextCtrl(
+	first_text_ = new wxTextCtrl(
         this,
         -1,
         "click open to load a learn file",
@@ -26,7 +31,7 @@ LearnWindow::LearnWindow(wxWindow *parent, wxString title)
     
 
 	//firstText->LoadFile("text01.txt", wxTEXT_TYPE_ANY);
-	secondText = new wxTextCtrl(
+	second_text_ = new wxTextCtrl(
         this,
         -1,
         "",
@@ -34,13 +39,13 @@ LearnWindow::LearnWindow(wxWindow *parent, wxString title)
         wxSize(350, 300),
         wxTE_MULTILINE | wxTE_RICH2| wxALIGN_RIGHT);
 
-    secondText->Bind(wxEVT_TEXT, &LearnWindow::OnTextChanged, this);
-	secondText->GetStyle(0, origAttr);
+    second_text_->Bind(wxEVT_TEXT, &LearnWindow::on_text_changed, this);
+	second_text_->GetStyle(0, orig_attr_);
 	//secondText->SetEditable(false);
-	secondText->Show(false);
+	second_text_->Show(false);
 
 
-	resultText = new wxStaticText(
+	result_text_ = new wxStaticText(
         this,
         wxID_ANY,
         "Results\n",
@@ -49,38 +54,38 @@ LearnWindow::LearnWindow(wxWindow *parent, wxString title)
         wxALIGN_RIGHT
         );
 
-	textSizer->Add(firstText,
+	text_sizer->Add(first_text_,
         0,            // make vertically stretchable
         wxALL,
         10 );         // set border width to 10)
 
 
-	textSizer->Add(secondText,
+	text_sizer->Add(second_text_,
         0,            // make vertically stretchableM
         wxALL|        //   and make border all around
         wxRESERVE_SPACE_EVEN_IF_HIDDEN,        //   and make border all around
         10 );         // set border width to 10)
 
-	topSizer->Add(textSizer, 1, wxEXPAND|wxALL);
+	top_sizer->Add(text_sizer, 1, wxALL | wxEXPAND);
 
 	auto openButton = new wxButton(this, wxID_OK, "Open");
-	openButton->Bind(wxEVT_BUTTON, &LearnWindow::OnOpenButtonClicked, this);
+	openButton->Bind(wxEVT_BUTTON, &LearnWindow::on_open_button_clicked, this);
 	auto cancelButton = new wxButton(this, wxID_CANCEL, "Cancel");
-	cancelButton->Bind(wxEVT_BUTTON, &LearnWindow::OnCancelButtonClicked, this);
-	controlSizer->AddSpacer(10);
-	controlSizer->Add(openButton, 0, wxALL, 10);
-    controlSizer->AddSpacer(5);
+	cancelButton->Bind(wxEVT_BUTTON, &LearnWindow::on_cancel_button_clicked, this);
+	control_sizer->AddSpacer(10);
+	control_sizer->Add(openButton, 0, wxALL, 10);
+    control_sizer->AddSpacer(5);
 
-	controlSizer->Add(
+	control_sizer->Add(
 		cancelButton,
 		0,
 		wxALL,
 		10);
 
-	controlSizer->Add(resultText, 0, wxALL, 10);
+	control_sizer->Add(result_text_, 0, wxALL, 10);
 
-	topSizer->Add(controlSizer, 0, wxEXPAND|wxALL);
-	SetSizerAndFit(topSizer);
+	top_sizer->Add(control_sizer, 0, wxALL | wxEXPAND);
+	SetSizerAndFit(top_sizer);
 
 };
 
@@ -88,51 +93,52 @@ LearnWindow::~LearnWindow()
 = default;
 
 
-void LearnWindow::OnOpenButtonClicked(wxCommandEvent& event)
+void LearnWindow::on_open_button_clicked(wxCommandEvent& event)
 {
 
 	wxString str;
-    wxFileDialog openFileDialog(this, _("Open text file"), "", "", "text files (*.txt)|*.txt", wxFD_OPEN | wxFD_FILE_MUST_EXIST);
+    wxFileDialog open_file_dialog(this, _("Open text file"), "", "", "text files (*.txt)|*.txt",
+                                  wxFD_OPEN | wxFD_FILE_MUST_EXIST);
 
-    if (openFileDialog.ShowModal() == wxID_CANCEL)
+    if (open_file_dialog.ShowModal() == wxID_CANCEL)
         return;
-    firstText->LoadFile(openFileDialog.GetPath(), 0);
+    first_text_->LoadFile(open_file_dialog.GetPath(), 0);
     //secondText->SetEditable(true);
-    secondText->Show(true);
-	secondText->SetFocus();
+    second_text_->Show(true);
+	second_text_->SetFocus();
 
 
 }
 
-void LearnWindow::OnCancelButtonClicked(wxCommandEvent& event)
+void LearnWindow::on_cancel_button_clicked(wxCommandEvent& event)
 {
 	this->Destroy();
 
 }
 
-void LearnWindow::OnTextChanged(wxCommandEvent& event)
+void LearnWindow::on_text_changed(wxCommandEvent& event)
 {
-        auto pos2 = secondText->GetLastPosition();
-		resultText->SetLabelText(wxString::Format("%ld\n", pos2));
+        auto pos2 = second_text_->GetLastPosition();
+		result_text_->SetLabelText(wxString::Format("%ld\n", pos2));
 
-		auto txt01 = firstText->GetValue();
-		auto txt02 = secondText->GetValue();
+		auto txt01 = first_text_->GetValue();
+		auto txt02 = second_text_->GetValue();
 
-		auto lengthOftxt01 = firstText->GetValue().length();
-		auto lengthOftxt02 = secondText->GetValue().length();
+		auto lengthOftxt01 = first_text_->GetValue().length();
+		auto lengthOftxt02 = second_text_->GetValue().length();
 
 
-		if (pos2 == 0) secondText->SetStyle(0, 100, origAttr);
+		if (pos2 == 0) second_text_->SetStyle(0, 100, orig_attr_);
 		if (pos2 != 0 && (txt01[pos2-1] != txt02[pos2-1]))
 		{
             ::wxBell();
 			wxTextAttr attr;
 			attr.SetTextColour(*wxRED);
-			secondText->SetStyle(pos2-1, pos2, attr);
+			second_text_->SetStyle(pos2-1, pos2, attr);
 		}
 		if (pos2 != 0 && (txt01[pos2 - 1] == txt02[pos2 - 1]))
 		{
-			secondText->SetStyle(pos2, pos2+1, origAttr);
+			second_text_->SetStyle(pos2, pos2+1, orig_attr_);
             if(lengthOftxt01 == lengthOftxt02) {
                 wxMessageBox("Congratulation!");
                 Destroy();

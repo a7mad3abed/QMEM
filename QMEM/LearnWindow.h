@@ -5,16 +5,16 @@
 class LearnWindow : public wxFrame
 {
 public:
-	LearnWindow(wxWindow *parent, wxString title);
+	LearnWindow(wxWindow *parent, const wxString &title);
     ~LearnWindow();
-	void OnOpenButtonClicked(wxCommandEvent &event);
-	void OnCancelButtonClicked(wxCommandEvent& event);
-	void OnTextChanged(wxCommandEvent& event);
+	void on_open_button_clicked(wxCommandEvent &event);
+	void on_cancel_button_clicked(wxCommandEvent& event);
+	void on_text_changed(wxCommandEvent& event);
 private:
-	wxTextCtrl* firstText;
-	wxTextCtrl* secondText;
-	wxStaticText* resultText;
-	wxTextAttr origAttr;
+	wxTextCtrl* first_text_{};
+	wxTextCtrl* second_text_{};
+	wxStaticText* result_text_{};
+	wxTextAttr orig_attr_;
 
 };
 
