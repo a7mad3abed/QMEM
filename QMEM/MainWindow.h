@@ -9,5 +9,8 @@ public:
     void on_exit_selected(wxCommandEvent& event);
 
     void on_learn_selected(wxCommandEvent &event);
+    void on_show_lessons(wxCommandEvent &event);
+
+
 };
 

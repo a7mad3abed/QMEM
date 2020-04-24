@@ -1,10 +1,12 @@
 #include "MainWindow.h"
 #include "textEntryDialog.h"
 #include "LearnWindow.h"
+#include "Results_Dlg.h"
 
 enum {
     NEWTEXT = 45,
-    LEARN
+    LEARN, 
+    SHOW
 };
 
 MainWindow::MainWindow(const wxString& title)
@@ -51,9 +53,17 @@ MainWindow::MainWindow(const wxString& title)
             this,
             LEARN);
 
+    auto show_lessons = new wxMenuItem(file, SHOW, "Show Lessons");
+    file->Bind(
+            wxEVT_COMMAND_MENU_SELECTED,
+            &MainWindow::on_show_lessons,
+            this,
+            SHOW);
+
     // now adding the to menu items to the menu
     file->Append(new_text);
     file->Append(learn);
+    file->Append(show_lessons);
     file->Append(exit);
 
     // now making the menubar and adding the file menu to it then setting it as the menubar of the frame
@@ -149,4 +159,11 @@ void MainWindow::on_learn_selected(wxCommandEvent &event)
 
     my_frame->Show();
 
+}
+
+void MainWindow::on_show_lessons(wxCommandEvent& event)
+{
+    auto results_dlg = new Results_Dlg(this, "results");
+    results_dlg->Show();
+    
 }

@@ -1,5 +1,7 @@
 #include "textEntryDialog.h"
 #include "wx/filename.h"
+#include <string>
+#include <sstream>
 
 enum {
     SAVE_BUTTON = 33,
@@ -13,8 +15,9 @@ TextEntryDialog::TextEntryDialog(wxWindow *parent, const wxString &title, const 
             wxID_ANY,
             title,
             wxDefaultPosition,
-            size)
+            size), db_manager_(new DB_Manager())
 {
+    if(!db_manager_->init_db()) wxMessageBox("error initializing the datebase");
 
     auto baseSizer = new wxBoxSizer(wxVERTICAL);
     textEntry = new wxTextCtrl(
@@ -91,6 +94,11 @@ TextEntryDialog::TextEntryDialog(wxWindow *parent, const wxString &title, const 
 
 }
 
+TextEntryDialog::~TextEntryDialog()
+{
+}
+
+
 void TextEntryDialog::on_save_button_clicked(wxCommandEvent& event)
 {
     if (!wxFileName::Exists("saved mems"))
@@ -111,6 +119,9 @@ void TextEntryDialog::on_save_button_clicked(wxCommandEvent& event)
 	    wxMessageBox("saved successfully!");
 	    Destroy();
     }
+
+    db_manager_->add_record(fileName, wxString::Format("./saved mems/%s.txt", fileName));
+   
 }
 
 void TextEntryDialog::on_cancel_button_clicked(wxCommandEvent& event)
