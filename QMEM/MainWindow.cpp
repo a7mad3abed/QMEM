@@ -2,11 +2,13 @@
 #include "textEntryDialog.h"
 #include "LearnWindow.h"
 #include "Results_Dlg.h"
+#include "wx/splitter.h"
 
 enum {
     NEWTEXT = 45,
     LEARN, 
-    SHOW
+    SHOW,
+    BUTTON_LIST_OPEN
 };
 
 MainWindow::MainWindow(const wxString& title)
@@ -17,7 +19,7 @@ MainWindow::MainWindow(const wxString& title)
             wxDefaultPosition,
             wxDefaultSize,
         wxDEFAULT_FRAME_STYLE
-    )
+    ) 
 
 {
     wxIcon mainIcon;
@@ -98,13 +100,25 @@ MainWindow::MainWindow(const wxString& title)
     baseSizer->Add(topSizer, 0,   wxALIGN_CENTRE|wxALL, 10);
     auto *core_sizer = new wxBoxSizer(wxHORIZONTAL);
     auto *right_core_sizer = new wxBoxSizer(wxVERTICAL);
-    auto *rc_text = new wxStaticText(
+
+    dbm.init_db();
+
+   list_box = new wxListBox(
             this,
             wxID_ANY,
-            "",
             wxDefaultPosition,
-            wxSize(300, 50),
-            wxALIGN_CENTER);
+            wxDefaultSize
+            );
+
+    for (int i = 0; i < dbm.retrieve_results().size(); i++)
+    {
+        list_box->Append(dbm.retrieve_results()[i].name);
+    }
+
+    auto open_selected_button = new wxButton(this, BUTTON_LIST_OPEN, "open");
+
+    Bind(wxEVT_BUTTON, &MainWindow::on_open_selected_button_clicked, this, BUTTON_LIST_OPEN);
+
     auto rc_text01 = new wxStaticText(
             this,
             wxID_ANY,
@@ -120,8 +134,8 @@ MainWindow::MainWindow(const wxString& title)
             wxDefaultSize,
             wxALIGN_CENTER);
 
-    right_core_sizer->Add(rc_text,1, wxEXPAND|wxALL, 10);
-    right_core_sizer->Add(rc_text01,1, wxEXPAND|wxALL, 10);
+    right_core_sizer->Add(list_box,1, wxEXPAND|wxALL, 10);
+    right_core_sizer->Add(open_selected_button,0, wxEXPAND|wxALL, 10);
     right_core_sizer->Add(rc_text02,1, wxEXPAND|wxALL, 10);
     auto leftCoreSizer = new wxBoxSizer(wxVERTICAL);
     auto lc_text = new wxStaticText(
@@ -136,6 +150,12 @@ MainWindow::MainWindow(const wxString& title)
     core_sizer->Add(right_core_sizer, 1, wxEXPAND|wxALL);
     baseSizer->Add(core_sizer, 1, wxEXPAND|wxALL);
     SetSizerAndFit(baseSizer);
+
+}
+
+void MainWindow::on_open_selected_button_clicked(wxCommandEvent& event)
+{
+    wxMessageBox(list_box->GetStringSelection());
 
 }
 
@@ -167,3 +187,6 @@ void MainWindow::on_show_lessons(wxCommandEvent& event)
     results_dlg->Show();
     
 }
+
+
+
