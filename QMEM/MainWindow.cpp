@@ -135,7 +135,7 @@ MainWindow::MainWindow(const wxString& title)
             wxALIGN_CENTER);
 
     right_core_sizer->Add(list_box,1, wxEXPAND|wxALL, 10);
-    right_core_sizer->Add(open_selected_button,0, wxEXPAND|wxALL, 10);
+    right_core_sizer->Add(open_selected_button,0, wxALL, 10);
     right_core_sizer->Add(rc_text02,1, wxEXPAND|wxALL, 10);
     auto leftCoreSizer = new wxBoxSizer(wxVERTICAL);
     auto lc_text = new wxStaticText(
