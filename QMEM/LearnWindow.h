@@ -16,7 +16,7 @@ public:
 private:
 	wxTextCtrl* first_text_{};
 	wxTextCtrl* second_text_{};
-	wxTextAttr orig_attr_;
+    wxTextAttr orig_attr_{};
 	wxToggleButton* hide_left;
 
 };

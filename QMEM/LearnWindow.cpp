@@ -43,6 +43,7 @@ LearnWindow::LearnWindow(wxWindow *parent, const wxString &title, const wxString
         wxTE_MULTILINE | wxTE_RICH2|wxALIGN_RIGHT);
 
     second_text_->Bind(wxEVT_TEXT, &LearnWindow::on_text_changed, this);
+	second_text_->GetStyle(0, orig_attr_);
 	//secondText->SetEditable(false);
 	//second_text_->Show(false);
     second_text_->SetFocus();
@@ -134,20 +135,20 @@ void LearnWindow::on_text_changed(wxCommandEvent& event)
 		auto lengthOftxt01 = first_text_->GetValue().length();
 		auto lengthOftxt02 = second_text_->GetValue().length();
 
-        
-        second_text_->GetStyle(0, orig_attr_);
 
-		if (pos2 == 0) second_text_->SetStyle(0, 100, orig_attr_);
+		if (pos2 == 0) second_text_->SetStyle(0, 100, wxTextAttr(*wxBLACK));
 		if (pos2 != 0 && (txt01[pos2-1] != txt02[pos2-1]))
 		{
             ::wxBell();
 			wxTextAttr attr;
+            second_text_->GetStyle(0, attr);
+            
 			attr.SetTextColour(*wxRED);
-			second_text_->SetStyle(pos2-1, pos2, attr);
+			second_text_->SetStyle(pos2-1, pos2, wxTextAttr(*wxRED));
 		}
 		if (pos2 != 0 && (txt01[pos2 - 1] == txt02[pos2 - 1]))
 		{
-			second_text_->SetStyle(pos2, pos2+1, orig_attr_);
+			second_text_->SetStyle(pos2, pos2+1, wxTextAttr(*wxBLACK) );
             if(lengthOftxt01 == lengthOftxt02) {
                 wxMessageBox("Congratulation!");
                 Destroy();
@@ -158,6 +159,7 @@ void LearnWindow::on_text_changed(wxCommandEvent& event)
 
 void LearnWindow::on_align_left_button_clicked(wxCommandEvent& event)
 {
+    
     second_text_->SetWindowStyleFlag(wxTE_MULTILINE | wxTE_RICH2| wxTE_LEFT);
 }
 
