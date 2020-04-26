@@ -52,12 +52,6 @@ MainWindow::MainWindow(const wxString& title)
             this,
             NEWTEXT);
 
-    auto learn = new wxMenuItem(file, LEARN, "Learn");
-    file->Bind(
-            wxEVT_COMMAND_MENU_SELECTED,
-            &MainWindow::on_learn_selected,
-            this,
-            LEARN);
 
     auto show_lessons = new wxMenuItem(file, SHOW, "Show Lessons");
     file->Bind(
@@ -68,7 +62,6 @@ MainWindow::MainWindow(const wxString& title)
 
     // now adding the to menu items to the menu
     file->Append(new_text);
-    file->Append(learn);
     file->Append(show_lessons);
     file->Append(exit);
 
@@ -181,13 +174,6 @@ void MainWindow::on_exit_selected(wxCommandEvent& event)
     Destroy();
 }
 
-void MainWindow::on_learn_selected(wxCommandEvent &event)
-{
-    //auto my_frame = new LearnWindow(this, "Learn");
-
-    //my_frame->Show();
-
-}
 
 void MainWindow::on_show_lessons(wxCommandEvent& event)
 {
