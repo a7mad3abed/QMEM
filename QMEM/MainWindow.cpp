@@ -29,7 +29,7 @@ MainWindow::MainWindow(const wxString& title)
     this->SetIcon(mainIcon);
     CenterOnScreen();
     
-    Bind(wxEVT_CLOSE_WINDOW, &MainWindow::on_child_exited, this, CLOSE_TO_WINDOW);
+    Bind(wxEVT_COMMAND_MENU_SELECTED, &MainWindow::on_child_exited, this, CLOSE_TO_WINDOW);
     
     // making a new menu with name file
     auto file = new wxMenu();
@@ -196,7 +196,7 @@ void MainWindow::on_show_lessons(wxCommandEvent& event)
 }
 
 
-void MainWindow::on_child_exited(wxCloseEvent& event)
+void MainWindow::on_child_exited(wxCommandEvent& event)
 {
     
     list_box->Clear();
