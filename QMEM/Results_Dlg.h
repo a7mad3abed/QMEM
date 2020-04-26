@@ -10,7 +10,6 @@ public:
 	~Results_Dlg();
 
 private:
-    DB_Manager* m_db;
     std::vector<Result> results;
 };
 

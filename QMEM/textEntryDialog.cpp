@@ -15,10 +15,12 @@ TextEntryDialog::TextEntryDialog(wxWindow *parent, const wxString &title, const 
             wxID_ANY,
             title,
             wxDefaultPosition,
-            size), db_manager_(new DB_Manager())
+            size)
 {
-    if(!db_manager_->init_db()) wxMessageBox("error initializing the datebase");
+	if (!DB_Manager::instance()->init_db()) wxMessageBox("error initializing the datebase");
 
+
+    
     auto baseSizer = new wxBoxSizer(wxVERTICAL);
     textEntry = new wxTextCtrl(
             this,
@@ -40,7 +42,7 @@ TextEntryDialog::TextEntryDialog(wxWindow *parent, const wxString &title, const 
             wxDefaultPosition,
             wxDefaultSize,
             wxBU_TOP);
-    auto cancelButton = new wxButton(
+	auto cancelButton = new wxButton(
             this,
             wxID_CANCEL,
             "cancel",
@@ -120,7 +122,7 @@ void TextEntryDialog::on_save_button_clicked(wxCommandEvent& event)
 	    Destroy();
     }
 
-    db_manager_->add_record(fileName, wxString::Format("./saved mems/%s.txt", fileName));
+    DB_Manager::instance()->add_record(fileName, wxString::Format("./saved mems/%s.txt", fileName));
    
 }
 

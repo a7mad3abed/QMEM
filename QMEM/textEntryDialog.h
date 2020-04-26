@@ -14,7 +14,6 @@ public:
     void on_align_right_button_clicked(wxCommandEvent& event);
 private:
     wxTextCtrl* textEntry;
-    DB_Manager *db_manager_;
 
 
 };

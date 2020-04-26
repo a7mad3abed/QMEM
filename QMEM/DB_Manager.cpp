@@ -91,3 +91,8 @@ std::vector<Result> DB_Manager::retrieve_results() const
 
 }
 
+DB_Manager* DB_Manager::instance()
+{
+    return new DB_Manager();
+}
+

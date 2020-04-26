@@ -8,7 +8,8 @@ enum {
     NEWTEXT = 45,
     LEARN, 
     SHOW,
-    BUTTON_LIST_OPEN
+    BUTTON_LIST_OPEN,
+	CHILD_EXITED
 };
 
 MainWindow::MainWindow(const wxString& title)
@@ -22,6 +23,7 @@ MainWindow::MainWindow(const wxString& title)
     ) 
 
 {
+    Bind(wxEVT_SET_FOCUS, &MainWindow::on_child_exited, this);
     wxIcon mainIcon;
     mainIcon.LoadFile("Qmem.ico", wxBITMAP_TYPE_ICO);
     this->SetIcon(mainIcon);
@@ -101,23 +103,23 @@ MainWindow::MainWindow(const wxString& title)
     auto *core_sizer = new wxBoxSizer(wxHORIZONTAL);
     auto *right_core_sizer = new wxBoxSizer(wxVERTICAL);
 
-    dbm.init_db();
+    DB_Manager::instance()->init_db();
 
    list_box = new wxListBox(
             this,
-            wxID_ANY,
+            BUTTON_LIST_OPEN,
             wxDefaultPosition,
             wxDefaultSize
             );
 
-    for (int i = 0; i < dbm.retrieve_results().size(); i++)
+    for (int i = 0; i < DB_Manager::instance()->retrieve_results().size(); i++)
     {
-        list_box->Append(dbm.retrieve_results()[i].name);
+        list_box->Append(DB_Manager::instance()->retrieve_results()[i].name);
     }
 
     auto open_selected_button = new wxButton(this, BUTTON_LIST_OPEN, "open");
 
-    Bind(wxEVT_BUTTON, &MainWindow::on_open_selected_button_clicked, this, BUTTON_LIST_OPEN);
+    Bind(wxEVT_LISTBOX_DCLICK, &MainWindow::on_open_selected_button_clicked, this, BUTTON_LIST_OPEN);
 
     auto rc_text01 = new wxStaticText(
             this,
@@ -153,9 +155,11 @@ MainWindow::MainWindow(const wxString& title)
 
 }
 
-void MainWindow::on_open_selected_button_clicked(wxCommandEvent& event)
+void MainWindow::on_open_selected_button_clicked(wxCommandEvent& event) 
 {
-    wxMessageBox(list_box->GetStringSelection());
+    wxString address = "./saved mems/";
+    auto LW = new LearnWindow(this, "Learn", wxString::Format("%s%s.txt", address, list_box->GetStringSelection()));
+    LW->Show();
 
 }
 
@@ -168,6 +172,7 @@ void MainWindow::on_new_text_selected(wxCommandEvent& event)
 
 }
 
+
 void MainWindow::on_exit_selected(wxCommandEvent& event)
 {
     Destroy();
@@ -175,9 +180,9 @@ void MainWindow::on_exit_selected(wxCommandEvent& event)
 
 void MainWindow::on_learn_selected(wxCommandEvent &event)
 {
-    auto my_frame = new LearnWindow(this, "Learn");
+    //auto my_frame = new LearnWindow(this, "Learn");
 
-    my_frame->Show();
+    //my_frame->Show();
 
 }
 
@@ -188,5 +193,11 @@ void MainWindow::on_show_lessons(wxCommandEvent& event)
     
 }
 
+
+void MainWindow::on_child_exited(wxFocusEvent& event)
+{
+    list_box->Show(false);
+	
+}
 
 

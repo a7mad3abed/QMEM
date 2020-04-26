@@ -2,12 +2,11 @@
 #include <sstream>
 
 Results_Dlg::Results_Dlg(wxWindow *parent, const wxString &title)
-	:wxDialog(parent, wxID_ANY, title, wxDefaultPosition, wxSize(400, 300)),
-	m_db(new DB_Manager())
+	:wxDialog(parent, wxID_ANY, title, wxDefaultPosition, wxSize(400, 300))
 {
 	
-    m_db->init_db();
-    results = m_db->retrieve_results();
+    DB_Manager::instance()->init_db();
+    results = DB_Manager::instance()->retrieve_results();
 
 	std::ostringstream oss;
 	auto result_show = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE);
@@ -25,5 +24,4 @@ Results_Dlg::Results_Dlg(wxWindow *parent, const wxString &title)
 
 Results_Dlg::~Results_Dlg()
 {
-	delete m_db;
 }

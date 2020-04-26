@@ -1,12 +1,13 @@
 #include "LearnWindow.h"
+#include "wx/tglbtn.h"
+
+enum
+{
+	HIDE_LEFT
+};
 
 
-/**
- * \brief 
- * \param parent 
- * \param title 
- */
-LearnWindow::LearnWindow(wxWindow *parent, const wxString &title)
+LearnWindow::LearnWindow(wxWindow *parent, const wxString &title, const wxString &address)
 	:wxFrame(
         parent,
         wxID_ANY,
@@ -28,7 +29,7 @@ LearnWindow::LearnWindow(wxWindow *parent, const wxString &title)
         wxDefaultPosition,
         wxSize(350, 300),
         wxTE_MULTILINE|wxTE_RICH2|wxTE_READONLY|wxALIGN_LEFT);
-    
+    first_text_->LoadFile(address, wxTEXT_TYPE_ANY);
 
 	//firstText->LoadFile("text01.txt", wxTEXT_TYPE_ANY);
 	second_text_ = new wxTextCtrl(
@@ -42,7 +43,7 @@ LearnWindow::LearnWindow(wxWindow *parent, const wxString &title)
     second_text_->Bind(wxEVT_TEXT, &LearnWindow::on_text_changed, this);
 	second_text_->GetStyle(0, orig_attr_);
 	//secondText->SetEditable(false);
-	second_text_->Show(false);
+	//second_text_->Show(false);
 
 
 	result_text_ = new wxStaticText(
@@ -56,7 +57,8 @@ LearnWindow::LearnWindow(wxWindow *parent, const wxString &title)
 
 	text_sizer->Add(first_text_,
         0,            // make vertically stretchable
-        wxALL,
+        wxALL|
+        wxRESERVE_SPACE_EVEN_IF_HIDDEN,
         10 );         // set border width to 10)
 
 
@@ -68,12 +70,13 @@ LearnWindow::LearnWindow(wxWindow *parent, const wxString &title)
 
 	top_sizer->Add(text_sizer, 1, wxALL | wxEXPAND);
 
-	auto openButton = new wxButton(this, wxID_OK, "Open");
-	openButton->Bind(wxEVT_BUTTON, &LearnWindow::on_open_button_clicked, this);
+	hide_left = new wxToggleButton(this, HIDE_LEFT, "Hide left");
+    hide_left->SetValue(false);
+	Bind(wxEVT_TOGGLEBUTTON, &LearnWindow::on_hide_left_button_clicked, this, HIDE_LEFT);
 	auto cancelButton = new wxButton(this, wxID_CANCEL, "Cancel");
 	cancelButton->Bind(wxEVT_BUTTON, &LearnWindow::on_cancel_button_clicked, this);
 	control_sizer->AddSpacer(10);
-	control_sizer->Add(openButton, 0, wxALL, 10);
+	control_sizer->Add(hide_left, 0, wxALL, 10);
     control_sizer->AddSpacer(5);
 
 	control_sizer->Add(
@@ -93,9 +96,12 @@ LearnWindow::~LearnWindow()
 = default;
 
 
-void LearnWindow::on_open_button_clicked(wxCommandEvent& event)
+void LearnWindow::on_hide_left_button_clicked(wxCommandEvent& event)
 {
+    if (hide_left->GetValue() == true) first_text_->Show(false);
+    if (hide_left->GetValue() == false) first_text_->Show(true);
 
+    /*
 	wxString str;
     wxFileDialog open_file_dialog(this, _("Open text file"), "", "", "text files (*.txt)|*.txt",
                                   wxFD_OPEN | wxFD_FILE_MUST_EXIST);
@@ -106,6 +112,7 @@ void LearnWindow::on_open_button_clicked(wxCommandEvent& event)
     //secondText->SetEditable(true);
     second_text_->Show(true);
 	second_text_->SetFocus();
+	*/
 
 
 }
