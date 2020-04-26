@@ -29,7 +29,7 @@ MainWindow::MainWindow(const wxString& title)
     this->SetIcon(mainIcon);
     CenterOnScreen();
     
-    Bind(wxEVT_COMMAND_MENU_SELECTED, &MainWindow::on_child_exited, this, CLOSE_TO_WINDOW);
+    Bind(wxEVT_COMMAND_MENU_SELECTED, &MainWindow::on_child_added_new_record, this, CLOSE_TO_WINDOW);
     
     // making a new menu with name file
     auto file = new wxMenu();
@@ -197,7 +197,7 @@ void MainWindow::on_show_lessons(wxCommandEvent& event)
 }
 
 
-void MainWindow::on_child_exited(wxCommandEvent& event)
+void MainWindow::on_child_added_new_record(wxCommandEvent& event)
 {
     
     list_box->Clear();
@@ -206,9 +206,10 @@ void MainWindow::on_child_exited(wxCommandEvent& event)
         list_box->Append(DB_Manager::instance()->retrieve_results()[i].name);
     }
     
+    list_box->SetSelection(list_box->GetCount()-1);
 }
 
-void MainWindow::on_remove_selected_button_clicked(wxCommandEvent& event)
+void MainWindow::on_remove_selected_button_clicked(wxCommandEvent& event) 
 {
     DB_Manager::instance()->remove_record(list_box->GetStringSelection());
 
@@ -217,6 +218,8 @@ void MainWindow::on_remove_selected_button_clicked(wxCommandEvent& event)
     {
         list_box->Append(DB_Manager::instance()->retrieve_results()[i].name);
     }
+
+    list_box->SetSelection(list_box->GetCount()-1);
 
 }
 
