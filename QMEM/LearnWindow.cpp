@@ -40,10 +40,9 @@ LearnWindow::LearnWindow(wxWindow *parent, const wxString &title, const wxString
         "",
         wxDefaultPosition,
         wxSize(350, 300),
-        wxTE_MULTILINE | wxTE_RICH2| wxALIGN_LEFT);
+        wxTE_MULTILINE | wxTE_RICH2|wxALIGN_RIGHT);
 
     second_text_->Bind(wxEVT_TEXT, &LearnWindow::on_text_changed, this);
-	second_text_->GetStyle(0, orig_attr_);
 	//secondText->SetEditable(false);
 	//second_text_->Show(false);
     second_text_->SetFocus();
@@ -72,8 +71,8 @@ LearnWindow::LearnWindow(wxWindow *parent, const wxString &title, const wxString
     auto align_left_button = new wxButton(this, ALIGN_LEFT_BUTTON, "align left");
     auto align_right_button = new wxButton(this, ALIGN_RIGHT_BUTTON, "align right");
     
-    align_right_button->Bind(wxEVT_BUTTON, &LearnWindow::on_align_right_button_clicked, this);
-    align_left_button->Bind(wxEVT_BUTTON, &LearnWindow::on_align_left_button_clicked, this);
+    align_right_button->Bind(wxEVT_BUTTON, &LearnWindow::on_align_right_button_clicked, this, ALIGN_RIGHT_BUTTON);
+    align_left_button->Bind(wxEVT_BUTTON, &LearnWindow::on_align_left_button_clicked, this, ALIGN_LEFT_BUTTON);
 	cancelButton->Bind(wxEVT_BUTTON, &LearnWindow::on_cancel_button_clicked, this);
     
 	control_sizer->AddSpacer(10);
@@ -128,7 +127,6 @@ void LearnWindow::on_cancel_button_clicked(wxCommandEvent& event)
 void LearnWindow::on_text_changed(wxCommandEvent& event)
 {
         auto pos2 = second_text_->GetLastPosition();
-		result_text_->SetLabelText(wxString::Format("%ld\n", pos2));
 
 		auto txt01 = first_text_->GetValue();
 		auto txt02 = second_text_->GetValue();
@@ -136,6 +134,8 @@ void LearnWindow::on_text_changed(wxCommandEvent& event)
 		auto lengthOftxt01 = first_text_->GetValue().length();
 		auto lengthOftxt02 = second_text_->GetValue().length();
 
+        
+        second_text_->GetStyle(0, orig_attr_);
 
 		if (pos2 == 0) second_text_->SetStyle(0, 100, orig_attr_);
 		if (pos2 != 0 && (txt01[pos2-1] != txt02[pos2-1]))
@@ -158,11 +158,11 @@ void LearnWindow::on_text_changed(wxCommandEvent& event)
 
 void LearnWindow::on_align_left_button_clicked(wxCommandEvent& event)
 {
-    second_text_->SetWindowStyleFlag(GetWindowStyleFlag() | wxTE_LEFT);
+    second_text_->SetWindowStyleFlag(wxTE_MULTILINE | wxTE_RICH2| wxTE_LEFT);
 }
 
 void LearnWindow::on_align_right_button_clicked(wxCommandEvent& event)
 {
-    second_text_->SetWindowStyleFlag(GetWindowStyleFlag() | wxTE_RIGHT);
+    second_text_->SetWindowStyleFlag(wxTE_MULTILINE | wxTE_RICH2| wxTE_RIGHT);
 }
 

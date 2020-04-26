@@ -2,6 +2,7 @@
 #include "wx/wx.h"
 #include "DB_Manager.h"
 
+
 class TextEntryDialog :
 	public wxDialog
 {
