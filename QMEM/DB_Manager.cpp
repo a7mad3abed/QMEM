@@ -48,6 +48,22 @@ int DB_Manager::add_record(const char *name, const char *address) const
     return rc;
 }
 
+int DB_Manager::remove_record(const char* name)
+{
+    const char* zSql = "DELETE FROM Learn_Text WHERE name=?";
+    sqlite3_stmt* stmt;
+    int rc = 0;
+	
+    sqlite3_prepare_v2(db, zSql, -1, &stmt, 0);
+    sqlite3_bind_text(stmt, 1, name, -1, nullptr);
+
+    rc = sqlite3_step(stmt);
+    sqlite3_finalize(stmt);
+    return rc;
+}
+
+
+
 
 int DB_Manager::clean_db() const
 {

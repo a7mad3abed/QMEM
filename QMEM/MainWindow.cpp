@@ -8,7 +8,7 @@ enum {
     LEARN, 
     SHOW,
     BUTTON_LIST_OPEN,
-	CHILD_EXITED
+	REMOVE_RECORD
 };
 
 #define CLOSE_TO_WINDOW 66
@@ -119,9 +119,10 @@ MainWindow::MainWindow(const wxString& title)
         list_box->Append(DB_Manager::instance()->retrieve_results()[i].name);
     }
 
-    auto open_selected_button = new wxButton(this, BUTTON_LIST_OPEN, "open");
+    auto remove_selected_button = new wxButton(this, REMOVE_RECORD, "remove");
 
     Bind(wxEVT_LISTBOX_DCLICK, &MainWindow::on_open_selected_button_clicked, this, BUTTON_LIST_OPEN);
+    Bind(wxEVT_BUTTON, &MainWindow::on_remove_selected_button_clicked, this, REMOVE_RECORD);
 
     auto rc_text01 = new wxStaticText(
             this,
@@ -139,7 +140,7 @@ MainWindow::MainWindow(const wxString& title)
             wxALIGN_CENTER);
 
     right_core_sizer->Add(list_box,1, wxEXPAND|wxALL, 10);
-    right_core_sizer->Add(open_selected_button,0, wxALL, 10);
+    right_core_sizer->Add(remove_selected_button,0, wxALL, 10);
     right_core_sizer->Add(rc_text02,1, wxEXPAND|wxALL, 10);
     auto leftCoreSizer = new wxBoxSizer(wxVERTICAL);
     auto lc_text = new wxStaticText(
@@ -207,4 +208,15 @@ void MainWindow::on_child_exited(wxCommandEvent& event)
     
 }
 
+void MainWindow::on_remove_selected_button_clicked(wxCommandEvent& event)
+{
+    DB_Manager::instance()->remove_record(list_box->GetStringSelection());
+
+    list_box->Clear();
+    for (int i = 0; i < DB_Manager::instance()->retrieve_results().size(); i++)
+    {
+        list_box->Append(DB_Manager::instance()->retrieve_results()[i].name);
+    }
+
+}
 

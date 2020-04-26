@@ -19,7 +19,6 @@ LearnWindow::LearnWindow(wxWindow *parent, const wxString &title, const wxString
         wxDEFAULT_FRAME_STYLE
 	)
 {
-	wxWindowBase::SetBackgroundColour(wxColour(187,25,25));
     auto* top_sizer = new wxBoxSizer(wxVERTICAL);
     auto* text_sizer = new wxBoxSizer(wxHORIZONTAL);
 	auto* control_sizer = new wxBoxSizer(wxHORIZONTAL);

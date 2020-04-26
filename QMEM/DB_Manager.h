@@ -12,6 +12,7 @@ class DB_Manager
         int clean_db() const;
         int add_record(const char *name, const char* address) const;
         int init_table() const;
+        int remove_record(const char* name);
         std::vector<Result> retrieve_results() const;
         static DB_Manager* instance();
 
