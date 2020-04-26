@@ -4,10 +4,12 @@
 #include <sstream>
 
 enum {
-    SAVE_BUTTON = 33,
+    SAVE_BUTTON = 77,
     ALIGN_RIGHT_BUTTON,
     ALIGN_LEFT_BUTTON
 };
+
+#define CLOSE_TO_WINDOW 66
 
 TextEntryDialog::TextEntryDialog(wxWindow *parent, const wxString &title, const wxSize &size)
     :wxDialog(
@@ -19,6 +21,7 @@ TextEntryDialog::TextEntryDialog(wxWindow *parent, const wxString &title, const 
 {
 	if (!DB_Manager::instance()->init_db()) wxMessageBox("error initializing the datebase");
 
+    Bind(wxEVT_CLOSE_WINDOW, &TextEntryDialog::OnCloseWindow, this);
 
     
     auto baseSizer = new wxBoxSizer(wxVERTICAL);
@@ -119,7 +122,7 @@ void TextEntryDialog::on_save_button_clicked(wxCommandEvent& event)
             textEntry->SaveFile(wxString::Format("./saved mems/%s.txt", fileName), wxTEXT_TYPE_ANY)))
     {
 	    wxMessageBox("saved successfully!");
-	    Destroy();
+        Close();
     }
 
     DB_Manager::instance()->add_record(fileName, wxString::Format("./saved mems/%s.txt", fileName));
@@ -141,4 +144,13 @@ void TextEntryDialog::on_align_right_button_clicked(wxCommandEvent& event)
 {
     textEntry->SetWindowStyleFlag(wxTE_MULTILINE | wxTE_RICH2 | wxTE_RIGHT);
     textEntry->SetFocus();
+}
+
+void TextEntryDialog::OnCloseWindow(wxCloseEvent& event)
+{
+    wxWindow *prnt = GetParent();
+    wxEvent *evt = new wxCloseEvent(wxEVT_CLOSE_WINDOW, CLOSE_TO_WINDOW);
+    //wxPostEvent(prnt, evt);
+    wxQueueEvent(prnt, evt);
+    Destroy();
 }

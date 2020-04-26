@@ -12,6 +12,8 @@ enum {
 	CHILD_EXITED
 };
 
+#define CLOSE_TO_WINDOW 66
+
 MainWindow::MainWindow(const wxString& title)
     :wxFrame(
             nullptr,
@@ -23,11 +25,12 @@ MainWindow::MainWindow(const wxString& title)
     ) 
 
 {
-    Bind(wxEVT_SET_FOCUS, &MainWindow::on_child_exited, this);
     wxIcon mainIcon;
     mainIcon.LoadFile("Qmem.ico", wxBITMAP_TYPE_ICO);
     this->SetIcon(mainIcon);
     CenterOnScreen();
+    
+    Bind(wxEVT_CLOSE_WINDOW, &MainWindow::on_child_exited, this, CLOSE_TO_WINDOW);
     
     // making a new menu with name file
     auto file = new wxMenu();
@@ -194,10 +197,15 @@ void MainWindow::on_show_lessons(wxCommandEvent& event)
 }
 
 
-void MainWindow::on_child_exited(wxFocusEvent& event)
+void MainWindow::on_child_exited(wxCloseEvent& event)
 {
-    list_box->Show(false);
-	
+    
+    list_box->Clear();
+    for (int i = 0; i < DB_Manager::instance()->retrieve_results().size(); i++)
+    {
+        list_box->Append(DB_Manager::instance()->retrieve_results()[i].name);
+    }
+    
 }
 
 

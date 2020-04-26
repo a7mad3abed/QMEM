@@ -12,6 +12,7 @@ public:
     void on_cancel_button_clicked(wxCommandEvent& event);
     void on_align_left_button_clicked(wxCommandEvent& event);
     void on_align_right_button_clicked(wxCommandEvent& event);
+    void OnCloseWindow(wxCloseEvent& event);
 private:
     wxTextCtrl* textEntry;
 
