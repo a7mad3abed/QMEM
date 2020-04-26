@@ -6,6 +6,10 @@
 
 #IncludeRegexTransform: 
 
+/home/ibrahiah/QMEM/QMEM/DB_Manager.cpp
+DB_Manager.h
+/home/ibrahiah/QMEM/QMEM/DB_Manager.h
+
 /home/ibrahiah/QMEM/QMEM/DB_Manager.h
 sqlite3.h
 /home/ibrahiah/QMEM/QMEM/sqlite3.h
@@ -13,6 +17,12 @@ iostream
 -
 vector
 -
+
+/home/ibrahiah/QMEM/QMEM/LearnWindow.cpp
+LearnWindow.h
+/home/ibrahiah/QMEM/QMEM/LearnWindow.h
+wx/tglbtn.h
+/home/ibrahiah/QMEM/QMEM/wx/tglbtn.h
 
 /home/ibrahiah/QMEM/QMEM/LearnWindow.h
 wx/wx.h
@@ -27,8 +37,6 @@ LearnWindow.h
 /home/ibrahiah/QMEM/QMEM/LearnWindow.h
 Results_Dlg.h
 /home/ibrahiah/QMEM/QMEM/Results_Dlg.h
-wx/splitter.h
-/home/ibrahiah/QMEM/QMEM/wx/splitter.h
 
 /home/ibrahiah/QMEM/QMEM/MainWindow.h
 wx/wx.h
@@ -36,11 +44,21 @@ wx/wx.h
 DB_Manager.h
 /home/ibrahiah/QMEM/QMEM/DB_Manager.h
 
+/home/ibrahiah/QMEM/QMEM/Results_Dlg.cpp
+Results_Dlg.h
+/home/ibrahiah/QMEM/QMEM/Results_Dlg.h
+sstream
+-
+
 /home/ibrahiah/QMEM/QMEM/Results_Dlg.h
 wx/wx.h
 /home/ibrahiah/QMEM/QMEM/wx/wx.h
 DB_Manager.h
 /home/ibrahiah/QMEM/QMEM/DB_Manager.h
+
+/home/ibrahiah/QMEM/QMEM/main.cpp
+MainWindow.h
+/home/ibrahiah/QMEM/QMEM/MainWindow.h
 
 /home/ibrahiah/QMEM/QMEM/sqlite3.h
 stdarg.h
@@ -1132,12 +1150,6 @@ wx/bitmap.h
 
 /usr/include/wx-3.0/wx/generic/scrolwin.h
 
-/usr/include/wx-3.0/wx/generic/splitter.h
-wx/window.h
-/usr/include/wx-3.0/wx/generic/wx/window.h
-wx/containr.h
-/usr/include/wx-3.0/wx/generic/wx/containr.h
-
 /usr/include/wx-3.0/wx/generic/statusbr.h
 wx/defs.h
 /usr/include/wx-3.0/wx/generic/wx/defs.h
@@ -1275,6 +1287,10 @@ wx/icon.h
 /usr/include/wx-3.0/wx/gtk/textctrl.h
 
 /usr/include/wx-3.0/wx/gtk/textentry.h
+
+/usr/include/wx-3.0/wx/gtk/tglbtn.h
+wx/bitmap.h
+/usr/include/wx-3.0/wx/gtk/wx/bitmap.h
 
 /usr/include/wx-3.0/wx/gtk/toolbar.h
 
@@ -2024,12 +2040,6 @@ wx/cocoa/slider.h
 wx/os2/slider.h
 /usr/include/wx-3.0/wx/wx/os2/slider.h
 
-/usr/include/wx-3.0/wx/splitter.h
-wx/event.h
-/usr/include/wx-3.0/wx/wx/event.h
-wx/generic/splitter.h
-/usr/include/wx-3.0/wx/wx/generic/splitter.h
-
 /usr/include/wx-3.0/wx/statbmp.h
 wx/defs.h
 /usr/include/wx-3.0/wx/wx/defs.h
@@ -2321,6 +2331,28 @@ wx/motif/textentry.h
 /usr/include/wx-3.0/wx/wx/motif/textentry.h
 wx/os2/textentry.h
 /usr/include/wx-3.0/wx/wx/os2/textentry.h
+
+/usr/include/wx-3.0/wx/tglbtn.h
+wx/defs.h
+/usr/include/wx-3.0/wx/wx/defs.h
+wx/event.h
+/usr/include/wx-3.0/wx/wx/event.h
+wx/anybutton.h
+/usr/include/wx-3.0/wx/wx/anybutton.h
+wx/univ/tglbtn.h
+/usr/include/wx-3.0/wx/wx/univ/tglbtn.h
+wx/msw/tglbtn.h
+/usr/include/wx-3.0/wx/wx/msw/tglbtn.h
+wx/gtk/tglbtn.h
+/usr/include/wx-3.0/wx/wx/gtk/tglbtn.h
+wx/gtk1/tglbtn.h
+/usr/include/wx-3.0/wx/wx/gtk1/tglbtn.h
+wx/motif/tglbtn.h
+/usr/include/wx-3.0/wx/wx/motif/tglbtn.h
+wx/osx/tglbtn.h
+/usr/include/wx-3.0/wx/wx/osx/tglbtn.h
+wx/os2/tglbtn.h
+/usr/include/wx-3.0/wx/wx/os2/tglbtn.h
 
 /usr/include/wx-3.0/wx/thread.h
 wx/defs.h

@@ -11,6 +11,8 @@ public:
 	void on_hide_left_button_clicked(wxCommandEvent &event);
 	void on_cancel_button_clicked(wxCommandEvent& event);
 	void on_text_changed(wxCommandEvent& event);
+    void on_align_left_button_clicked(wxCommandEvent& event);
+    void on_align_right_button_clicked(wxCommandEvent& event);
 private:
 	wxTextCtrl* first_text_{};
 	wxTextCtrl* second_text_{};

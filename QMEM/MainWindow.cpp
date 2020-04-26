@@ -2,7 +2,6 @@
 #include "textEntryDialog.h"
 #include "LearnWindow.h"
 #include "Results_Dlg.h"
-#include "wx/splitter.h"
 
 enum {
     NEWTEXT = 45,

@@ -3,6 +3,8 @@
 
 enum
 {
+    ALIGN_LEFT_BUTTON,
+    ALIGN_RIGHT_BUTTON,
 	HIDE_LEFT
 };
 
@@ -38,22 +40,14 @@ LearnWindow::LearnWindow(wxWindow *parent, const wxString &title, const wxString
         "",
         wxDefaultPosition,
         wxSize(350, 300),
-        wxTE_MULTILINE | wxTE_RICH2| wxALIGN_RIGHT);
+        wxTE_MULTILINE | wxTE_RICH2| wxALIGN_LEFT);
 
     second_text_->Bind(wxEVT_TEXT, &LearnWindow::on_text_changed, this);
 	second_text_->GetStyle(0, orig_attr_);
 	//secondText->SetEditable(false);
 	//second_text_->Show(false);
+    second_text_->SetFocus();
 
-
-	result_text_ = new wxStaticText(
-        this,
-        wxID_ANY,
-        "Results\n",
-        wxDefaultPosition,
-        wxSize(400, 20),
-        wxALIGN_RIGHT
-        );
 
 	text_sizer->Add(first_text_,
         0,            // make vertically stretchable
@@ -73,8 +67,15 @@ LearnWindow::LearnWindow(wxWindow *parent, const wxString &title, const wxString
 	hide_left = new wxToggleButton(this, HIDE_LEFT, "Hide left");
     hide_left->SetValue(false);
 	Bind(wxEVT_TOGGLEBUTTON, &LearnWindow::on_hide_left_button_clicked, this, HIDE_LEFT);
+    
 	auto cancelButton = new wxButton(this, wxID_CANCEL, "Cancel");
+    auto align_left_button = new wxButton(this, ALIGN_LEFT_BUTTON, "align left");
+    auto align_right_button = new wxButton(this, ALIGN_RIGHT_BUTTON, "align right");
+    
+    align_right_button->Bind(wxEVT_BUTTON, &LearnWindow::on_align_right_button_clicked, this);
+    align_left_button->Bind(wxEVT_BUTTON, &LearnWindow::on_align_left_button_clicked, this);
 	cancelButton->Bind(wxEVT_BUTTON, &LearnWindow::on_cancel_button_clicked, this);
+    
 	control_sizer->AddSpacer(10);
 	control_sizer->Add(hide_left, 0, wxALL, 10);
     control_sizer->AddSpacer(5);
@@ -85,7 +86,8 @@ LearnWindow::LearnWindow(wxWindow *parent, const wxString &title, const wxString
 		wxALL,
 		10);
 
-	control_sizer->Add(result_text_, 0, wxALL, 10);
+	control_sizer->Add(align_left_button, 0, wxALL, 10);
+	control_sizer->Add(align_right_button, 0, wxALL, 10);
 
 	top_sizer->Add(control_sizer, 0, wxALL | wxEXPAND);
 	SetSizerAndFit(top_sizer);
@@ -152,5 +154,15 @@ void LearnWindow::on_text_changed(wxCommandEvent& event)
             }
 		}
 
+}
+
+void LearnWindow::on_align_left_button_clicked(wxCommandEvent& event)
+{
+    second_text_->SetWindowStyleFlag(GetWindowStyleFlag() | wxTE_LEFT);
+}
+
+void LearnWindow::on_align_right_button_clicked(wxCommandEvent& event)
+{
+    second_text_->SetWindowStyleFlag(GetWindowStyleFlag() | wxTE_RIGHT);
 }
 
