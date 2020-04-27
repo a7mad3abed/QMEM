@@ -133,24 +133,58 @@ void LearnWindow::on_text_changed(wxCommandEvent& event)
 
 		auto lengthOftxt01 = first_text_->GetValue().length();
 		auto lengthOftxt02 = second_text_->GetValue().length();
+        
+        if(lengthOftxt02 > 0)
+        {
+                    bool typo = false;
+                    for (int i = 0 ; i < lengthOftxt02 ; i++)
+                    {
+                        if (txt01[i] != txt02[i]) {
+                            typo = true;
+                            second_text_->SetStyle(i, i, wxTextAttr(*wxRED));
+                        }
+                    }
+                   if(!typo) 
+                   {
+                       second_text_->SetStyle(0, lengthOftxt02, wxTextAttr(*wxBLACK));
+                   }
+                }
 
-
-		if (pos2 == 0) second_text_->SetStyle(0, 100, wxTextAttr(*wxBLACK));
-		if (pos2 != 0 && (txt01[pos2-1] != txt02[pos2-1]))
+		if (lengthOftxt02 == 0) second_text_->SetStyle(0, 0, wxTextAttr(*wxBLACK));
+		if (lengthOftxt02 > lengthOftxt01) second_text_->SetStyle(lengthOftxt02-1, lengthOftxt02, wxTextAttr(*wxRED));
+		if (lengthOftxt02 != 0 && lengthOftxt01 >= lengthOftxt02)
 		{
-            ::wxBell();
-			wxTextAttr attr;
-            second_text_->GetStyle(0, attr);
-            
-			attr.SetTextColour(*wxRED);
-			second_text_->SetStyle(pos2-1, pos2, wxTextAttr(*wxRED));
+            if(txt01[lengthOftxt02-1] != txt02[lengthOftxt02-1])
+            {
+                ::wxBell();
+                wxTextAttr attr;
+                second_text_->GetStyle(0, attr);
+                
+                attr.SetTextColour(*wxRED);
+                second_text_->SetStyle(lengthOftxt02-1, lengthOftxt02, wxTextAttr(*wxRED));
+            }
 		}
-		if (pos2 != 0 && (txt01[pos2 - 1] == txt02[pos2 - 1]))
+		if (lengthOftxt02 != 0 && lengthOftxt01 >= lengthOftxt02)
 		{
-			second_text_->SetStyle(pos2, pos2+1, wxTextAttr(*wxBLACK) );
-            if(lengthOftxt01 == lengthOftxt02) {
-                wxMessageBox("Congratulation!");
-                Destroy();
+            if(txt01[lengthOftxt02 - 1] == txt02[lengthOftxt02 - 1])
+            {
+                second_text_->SetStyle(lengthOftxt02, lengthOftxt02, wxTextAttr(*wxBLACK) );
+                if(lengthOftxt01 == lengthOftxt02) {
+                    bool typo = false;
+                    for (int i = 0 ; i < lengthOftxt02 ; i++)
+                    {
+                        if (txt01[i] != txt02[i]) {
+                            typo = true;
+                            second_text_->SetStyle(i, i, wxTextAttr(*wxRED));
+                        }
+                    }
+                   if(!typo) 
+                   {
+                       second_text_->SetStyle(0, lengthOftxt02, wxTextAttr(*wxBLACK));
+                        wxMessageBox("Congratulation!");
+                        Destroy();
+                   }
+                }
             }
 		}
 
