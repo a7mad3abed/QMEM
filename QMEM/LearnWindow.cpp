@@ -1,5 +1,7 @@
 #include "LearnWindow.h"
 #include "wx/tglbtn.h"
+#include "wx/stc/stc.h"
+#include <iostream>
 
 enum
 {
@@ -16,7 +18,7 @@ LearnWindow::LearnWindow(wxWindow *parent, const wxString &title, const wxString
         title,
         wxDefaultPosition,
         wxDefaultSize,
-        wxDEFAULT_FRAME_STYLE
+        wxDEFAULT_FRAME_STYLE|wxWANTS_CHARS
 	)
 {
     auto* top_sizer = new wxBoxSizer(wxVERTICAL);
@@ -29,20 +31,20 @@ LearnWindow::LearnWindow(wxWindow *parent, const wxString &title, const wxString
         "click open to load a learn file",
         wxDefaultPosition,
         wxSize(350, 300),
-        wxTE_MULTILINE|wxTE_RICH2|wxTE_READONLY|wxALIGN_LEFT);
+        wxTE_MULTILINE|wxTE_RICH2|wxTE_READONLY);
     first_text_->LoadFile(address, wxTEXT_TYPE_ANY);
 
 	//firstText->LoadFile("text01.txt", wxTEXT_TYPE_ANY);
-	second_text_ = new wxTextCtrl(
+	second_text_ = new wxStyledTextCtrl(
         this,
         -1,
-        "",
+        //"",
         wxDefaultPosition,
         wxSize(350, 300),
-        wxTE_MULTILINE | wxTE_RICH2|wxALIGN_RIGHT);
+        wxTE_MULTILINE | wxTE_RICH2);
 
     second_text_->Bind(wxEVT_TEXT, &LearnWindow::on_text_changed, this);
-	second_text_->GetStyle(0, orig_attr_);
+	//second_text_->GetStyle(0, orig_attr_);
 	//secondText->SetEditable(false);
 	//second_text_->Show(false);
     second_text_->SetFocus();
@@ -133,26 +135,40 @@ void LearnWindow::on_text_changed(wxCommandEvent& event)
 
 		auto lengthOftxt01 = first_text_->GetValue().length();
 		auto lengthOftxt02 = second_text_->GetValue().length();
-        
-        if(lengthOftxt02 > 0)
+
+        if (lengthOftxt02 > 0 && (lengthOftxt01 >= lengthOftxt02))
         {
-                    bool typo = false;
+            if (txt01[lengthOftxt02 - 1] != txt02[lengthOftxt02 - 1])
+            {
+                second_text_->SetEditable(false);
+                Bind(wxEVT_CHAR_HOOK, &LearnWindow::on_bs_button_clicked, this);
+            }
+
+        }
+
+
+        /*
+        if(lengthOftxt02 > lengthOftxt01) second_text_->SetStyle(pos2-1, pos2, wxTextAttr(*wxRED));
+        
+        if(lengthOftxt02 > 0 && (lengthOftxt01 >= lengthOftxt02))
+        {
                     for (int i = 0 ; i < lengthOftxt02 ; i++)
                     {
                         if (txt01[i] != txt02[i]) {
-                            typo = true;
-                            second_text_->SetStyle(i, i, wxTextAttr(*wxRED));
+                            second_text_->SetStyle(pos2-1, pos2, wxTextAttr(*wxRED));
+                            //wxMessageBox(txt02[i]);
+                            ::wxBell();
+                        }
+                        else {
+                            second_text_->SetStyle(pos2-1, pos2, wxTextAttr(*wxBLACK));
                         }
                     }
-                   if(!typo) 
-                   {
-                       second_text_->SetStyle(0, lengthOftxt02, wxTextAttr(*wxBLACK));
-                   }
-                }
+        }
+
 
 		if (lengthOftxt02 == 0) second_text_->SetStyle(0, 0, wxTextAttr(*wxBLACK));
-		if (lengthOftxt02 > lengthOftxt01) second_text_->SetStyle(lengthOftxt02-1, lengthOftxt02, wxTextAttr(*wxRED));
-		if (lengthOftxt02 != 0 && lengthOftxt01 >= lengthOftxt02)
+		//if (lengthOftxt02 > lengthOftxt01) second_text_->SetStyle(lengthOftxt02-1, lengthOftxt02, wxTextAttr(*wxRED));
+		/*if (lengthOftxt02 != 0 && lengthOftxt01 >= lengthOftxt02)
 		{
             if(txt01[lengthOftxt02-1] != txt02[lengthOftxt02-1])
             {
@@ -163,30 +179,33 @@ void LearnWindow::on_text_changed(wxCommandEvent& event)
                 attr.SetTextColour(*wxRED);
                 second_text_->SetStyle(lengthOftxt02-1, lengthOftxt02, wxTextAttr(*wxRED));
             }
-		}
-		if (lengthOftxt02 != 0 && lengthOftxt01 >= lengthOftxt02)
+		}*/
+        
+
+		if ((lengthOftxt02 > 0) && (lengthOftxt01 >= lengthOftxt02))
 		{
             if(txt01[lengthOftxt02 - 1] == txt02[lengthOftxt02 - 1])
             {
-                second_text_->SetStyle(lengthOftxt02, lengthOftxt02, wxTextAttr(*wxBLACK) );
+                //second_text_->SetStyle(lengthOftxt02, lengthOftxt02, wxTextAttr(*wxBLACK) );
                 if(lengthOftxt01 == lengthOftxt02) {
                     bool typo = false;
                     for (int i = 0 ; i < lengthOftxt02 ; i++)
                     {
                         if (txt01[i] != txt02[i]) {
                             typo = true;
-                            second_text_->SetStyle(i, i, wxTextAttr(*wxRED));
+                            //second_text_->SetStyle(i, i, wxTextAttr(*wxRED));
                         }
                     }
                    if(!typo) 
                    {
-                       second_text_->SetStyle(0, lengthOftxt02, wxTextAttr(*wxBLACK));
+                       //second_text_->SetStyle(0, lengthOftxt02, wxTextAttr(*wxBLACK));
                         wxMessageBox("Congratulation!");
                         Destroy();
                    }
                 }
             }
 		}
+                         //   wxMessageBox(wxString::Format("%ld", pos2));
 
 }
 
@@ -201,3 +220,14 @@ void LearnWindow::on_align_right_button_clicked(wxCommandEvent& event)
     second_text_->SetWindowStyleFlag(wxTE_MULTILINE | wxTE_RICH2| wxTE_RIGHT);
 }
 
+void LearnWindow::on_bs_button_clicked(wxKeyEvent& event)
+{
+    if (event.GetKeyCode() == WXK_BACK)
+    {
+        Unbind(wxEVT_CHAR_HOOK, &LearnWindow::on_bs_button_clicked, this);
+        second_text_->SetEditable(true);
+        second_text_->Remove(second_text_->GetLastPosition() - 1,second_text_->GetLastPosition());
+        second_text_->SetInsertionPointEnd();
+    }
+
+}
