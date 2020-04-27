@@ -1,9 +1,9 @@
 #pragma once
-#include <wx/stc/stc.h>
 
 #include "wx/wx.h"
 
 class wxToggleButton;
+class wxRichTextCtrl;
 
 class LearnWindow : public wxFrame
 {
@@ -18,7 +18,7 @@ public:
     void on_bs_button_clicked(wxKeyEvent& event);
 private:
 	wxTextCtrl* first_text_{};
-    wxStyledTextCtrl* second_text_{};
+    wxRichTextCtrl* second_text_{};
     wxTextAttr orig_attr_{};
 	wxToggleButton* hide_left;
 

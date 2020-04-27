@@ -1,6 +1,6 @@
 #include "LearnWindow.h"
 #include "wx/tglbtn.h"
-#include "wx/stc/stc.h"
+#include "wx/richtext/richtextctrl.h"
 #include <iostream>
 
 enum
@@ -35,10 +35,10 @@ LearnWindow::LearnWindow(wxWindow *parent, const wxString &title, const wxString
     first_text_->LoadFile(address, wxTEXT_TYPE_ANY);
 
 	//firstText->LoadFile("text01.txt", wxTEXT_TYPE_ANY);
-	second_text_ = new wxStyledTextCtrl(
+	second_text_ = new wxRichTextCtrl(
         this,
         -1,
-        //"",
+        "",
         wxDefaultPosition,
         wxSize(350, 300),
         wxTE_MULTILINE | wxTE_RICH2);
@@ -226,8 +226,8 @@ void LearnWindow::on_bs_button_clicked(wxKeyEvent& event)
     {
         Unbind(wxEVT_CHAR_HOOK, &LearnWindow::on_bs_button_clicked, this);
         second_text_->SetEditable(true);
+        
         second_text_->Remove(second_text_->GetLastPosition() - 1,second_text_->GetLastPosition());
-        second_text_->SetInsertionPointEnd();
     }
 
 }
