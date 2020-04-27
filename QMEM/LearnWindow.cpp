@@ -65,7 +65,7 @@ LearnWindow::LearnWindow(wxWindow *parent, const wxString &title, const wxString
 
 	top_sizer->Add(text_sizer, 1, wxALL | wxEXPAND);
 
-	hide_left = new wxToggleButton(this, HIDE_LEFT, "Hide left");
+	hide_left = new wxToggleButton(this, HIDE_LEFT, "hide");
     hide_left->SetValue(false);
 	Bind(wxEVT_TOGGLEBUTTON, &LearnWindow::on_hide_left_button_clicked, this, HIDE_LEFT);
     
@@ -101,8 +101,16 @@ LearnWindow::~LearnWindow()
 
 void LearnWindow::on_hide_left_button_clicked(wxCommandEvent& event)
 {
-    if (hide_left->GetValue() == true) first_text_->Show(false);
-    if (hide_left->GetValue() == false) first_text_->Show(true);
+    if (hide_left->GetValue() == true)
+    {
+        first_text_->Show(false);
+        hide_left->SetLabel("show");
+    }
+    if (hide_left->GetValue() == false)
+    {
+        first_text_->Show(true);
+        hide_left->SetLabel("hide");
+    }
 
     /*
 	wxString str;
