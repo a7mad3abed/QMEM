@@ -1,1 +1,0 @@
-/usr/bin/c++   -pthread   CMakeFiles/QMEM.dir/main.cpp.o CMakeFiles/QMEM.dir/MainWindow.cpp.o CMakeFiles/QMEM.dir/LearnWindow.cpp.o CMakeFiles/QMEM.dir/textEntryDialog.cpp.o CMakeFiles/QMEM.dir/Results_Dlg.cpp.o CMakeFiles/QMEM.dir/DB_Manager.cpp.o  -o QMEM -L/usr/lib/x86_64-linux-gnu -pthread -lwx_gtk2u_core-3.0 -lwx_baseu-3.0 -lsqlite3 
