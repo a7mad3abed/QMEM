@@ -51,15 +51,15 @@ LearnWindow::LearnWindow(wxWindow *parent, const wxString &title, const wxString
 
 
 	text_sizer->Add(first_text_,
-        0,            // make vertically stretchable
-        wxALL|
+        1,            // make vertically stretchable
+        wxALL|wxEXPAND|
         wxRESERVE_SPACE_EVEN_IF_HIDDEN,
         10 );         // set border width to 10)
 
 
 	text_sizer->Add(second_text_,
-        0,            // make vertically stretchableM
-        wxALL|        //   and make border all around
+        1,            // make vertically stretchableM
+        wxALL| wxEXPAND|       //   and make border all around
         wxRESERVE_SPACE_EVEN_IF_HIDDEN,        //   and make border all around
         10 );         // set border width to 10)
 
@@ -221,11 +221,13 @@ void LearnWindow::on_align_left_button_clicked(wxCommandEvent& event)
 {
     
     second_text_->SetWindowStyleFlag(wxTE_MULTILINE | wxTE_RICH2| wxTE_LEFT);
+    second_text_->SetFocus();
 }
 
 void LearnWindow::on_align_right_button_clicked(wxCommandEvent& event)
 {
     second_text_->SetWindowStyleFlag(wxTE_MULTILINE | wxTE_RICH2| wxTE_RIGHT);
+    second_text_->SetFocus();
 }
 
 void LearnWindow::on_bs_button_clicked(wxKeyEvent& event)

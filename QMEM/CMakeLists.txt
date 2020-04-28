@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 project(QMEM)
 
-find_package(wxWidgets REQUIRED COMPONENTS core base)
+find_package(wxWidgets REQUIRED COMPONENTS core base richtext)
 
 include(${wxWidgets_USE_FILE})
 
