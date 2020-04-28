@@ -120,11 +120,15 @@ void TextEntryDialog::on_save_button_clicked(wxCommandEvent& event)
         (!(fileName = dlg.GetValue()).empty() && 
             textEntry->SaveFile(wxString::Format("./saved mems/%s.txt", fileName), wxTEXT_TYPE_ANY)))
     {
-	    wxMessageBox("saved successfully!");
-        Close();
+        if((DB_Manager::instance()->add_record(fileName,
+                wxString::Format("./saved mems/%s.txt", fileName) )) == SQLITE_DONE) {
+            wxMessageBox("saved successfully!");
+            Close();
+        } else {
+            (wxMessageBox("name must be unique!"));
+        }
     }
 
-    DB_Manager::instance()->add_record(fileName, wxString::Format("./saved mems/%s.txt", fileName));
 
     wxWindow *prnt = GetParent();
     wxEvent *evt = new wxCloseEvent(wxEVT_COMMAND_MENU_SELECTED, CLOSE_TO_WINDOW);

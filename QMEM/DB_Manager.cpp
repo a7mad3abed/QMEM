@@ -27,7 +27,7 @@ int DB_Manager::init_table() const
 {
     int rc = 0;
     sqlite3_stmt* stmt;
-    const char* zSql = "CREATE TABLE if not exists Learn_Text ( id INTEGER PRIMARY KEY, name TEXT, address TEXT );";
+    const char* zSql = "CREATE TABLE if not exists Learn_Text ( id INTEGER PRIMARY KEY, name TEXT UNIQUE NOT NULL, address TEXT );";
     sqlite3_prepare_v2(db, zSql, -1, &stmt, 0);
     rc = sqlite3_step(stmt);
     sqlite3_finalize(stmt);
