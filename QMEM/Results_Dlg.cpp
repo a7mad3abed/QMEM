@@ -9,7 +9,7 @@ Results_Dlg::Results_Dlg(wxWindow *parent, const wxString &title)
     results = DB_Manager::instance()->retrieve_results();
 
 	std::ostringstream oss;
-	auto result_show = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE);
+	auto result_show = new wxTextCtrl(this, wxID_ANY, "", wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE|wxTE_READONLY);
 
 	for (auto i = 0; i < results.size(); i++)
 	{
