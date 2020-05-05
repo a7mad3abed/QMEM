@@ -1,5 +1,6 @@
 #include "textEntryDialog.h"
 #include "wx/filename.h"
+#include "DB_Manager.h"
 #include <string>
 #include <sstream>
 
@@ -116,16 +117,16 @@ void TextEntryDialog::on_save_button_clicked(wxCommandEvent& event)
             wxGetTextFromUserPromptStr,
             "");
     dlg.SetTextValidator(wxFILTER_ALPHANUMERIC|wxFILTER_NONE|wxFILTER_EMPTY);
-    if (dlg.ShowModal() == wxID_OK && 
-        (!(fileName = dlg.GetValue()).empty() && 
-            textEntry->SaveFile(wxString::Format("./saved mems/%s.txt", fileName), wxTEXT_TYPE_ANY)))
+    if (dlg.ShowModal() == wxID_OK &&
+            !(fileName = dlg.GetValue()).empty() &&
+            textEntry->SaveFile(wxString::Format("./saved mems/%s.txt", fileName), wxTEXT_TYPE_ANY))
     {
-        if((DB_Manager::instance()->add_record(fileName,
-                wxString::Format("./saved mems/%s.txt", fileName) )) == SQLITE_DONE) {
+        if(DB_Manager::instance()->add_record(fileName,
+                                              wxString::Format("./saved mems/%s.txt", fileName)) == SQLITE_DONE) {
             wxMessageBox("saved successfully!");
             Close();
         } else {
-            (wxMessageBox("name must be unique!"));
+            wxMessageBox("name must be unique!");
         }
     }
 
@@ -144,13 +145,13 @@ void TextEntryDialog::on_cancel_button_clicked(wxCommandEvent& event)
 void TextEntryDialog::on_align_left_button_clicked(wxCommandEvent& event)
 {
     textEntry->SetWindowStyleFlag(wxTE_MULTILINE | wxTE_RICH2 | wxTE_LEFT);
-    textEntry->SetFocus();
+    wxStaticCast(textEntry, wxWindow)->SetFocus();
 }
 
 void TextEntryDialog::on_align_right_button_clicked(wxCommandEvent& event)
 {
     textEntry->SetWindowStyleFlag(wxTE_MULTILINE | wxTE_RICH2 | wxTE_RIGHT);
-    textEntry->SetFocus();
+    wxStaticCast(textEntry, wxWindow)->SetFocus();
 }
 
 

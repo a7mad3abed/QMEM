@@ -8,7 +8,9 @@ enum {
     LEARN, 
     SHOW,
     BUTTON_LIST_OPEN,
-	REMOVE_RECORD
+	REMOVE_RECORD,
+	WELCOME,
+	POPUP_TEST
 };
 
 #define CLOSE_TO_WINDOW 66
@@ -83,7 +85,7 @@ MainWindow::MainWindow(const wxString& title)
 
     auto welcomeText = new wxStaticText(
             this,
-            wxID_ANY,
+            WELCOME,
             "",
             wxDefaultPosition,
             wxSize(600, 50),
@@ -208,4 +210,5 @@ void MainWindow::on_remove_selected_button_clicked(wxCommandEvent& event)
     list_box->SetSelection(list_box->GetCount()-1);
 
 }
+
 

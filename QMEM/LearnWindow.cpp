@@ -21,6 +21,8 @@ LearnWindow::LearnWindow(wxWindow *parent, const wxString &title, const wxString
         wxDEFAULT_FRAME_STYLE|wxWANTS_CHARS
 	)
 {
+    CreateStatusBar(1);
+    SetStatusText("Welcome to Learn Module!");
     auto* top_sizer = new wxBoxSizer(wxVERTICAL);
     auto* text_sizer = new wxBoxSizer(wxHORIZONTAL);
 	auto* control_sizer = new wxBoxSizer(wxHORIZONTAL);
@@ -155,89 +157,61 @@ void LearnWindow::on_text_changed(wxCommandEvent& event)
         }
 
 
-        /*
-        if(lengthOftxt02 > lengthOftxt01) second_text_->SetStyle(pos2-1, pos2, wxTextAttr(*wxRED));
-        
-        if(lengthOftxt02 > 0 && (lengthOftxt01 >= lengthOftxt02))
-        {
-                    for (int i = 0 ; i < lengthOftxt02 ; i++)
-                    {
-                        if (txt01[i] != txt02[i]) {
-                            second_text_->SetStyle(pos2-1, pos2, wxTextAttr(*wxRED));
-                            //wxMessageBox(txt02[i]);
-                            ::wxBell();
-                        }
-                        else {
-                            second_text_->SetStyle(pos2-1, pos2, wxTextAttr(*wxBLACK));
-                        }
-                    }
-        }
 
 
 		if (lengthOftxt02 == 0) second_text_->SetStyle(0, 0, wxTextAttr(*wxBLACK));
-		//if (lengthOftxt02 > lengthOftxt01) second_text_->SetStyle(lengthOftxt02-1, lengthOftxt02, wxTextAttr(*wxRED));
-		/*if (lengthOftxt02 != 0 && lengthOftxt01 >= lengthOftxt02)
-		{
-            if(txt01[lengthOftxt02-1] != txt02[lengthOftxt02-1])
-            {
-                ::wxBell();
-                wxTextAttr attr;
-                second_text_->GetStyle(0, attr);
-                
-                attr.SetTextColour(*wxRED);
-                second_text_->SetStyle(lengthOftxt02-1, lengthOftxt02, wxTextAttr(*wxRED));
-            }
-		}*/
         
 
 		if ((lengthOftxt02 > 0) && (lengthOftxt01 >= lengthOftxt02))
 		{
             if(txt01[lengthOftxt02 - 1] == txt02[lengthOftxt02 - 1])
             {
-                //second_text_->SetStyle(lengthOftxt02, lengthOftxt02, wxTextAttr(*wxBLACK) );
+                SetStatusText("press backspace if you make an error to activate the keyboard");
                 if(lengthOftxt01 == lengthOftxt02) {
                     bool typo = false;
                     for (int i = 0 ; i < lengthOftxt02 ; i++)
                     {
                         if (txt01[i] != txt02[i]) {
                             typo = true;
-                            //second_text_->SetStyle(i, i, wxTextAttr(*wxRED));
                         }
                     }
                    if(!typo) 
                    {
-                       //second_text_->SetStyle(0, lengthOftxt02, wxTextAttr(*wxBLACK));
                         wxMessageBox("Congratulation!");
                         Destroy();
                    }
                 }
             }
 		}
-                         //   wxMessageBox(wxString::Format("%ld", pos2));
-
 }
 
 void LearnWindow::on_align_left_button_clicked(wxCommandEvent& event)
 {
     
-    second_text_->SetWindowStyleFlag(wxTE_MULTILINE | wxTE_RICH2| wxTE_LEFT);
+    wxTextAttr attr;
+    attr.SetAlignment(wxTEXT_ALIGNMENT_LEFT);
+    second_text_->SetStyle(0, second_text_->GetLastPosition(), attr);
     second_text_->SetFocus();
 }
 
 void LearnWindow::on_align_right_button_clicked(wxCommandEvent& event)
 {
-    second_text_->SetWindowStyleFlag(wxTE_MULTILINE | wxTE_RICH2| wxTE_RIGHT);
+    wxTextAttr attr;
+    attr.SetAlignment(wxTEXT_ALIGNMENT_RIGHT);
+    second_text_->SetStyle(0, second_text_->GetLastPosition(), attr);
     second_text_->SetFocus();
 }
 
 void LearnWindow::on_bs_button_clicked(wxKeyEvent& event)
 {
-    if (event.GetKeyCode() == WXK_BACK)
-    {
+    if (event.GetKeyCode() == WXK_BACK) {
         Unbind(wxEVT_CHAR_HOOK, &LearnWindow::on_bs_button_clicked, this);
         second_text_->SetEditable(true);
         
         second_text_->Remove(second_text_->GetLastPosition() - 1,second_text_->GetLastPosition());
+    } else
+    {
+        SetStatusText("you must erase wrong letter first");
     }
-
+	    
 }

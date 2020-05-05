@@ -1,6 +1,5 @@
 #pragma once
 #include "wx/wx.h"
-#include "DB_Manager.h"
 
 
 class TextEntryDialog :
