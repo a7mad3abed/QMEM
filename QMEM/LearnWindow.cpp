@@ -36,7 +36,6 @@ LearnWindow::LearnWindow(wxWindow *parent, const wxString &title, const wxString
         wxTE_MULTILINE|wxTE_RICH2|wxTE_READONLY);
     first_text_->LoadFile(address, wxTEXT_TYPE_ANY);
 
-	//firstText->LoadFile("text01.txt", wxTEXT_TYPE_ANY);
 	second_text_ = new wxRichTextCtrl(
         this,
         -1,
@@ -46,24 +45,21 @@ LearnWindow::LearnWindow(wxWindow *parent, const wxString &title, const wxString
         wxTE_MULTILINE | wxTE_RICH2);
 
     second_text_->Bind(wxEVT_TEXT, &LearnWindow::on_text_changed, this);
-	//second_text_->GetStyle(0, orig_attr_);
-	//secondText->SetEditable(false);
-	//second_text_->Show(false);
     second_text_->SetFocus();
 
 
 	text_sizer->Add(first_text_,
-        1,            // make vertically stretchable
+        1,            
         wxALL|wxEXPAND|
         wxRESERVE_SPACE_EVEN_IF_HIDDEN,
-        10 );         // set border width to 10)
+        10 );        
 
 
 	text_sizer->Add(second_text_,
-        1,            // make vertically stretchableM
-        wxALL| wxEXPAND|       //   and make border all around
-        wxRESERVE_SPACE_EVEN_IF_HIDDEN,        //   and make border all around
-        10 );         // set border width to 10)
+        1,          
+        wxALL| wxEXPAND|       
+        wxRESERVE_SPACE_EVEN_IF_HIDDEN,      
+        10 );   
 
 	top_sizer->Add(text_sizer, 1, wxALL | wxEXPAND);
 
@@ -113,27 +109,11 @@ void LearnWindow::on_hide_left_button_clicked(wxCommandEvent& event)
         first_text_->Show(true);
         hide_left->SetLabel("hide");
     }
-
-    /*
-	wxString str;
-    wxFileDialog open_file_dialog(this, _("Open text file"), "", "", "text files (*.txt)|*.txt",
-                                  wxFD_OPEN | wxFD_FILE_MUST_EXIST);
-
-    if (open_file_dialog.ShowModal() == wxID_CANCEL)
-        return;
-    first_text_->LoadFile(open_file_dialog.GetPath(), 0);
-    //secondText->SetEditable(true);
-    second_text_->Show(true);
-	second_text_->SetFocus();
-	*/
-
-
 }
 
 void LearnWindow::on_cancel_button_clicked(wxCommandEvent& event)
 {
 	this->Destroy();
-
 }
 
 void LearnWindow::on_text_changed(wxCommandEvent& event)

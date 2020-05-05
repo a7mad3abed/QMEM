@@ -1,5 +1,5 @@
 #include "MainWindow.h"
-#include "textEntryDialog.h"
+#include "TextEntryWindow.h"
 #include "LearnWindow.h"
 #include "Results_Dlg.h"
 
@@ -21,7 +21,7 @@ MainWindow::MainWindow(const wxString& title)
             wxID_ANY,
             title,
             wxDefaultPosition,
-            wxDefaultSize,
+            wxSize(600,400),
         wxDEFAULT_FRAME_STYLE
     ) 
 
@@ -80,25 +80,19 @@ MainWindow::MainWindow(const wxString& title)
             false,
             "Tahoma");
 
-    auto baseSizer = new wxBoxSizer(wxVERTICAL);
-    auto topSizer = new wxBoxSizer(wxHORIZONTAL);
 
     auto welcomeText = new wxStaticText(
             this,
             WELCOME,
             "",
             wxDefaultPosition,
-            wxSize(600, 50),
+            wxSize(400, 50),
             wxALIGN_CENTER);
 
     welcomeText->SetLabel("Welcome to Qmem");
     welcomeText->SetFont(f);
     welcomeText->SetForegroundColour(wxColour("red"));
 
-    topSizer->Add(welcomeText, 1, wxEXPAND|wxALL, 10);
-    baseSizer->Add(topSizer, 0,   wxALIGN_CENTRE|wxALL, 10);
-    auto *core_sizer = new wxBoxSizer(wxHORIZONTAL);
-    auto *right_core_sizer = new wxBoxSizer(wxVERTICAL);
 
     DB_Manager::instance()->init_db();
 
@@ -108,6 +102,7 @@ MainWindow::MainWindow(const wxString& title)
             wxDefaultPosition,
             wxDefaultSize
             );
+   auto text_left = new wxStaticText(this, wxID_ANY, "");
 
     for (int i = 0; i < DB_Manager::instance()->retrieve_results().size(); i++)
     {
@@ -119,37 +114,21 @@ MainWindow::MainWindow(const wxString& title)
     Bind(wxEVT_LISTBOX_DCLICK, &MainWindow::on_open_selected_button_clicked, this, BUTTON_LIST_OPEN);
     Bind(wxEVT_BUTTON, &MainWindow::on_remove_selected_button_clicked, this, REMOVE_RECORD);
 
-    auto rc_text01 = new wxStaticText(
-            this,
-            wxID_ANY,
-            "",
-            wxDefaultPosition,
-            wxDefaultSize,
-            wxALIGN_CENTER);
-    auto rc_text02 = new wxStaticText(
-            this,
-            wxID_ANY,
-            "",
-            wxDefaultPosition,
-            wxDefaultSize,
-            wxALIGN_CENTER);
 
-    right_core_sizer->Add(list_box,1, wxEXPAND|wxALL, 10);
-    right_core_sizer->Add(remove_selected_button,0, wxALL, 10);
-    right_core_sizer->Add(rc_text02,1, wxEXPAND|wxALL, 10);
-    auto leftCoreSizer = new wxBoxSizer(wxVERTICAL);
-    auto lc_text = new wxStaticText(
-            this,
-            wxID_ANY,
-            "",
-            wxDefaultPosition,
-            wxSize(300, 50),
-            wxALIGN_CENTER);
-    leftCoreSizer->Add(lc_text, 0, wxALL, 10);
-    core_sizer->Add(leftCoreSizer, 1, wxEXPAND|wxALL);
-    core_sizer->Add(right_core_sizer, 1, wxEXPAND|wxALL);
-    baseSizer->Add(core_sizer, 1, wxEXPAND|wxALL);
-    SetSizerAndFit(baseSizer);
+    auto base_sizer = new wxBoxSizer(wxVERTICAL);
+    auto body_sizer = new wxBoxSizer(wxHORIZONTAL);
+
+    base_sizer->Add(welcomeText, 0,   wxALIGN_CENTRE|wxALL, 10);
+    auto *left_sizer = new wxBoxSizer(wxVERTICAL);
+    auto *right_sizer = new wxBoxSizer(wxVERTICAL);
+
+    right_sizer->Add(list_box,1, wxALL|wxEXPAND, 10);
+    right_sizer->Add(remove_selected_button,0, wxALL, 10);
+    left_sizer->Add(text_left, 1, wxALL | wxEXPAND, 10);
+    body_sizer->Add(left_sizer, 1, wxEXPAND|wxALL);
+    body_sizer->Add(right_sizer, 1, wxEXPAND|wxALL);
+    base_sizer->Add(body_sizer, 1, wxEXPAND);
+    SetSizer(base_sizer);
 
 }
 

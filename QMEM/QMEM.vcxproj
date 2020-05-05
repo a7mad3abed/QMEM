@@ -156,17 +156,19 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="DB_Manager.cpp" />
+    <ClCompile Include="MainFrame.cpp" />
     <ClCompile Include="Results_Dlg.cpp" />
     <ClCompile Include="sqlite3.c" />
-    <ClCompile Include="textEntryDialog.cpp" />
+    <ClCompile Include="TextEntryWindow.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="LearnWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DB_Manager.h" />
+    <ClInclude Include="MainFrame.h" />
     <ClInclude Include="Results_Dlg.h" />
-    <ClInclude Include="textEntryDialog.h" />
+    <ClInclude Include="TextEntryWindow.h" />
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="LearnWindow.h" />
   </ItemGroup>

@@ -1,4 +1,4 @@
-#include "textEntryDialog.h"
+#include "TextEntryWindow.h"
 #include "wx/filename.h"
 #include "DB_Manager.h"
 #include <string>

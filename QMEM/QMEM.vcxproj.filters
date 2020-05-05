@@ -21,9 +21,6 @@
     <ClCompile Include="MainWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="textEntryDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LearnWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -36,12 +33,15 @@
     <ClCompile Include="Results_Dlg.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="TextEntryWindow.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainWindow.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="textEntryDialog.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="LearnWindow.h">
@@ -51,6 +51,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Results_Dlg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextEntryWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrame.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
