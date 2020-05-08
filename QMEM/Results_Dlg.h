@@ -3,7 +3,7 @@
 #include "DB_Manager.h"
 
 class Results_Dlg :
-	public wxDialog
+	public wxWindow
 {
 public:
 	Results_Dlg(wxWindow *parent, const wxString &title);

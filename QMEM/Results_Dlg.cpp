@@ -2,7 +2,7 @@
 #include <sstream>
 
 Results_Dlg::Results_Dlg(wxWindow *parent, const wxString &title)
-	:wxDialog(parent, wxID_ANY, title, wxDefaultPosition, wxSize(400, 300))
+	:wxWindow(parent, wxID_ANY, wxDefaultPosition, wxDefaultSize)
 {
 	
     DB_Manager::instance()->init_db();

@@ -1,4 +1,4 @@
-#include "MainWindow.h"
+#include "MainFrame.h"
 
 class MyApp : public wxApp
 {
@@ -12,7 +12,7 @@ wxIMPLEMENT_APP(MyApp);
 
 bool MyApp::OnInit()
 {
-	auto myFrame = new MainWindow(wxString("QMEM"));
+    auto myFrame = new MainFrame();
 	myFrame->Show(true);
 	return true;
 }
