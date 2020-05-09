@@ -8,8 +8,11 @@ class Results_Dlg :
 public:
 	Results_Dlg(wxWindow *parent, const wxString &title);
 	~Results_Dlg();
+    void update_results();
+
 
 private:
     std::vector<Result> results;
+    wxTextCtrl* result_show;
 };
 

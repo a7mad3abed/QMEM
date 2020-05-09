@@ -24,6 +24,7 @@ enum
 MainFrame::MainFrame()
     :wxFrame(nullptr, wxID_ANY, "QMEM", wxDefaultPosition, wxSize(600, 400), wxDEFAULT_FRAME_STYLE)
 {
+    Center();
     Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::on_child_added_new_record, this, CLOSE_TO_WINDOW);
     auto sizer = new wxBoxSizer(wxVERTICAL);
     m_book = new wxSimplebook(this, id_m_book);
@@ -54,7 +55,7 @@ MainFrame::MainFrame()
     start_panel->SetSizer(list_box_sizer);
 
     m_book->AddPage(start_panel, "Start");
-	auto results_dlg = new Results_Dlg(m_book, "results");
+	results_dlg = new Results_Dlg(m_book, "results");
 	m_book->AddPage(results_dlg, "results");
     auto new_text_dialog = new TextEntryDialog(m_book, "New Text", wxDefaultSize);
     m_book->AddPage(new_text_dialog, "new text");
@@ -158,11 +159,7 @@ void MainFrame::on_exit_selected(wxCommandEvent& event)
 
 void MainFrame::on_show_lessons(wxCommandEvent& event)
 {
-    /*
-    m_book->DeleteAllPages();
-	auto results_dlg = new Results_Dlg(m_book, "results");
-	m_book->AddPage(results_dlg, "results");
-    */
+    results_dlg->update_results();
     m_book->SetSelection(1);
 
 } 
@@ -194,6 +191,7 @@ void MainFrame::on_child_added_new_record(wxCommandEvent& event)
 void MainFrame::on_remove_selected_button_clicked(wxCommandEvent& event) 
 {
     DB_Manager::instance()->remove_record(list_box->GetStringSelection());
+    wxRemoveFile(wxString::Format("./saved mems/%s.txt", list_box->GetStringSelection()));
 
     list_box->Clear();
     for (int i = 0; i < DB_Manager::instance()->retrieve_results().size(); i++)

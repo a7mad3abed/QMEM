@@ -11,8 +11,8 @@ if(UNIX)
     link_directories(/usr/lib)
 endif(UNIX)
 
-set(SRCS main.cpp MainWindow.cpp LearnWindow.h LearnWindow.cpp textEntryDialog.h textEntryDialog.cpp Results_Dlg.cpp DB_Manager.cpp sqlite3.c)
+set(SRCS main.cpp MainFrame.cpp LearnWindow.h LearnWindow.cpp TextEntryWindow.cpp TextEntryWindow.h Results_Dlg.cpp DB_Manager.cpp )
 
 add_executable(QMEM WIN32 ${SRCS})
 
-target_link_libraries(QMEM ${wxWidgets_LIBRARIES})
+target_link_libraries(QMEM ${wxWidgets_LIBRARIES} sqlite3)

@@ -7,6 +7,8 @@
 
 #include "wx/simplebook.h"
 
+class Results_Dlg;
+
 class MainFrame : public wxFrame
 {
 public:
@@ -32,5 +34,6 @@ private:
 private :
     wxSimplebook* m_book;
     wxListBox* list_box;
+    Results_Dlg* results_dlg;
 };
 
