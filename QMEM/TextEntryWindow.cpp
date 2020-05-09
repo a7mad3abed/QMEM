@@ -13,10 +13,9 @@ enum {
 #define CLOSE_TO_WINDOW 66
 
 TextEntryDialog::TextEntryDialog(wxWindow *parent, const wxString &title, const wxSize &size)
-    :wxDialog(
+    :wxWindow(
             parent,
             wxID_ANY,
-            title,
             wxDefaultPosition,
             size)
 {
@@ -30,7 +29,7 @@ TextEntryDialog::TextEntryDialog(wxWindow *parent, const wxString &title, const 
             wxID_ANY,
             "",
             wxDefaultPosition,
-            wxSize(400, 400),
+            wxSize(400, 200),
             wxTE_MULTILINE|wxTE_RICH2|wxTE_RIGHT);
     baseSizer->Add(
             textEntry,
@@ -87,13 +86,13 @@ TextEntryDialog::TextEntryDialog(wxWindow *parent, const wxString &title, const 
             this,
             ALIGN_RIGHT_BUTTON);
     controlSizer->AddSpacer(5);
-    controlSizer->Add(saveButton, 1,  wxEXPAND|wxALL);
+    controlSizer->Add(saveButton, 0,  wxALL);
     controlSizer->AddSpacer(5);
-    controlSizer->Add(cancelButton,1,  wxEXPAND|wxALL );
+    controlSizer->Add(cancelButton, 0,  wxALL );
     controlSizer->AddSpacer(5);
-    controlSizer->Add(alignLeftButton,1,  wxEXPAND|wxALL);
+    controlSizer->Add(alignLeftButton, 0,  wxALL);
     controlSizer->AddSpacer(5);
-    controlSizer->Add(alignRightButton,1,  wxEXPAND|wxALL);
+    controlSizer->Add(alignRightButton, 0,  wxALL);
     baseSizer->Add(controlSizer, 1, wxALL|wxEXPAND, 10);
     SetSizerAndFit(baseSizer);
 

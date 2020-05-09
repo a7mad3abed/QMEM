@@ -3,7 +3,7 @@
 
 
 class TextEntryDialog :
-	public wxDialog
+	public wxWindow
 {
 public:
     TextEntryDialog(wxWindow *parent, const wxString &title, const wxSize &size);

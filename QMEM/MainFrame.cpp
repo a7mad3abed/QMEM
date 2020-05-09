@@ -1,16 +1,20 @@
 #include "MainFrame.h"
 #include "MainWindow.h"
 #include "Results_Dlg.h"
+#include "TextEntryWindow.h"
 
 enum {
     NEWTEXT = 45,
-    LEARN, 
+    LEARN,
     SHOW,
+    START,
     BUTTON_LIST_OPEN,
 	REMOVE_RECORD,
 	WELCOME,
 	POPUP_TEST
 };
+
+#define CLOSE_TO_WINDOW 66
 
 enum
 {
@@ -20,9 +24,70 @@ enum
 MainFrame::MainFrame()
     :wxFrame(nullptr, wxID_ANY, "QMEM", wxDefaultPosition, wxSize(600, 400), wxDEFAULT_FRAME_STYLE)
 {
-    auto sizer = new wxBoxSizer(wxHORIZONTAL);
+    Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::on_child_added_new_record, this, CLOSE_TO_WINDOW);
+    auto sizer = new wxBoxSizer(wxVERTICAL);
     m_book = new wxSimplebook(this, id_m_book);
-    sizer->Add(m_book, 1, wxEXPAND | wxALL, 10);
+
+    auto start_panel = new wxPanel(m_book,wxID_ANY);
+
+    DB_Manager::instance()->init_db();
+
+   list_box = new wxListBox(
+            start_panel,
+            BUTTON_LIST_OPEN,
+            wxDefaultPosition,
+            wxDefaultSize
+            );
+
+    for (int i = 0; i < DB_Manager::instance()->retrieve_results().size(); i++)
+    {
+        list_box->Append(DB_Manager::instance()->retrieve_results()[i].name);
+    }
+    Bind(wxEVT_LISTBOX_DCLICK, &MainFrame::on_open_selected_button_clicked, this, BUTTON_LIST_OPEN);
+    Bind(wxEVT_BUTTON, &MainFrame::on_remove_selected_button_clicked, this, REMOVE_RECORD);
+
+    auto remove_selected_button = new wxButton(start_panel, REMOVE_RECORD, "remove");
+
+    auto list_box_sizer = new wxBoxSizer(wxVERTICAL);
+    list_box_sizer->Add(list_box, 1, wxEXPAND | wxALL, 10);
+    list_box_sizer->Add(remove_selected_button, 0,  wxLEFT|wxBOTTOM, 10);
+    start_panel->SetSizer(list_box_sizer);
+
+    m_book->AddPage(start_panel, "Start");
+	auto results_dlg = new Results_Dlg(m_book, "results");
+	m_book->AddPage(results_dlg, "results");
+    auto new_text_dialog = new TextEntryDialog(m_book, "New Text", wxDefaultSize);
+    m_book->AddPage(new_text_dialog, "new text");
+    m_book->SetSelection(0);
+
+    wxFont f(
+            18,
+            wxFONTFAMILY_DEFAULT,
+            wxFONTSTYLE_NORMAL,
+            wxFONTWEIGHT_BOLD,
+            false,
+            "Tahoma");
+
+    auto welcome_panel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize);
+    auto welcome_sizer = new wxBoxSizer(wxHORIZONTAL);
+    auto welcomeText = new wxStaticText(
+            welcome_panel,
+            WELCOME,
+            "",
+            wxDefaultPosition,
+            wxDefaultSize,
+            wxALIGN_CENTER
+            );
+    welcome_sizer->Add(welcomeText, 1, wxEXPAND | wxALL);
+    welcome_panel->SetSizer(welcome_sizer);
+
+    welcomeText->SetLabel("Welcome to Qmem");
+    welcomeText->SetFont(f);
+    welcomeText->SetForegroundColour(wxColour("red"));
+ 
+
+    sizer->Add(welcome_panel, 0.5, wxEXPAND | wxALL);
+    sizer->Add(m_book, 3, wxEXPAND | wxALL, 0);
     SetSizer(sizer);
     SetMenuBar(make_m_bar());
 
@@ -58,9 +123,17 @@ wxMenuBar* MainFrame::make_m_bar()
             this,
             SHOW);
 
+    auto show_start = new wxMenuItem(file, START, "Show Start");
+    file->Bind(
+            wxEVT_COMMAND_MENU_SELECTED,
+            &MainFrame::on_show_start,
+            this,
+            START);
+
     // now adding the to menu items to the menu
     file->Append(new_text);
     file->Append(show_lessons);
+    file->Append(show_start);
     file->Append(exit);
 
     // now making the menubar and adding the file menu to it then setting it as the menubar of the frame
@@ -71,11 +144,10 @@ wxMenuBar* MainFrame::make_m_bar()
 
 void MainFrame::on_new_text_selected(wxCommandEvent& event)
 {
-    //auto new_text_dialog = new TextEntryDialog(this, "New Text", wxSize(400, 500));
-
-    
-    //new_text_dialog->Show();
-
+   /* m_book->DeleteAllPages();
+    auto new_text_dialog = new TextEntryDialog(m_book, "New Text", wxDefaultSize);
+    m_book->AddPage(new_text_dialog, "new text");*/
+    m_book->SetSelection(2);
 }
 
 
@@ -86,12 +158,57 @@ void MainFrame::on_exit_selected(wxCommandEvent& event)
 
 void MainFrame::on_show_lessons(wxCommandEvent& event)
 {
-    //results_dlg->Show();
-    auto newPage = new wxPanel(m_book);
-    auto results_dlg = new Results_Dlg(newPage, "results");
-    m_book->AddPage(newPage, "results");
-    auto sizer = new wxBoxSizer(wxHORIZONTAL);
-    sizer->Add(results_dlg, 1, wxEXPAND | wxALL, 4);
-    newPage->SetSizer(sizer);
-    
+    /*
+    m_book->DeleteAllPages();
+	auto results_dlg = new Results_Dlg(m_book, "results");
+	m_book->AddPage(results_dlg, "results");
+    */
+    m_book->SetSelection(1);
+
 } 
+
+void MainFrame::on_show_start(wxCommandEvent& event)
+{
+    m_book->SetSelection(0);
+    list_box->Clear();
+    for (int i = 0; i < DB_Manager::instance()->retrieve_results().size(); i++)
+    {
+        list_box->Append(DB_Manager::instance()->retrieve_results()[i].name);
+    }
+    
+    list_box->SetSelection(list_box->GetCount()-1);
+}
+
+void MainFrame::on_child_added_new_record(wxCommandEvent& event)
+{
+    
+    list_box->Clear();
+    for (int i = 0; i < DB_Manager::instance()->retrieve_results().size(); i++)
+    {
+        list_box->Append(DB_Manager::instance()->retrieve_results()[i].name);
+    }
+    
+    list_box->SetSelection(list_box->GetCount()-1);
+}
+
+void MainFrame::on_remove_selected_button_clicked(wxCommandEvent& event) 
+{
+    DB_Manager::instance()->remove_record(list_box->GetStringSelection());
+
+    list_box->Clear();
+    for (int i = 0; i < DB_Manager::instance()->retrieve_results().size(); i++)
+    {
+        list_box->Append(DB_Manager::instance()->retrieve_results()[i].name);
+    }
+
+    list_box->SetSelection(list_box->GetCount()-1);
+
+}
+
+void MainFrame::on_open_selected_button_clicked(wxCommandEvent& event) 
+{
+    //wxString address = "./saved mems/";
+    //auto LW = new LearnWindow(this, "Learn", wxString::Format("%s%s.txt", address, list_box->GetStringSelection()));
+    //LW->Show();
+
+}
