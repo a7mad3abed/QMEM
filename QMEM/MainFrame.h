@@ -30,10 +30,12 @@ private:
 	void on_remove_selected_button_clicked(wxCommandEvent& event) ;
 
     void on_open_selected_button_clicked(wxCommandEvent& event) ;
+    void on_learn_selected_button_clicked(wxCommandEvent &event);
 
 private :
     wxSimplebook* m_book;
     wxListBox* list_box;
     Results_Dlg* results_dlg;
+
 };
 

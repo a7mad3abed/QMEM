@@ -5,7 +5,15 @@
 class wxToggleButton;
 class wxRichTextCtrl;
 
-class LearnWindow : public wxFrame
+enum
+{
+    ALIGN_LEFT_BUTTON,
+    ALIGN_RIGHT_BUTTON,
+    HIDE_LEFT,
+    CancelLearn
+};
+
+class LearnWindow : public wxWindow
 {
 public:
 	LearnWindow(wxWindow *parent, const wxString &title, const wxString &address);

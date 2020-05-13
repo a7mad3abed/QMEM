@@ -3,26 +3,19 @@
 #include "wx/richtext/richtextctrl.h"
 #include <iostream>
 
-enum
-{
-    ALIGN_LEFT_BUTTON,
-    ALIGN_RIGHT_BUTTON,
-	HIDE_LEFT
-};
 
 
 LearnWindow::LearnWindow(wxWindow *parent, const wxString &title, const wxString &address)
-	:wxFrame(
+	:wxWindow(
         parent,
         wxID_ANY,
-        title,
         wxDefaultPosition,
         wxDefaultSize,
         wxDEFAULT_FRAME_STYLE|wxWANTS_CHARS
 	)
 {
-    CreateStatusBar(1);
-    SetStatusText("Welcome to Learn Module!");
+    //CreateStatusBar(1);
+    //SetStatusText("Welcome to Learn Module!");
     auto* top_sizer = new wxBoxSizer(wxVERTICAL);
     auto* text_sizer = new wxBoxSizer(wxHORIZONTAL);
 	auto* control_sizer = new wxBoxSizer(wxHORIZONTAL);
@@ -32,7 +25,7 @@ LearnWindow::LearnWindow(wxWindow *parent, const wxString &title, const wxString
         -1,
         "click open to load a learn file",
         wxDefaultPosition,
-        wxSize(350, 300),
+        wxDefaultSize,
         wxTE_MULTILINE|wxTE_RICH2|wxTE_READONLY);
     first_text_->LoadFile(address, wxTEXT_TYPE_ANY);
 
@@ -41,7 +34,7 @@ LearnWindow::LearnWindow(wxWindow *parent, const wxString &title, const wxString
         -1,
         "",
         wxDefaultPosition,
-        wxSize(350, 300),
+        wxDefaultSize,
         wxTE_MULTILINE | wxTE_RICH2);
 
     second_text_->Bind(wxEVT_TEXT, &LearnWindow::on_text_changed, this);
@@ -52,22 +45,22 @@ LearnWindow::LearnWindow(wxWindow *parent, const wxString &title, const wxString
         1,            
         wxALL|wxEXPAND|
         wxRESERVE_SPACE_EVEN_IF_HIDDEN,
-        10 );        
+        1 );
 
 
 	text_sizer->Add(second_text_,
         1,          
         wxALL| wxEXPAND|       
         wxRESERVE_SPACE_EVEN_IF_HIDDEN,      
-        10 );   
+        1 );
 
-	top_sizer->Add(text_sizer, 1, wxALL | wxEXPAND);
+	top_sizer->Add(text_sizer, 5, wxALL | wxEXPAND);
 
 	hide_left = new wxToggleButton(this, HIDE_LEFT, "hide");
     hide_left->SetValue(false);
 	Bind(wxEVT_TOGGLEBUTTON, &LearnWindow::on_hide_left_button_clicked, this, HIDE_LEFT);
     
-	auto cancelButton = new wxButton(this, wxID_CANCEL, "Cancel");
+	auto cancelButton = new wxButton(this, CancelLearn, "Cancel");
     auto align_left_button = new wxButton(this, ALIGN_LEFT_BUTTON, "align left");
     auto align_right_button = new wxButton(this, ALIGN_RIGHT_BUTTON, "align right");
     
@@ -88,8 +81,8 @@ LearnWindow::LearnWindow(wxWindow *parent, const wxString &title, const wxString
 	control_sizer->Add(align_left_button, 0, wxALL, 10);
 	control_sizer->Add(align_right_button, 0, wxALL, 10);
 
-	top_sizer->Add(control_sizer, 0, wxALL | wxEXPAND);
-	SetSizerAndFit(top_sizer);
+	top_sizer->Add(control_sizer, 1, wxALL | wxEXPAND);
+	SetSizer(top_sizer);
 
 };
 
@@ -113,7 +106,8 @@ void LearnWindow::on_hide_left_button_clicked(wxCommandEvent& event)
 
 void LearnWindow::on_cancel_button_clicked(wxCommandEvent& event)
 {
-	this->Destroy();
+    event.Skip();
+	//this->Destroy();
 }
 
 void LearnWindow::on_text_changed(wxCommandEvent& event)
@@ -146,7 +140,7 @@ void LearnWindow::on_text_changed(wxCommandEvent& event)
 		{
             if(txt01[lengthOftxt02 - 1] == txt02[lengthOftxt02 - 1])
             {
-                SetStatusText("press backspace if you make an error to activate the keyboard");
+                //SetStatusText("press backspace if you make an error to activate the keyboard");
                 if(lengthOftxt01 == lengthOftxt02) {
                     bool typo = false;
                     for (int i = 0 ; i < lengthOftxt02 ; i++)
@@ -158,7 +152,10 @@ void LearnWindow::on_text_changed(wxCommandEvent& event)
                    if(!typo) 
                    {
                         wxMessageBox("Congratulation!");
-                        Destroy();
+                        //Destroy();
+                       wxWindow *prnt = GetParent();
+                       wxCommandEvent* event = new wxCommandEvent(wxEVT_BUTTON, CancelLearn);
+                       wxQueueEvent(prnt, event);
                    }
                 }
             }
@@ -191,7 +188,7 @@ void LearnWindow::on_bs_button_clicked(wxKeyEvent& event)
         second_text_->Remove(second_text_->GetLastPosition() - 1,second_text_->GetLastPosition());
     } else
     {
-        SetStatusText("you must erase wrong letter first");
+        //SetStatusText("you must erase wrong letter first");
     }
 	    
 }

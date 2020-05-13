@@ -2,6 +2,7 @@
 #include "MainWindow.h"
 #include "Results_Dlg.h"
 #include "TextEntryWindow.h"
+#include "LearnWindow.h"
 
 enum {
     NEWTEXT = 45,
@@ -11,7 +12,8 @@ enum {
     BUTTON_LIST_OPEN,
 	REMOVE_RECORD,
 	WELCOME,
-	POPUP_TEST
+	POPUP_TEST,
+	IdLearn
 };
 
 #define CLOSE_TO_WINDOW 66
@@ -22,10 +24,13 @@ enum
 };
 
 MainFrame::MainFrame()
-    :wxFrame(nullptr, wxID_ANY, "QMEM", wxDefaultPosition, wxSize(600, 400), wxDEFAULT_FRAME_STYLE)
+    :wxFrame(nullptr, wxID_ANY, "QMEM", wxDefaultPosition, wxSize(800, 600), wxDEFAULT_FRAME_STYLE)
 {
     Center();
+    CreateStatusBar(2);
+    SetStatusText(wxT("Welcome to Qmem"));
     Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::on_child_added_new_record, this, CLOSE_TO_WINDOW);
+    Bind(wxEVT_BUTTON, &MainFrame::on_exit_selected, this, CancelLearn);
     auto sizer = new wxBoxSizer(wxVERTICAL);
     m_book = new wxSimplebook(this, id_m_book);
 
@@ -46,12 +51,15 @@ MainFrame::MainFrame()
     }
     Bind(wxEVT_LISTBOX_DCLICK, &MainFrame::on_open_selected_button_clicked, this, BUTTON_LIST_OPEN);
     Bind(wxEVT_BUTTON, &MainFrame::on_remove_selected_button_clicked, this, REMOVE_RECORD);
+    Bind(wxEVT_BUTTON, &MainFrame::on_learn_selected_button_clicked, this, IdLearn);
 
     auto remove_selected_button = new wxButton(start_panel, REMOVE_RECORD, "remove");
+    auto learn_selected_button = new wxButton(start_panel, IdLearn, "learn");
 
     auto list_box_sizer = new wxBoxSizer(wxVERTICAL);
     list_box_sizer->Add(list_box, 1, wxEXPAND | wxALL, 10);
     list_box_sizer->Add(remove_selected_button, 0,  wxLEFT|wxBOTTOM, 10);
+    list_box_sizer->Add(learn_selected_button, 0,  wxLEFT|wxBOTTOM, 10);
     start_panel->SetSizer(list_box_sizer);
 
     m_book->AddPage(start_panel, "Start");
@@ -154,7 +162,9 @@ void MainFrame::on_new_text_selected(wxCommandEvent& event)
 
 void MainFrame::on_exit_selected(wxCommandEvent& event)
 {
-    Destroy();
+    //Destroy();
+    m_book->SetSelection(0);
+    m_book->DeletePage(3);
 }
 
 void MainFrame::on_show_lessons(wxCommandEvent& event)
@@ -209,4 +219,11 @@ void MainFrame::on_open_selected_button_clicked(wxCommandEvent& event)
     //auto LW = new LearnWindow(this, "Learn", wxString::Format("%s%s.txt", address, list_box->GetStringSelection()));
     //LW->Show();
 
+}
+
+void MainFrame::on_learn_selected_button_clicked(wxCommandEvent &event) {
+    wxString address = "./saved mems/";
+    auto LW = new LearnWindow(m_book, "Learn", wxString::Format("%s%s.txt", address, list_box->GetStringSelection()));
+    m_book->AddPage(LW, "Learn");
+    m_book->SetSelection(3);
 }
