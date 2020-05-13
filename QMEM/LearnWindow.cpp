@@ -177,6 +177,6 @@ void LearnWindow::on_bs_button_clicked(wxKeyEvent & event)
 	}
 	else
 	{
-		 //SetStatusText("you must erase wrong letter first");
+		//SetStatusText("you must erase wrong letter first");
 	}
 }

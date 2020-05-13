@@ -40,5 +40,4 @@ private:
 	wxListBox* list_box;
 	Results_Dlg* results_dlg;
 	EditText* m_editor;
-	
 };

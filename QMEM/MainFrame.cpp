@@ -169,7 +169,7 @@ void MainFrame::on_exit_selected(wxCommandEvent& event)
 {
 	//Destroy();
 	m_book->SetSelection(0);
-	m_book->DeletePage(m_book->GetPageCount()-1);
+	m_book->DeletePage(m_book->GetPageCount() - 1);
 }
 
 void MainFrame::on_show_lessons(wxCommandEvent& event)
@@ -240,6 +240,5 @@ void MainFrame::on_edit_selected_button_clicked(wxCommandEvent& event)
 void MainFrame::on_end_edit(wxCommandEvent& event)
 {
 	m_book->SetSelection(0);
-	m_book->DeletePage(m_book->GetPageCount()-1);
-
+	m_book->DeletePage(m_book->GetPageCount() - 1);
 }

@@ -19,4 +19,3 @@ private:
 	wxTextCtrl* m_editor;
 	wxString m_address;
 };
-
