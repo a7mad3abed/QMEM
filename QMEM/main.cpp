@@ -8,11 +8,9 @@ public:
 
 wxIMPLEMENT_APP(MyApp);
 
-
-
 bool MyApp::OnInit()
 {
-    auto myFrame = new MainFrame();
+	auto myFrame = new MainFrame();
 	myFrame->Show(true);
 	return true;
 }
