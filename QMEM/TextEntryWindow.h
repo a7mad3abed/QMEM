@@ -1,6 +1,14 @@
 #pragma once
 #include "wx/wx.h"
 
+enum {
+	SAVE_BUTTON = 77,
+	ALIGN_RIGHT_BUTTON,
+	ALIGN_LEFT_BUTTON,
+	SaveSuccessful,
+	New_Canel_Button
+};
+
 class TextEntryDialog :
 	public wxWindow
 {

@@ -57,11 +57,11 @@ LearnWindow::LearnWindow(wxWindow* parent, const wxString& title, const wxString
 	Bind(wxEVT_TOGGLEBUTTON, &LearnWindow::on_hide_left_button_clicked, this, HIDE_LEFT);
 
 	auto cancelButton = new wxButton(this, CancelLearn, "Cancel");
-	auto align_left_button = new wxButton(this, ALIGN_LEFT_BUTTON, "align left");
-	auto align_right_button = new wxButton(this, ALIGN_RIGHT_BUTTON, "align right");
+	auto align_left_button = new wxButton(this, Learn_ALIGN_LEFT_BUTTON, "align left");
+	auto align_right_button = new wxButton(this, Learn_ALIGN_RIGHT_BUTTON, "align right");
 
-	align_right_button->Bind(wxEVT_BUTTON, &LearnWindow::on_align_right_button_clicked, this, ALIGN_RIGHT_BUTTON);
-	align_left_button->Bind(wxEVT_BUTTON, &LearnWindow::on_align_left_button_clicked, this, ALIGN_LEFT_BUTTON);
+	align_right_button->Bind(wxEVT_BUTTON, &LearnWindow::on_align_right_button_clicked, this, Learn_ALIGN_RIGHT_BUTTON);
+	align_left_button->Bind(wxEVT_BUTTON, &LearnWindow::on_align_left_button_clicked, this, Learn_ALIGN_LEFT_BUTTON);
 	cancelButton->Bind(wxEVT_BUTTON, &LearnWindow::on_cancel_button_clicked, this);
 
 	control_sizer->AddSpacer(10);

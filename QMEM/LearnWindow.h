@@ -7,8 +7,8 @@ class wxRichTextCtrl;
 
 enum
 {
-	ALIGN_LEFT_BUTTON,
-	ALIGN_RIGHT_BUTTON,
+	Learn_ALIGN_LEFT_BUTTON,
+	Learn_ALIGN_RIGHT_BUTTON,
 	HIDE_LEFT,
 	CancelLearn
 };

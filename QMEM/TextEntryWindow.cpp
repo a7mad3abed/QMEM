@@ -4,11 +4,6 @@
 #include <string>
 #include <sstream>
 
-enum {
-	SAVE_BUTTON = 77,
-	ALIGN_RIGHT_BUTTON,
-	ALIGN_LEFT_BUTTON
-};
 
 #define CLOSE_TO_WINDOW 66
 
@@ -31,7 +26,7 @@ TextEntryDialog::TextEntryDialog(wxWindow* parent, const wxString& title, const 
 		wxTE_MULTILINE | wxTE_RICH2 | wxTE_RIGHT);
 	baseSizer->Add(
 		textEntry,
-		0,
+		1,
 		wxEXPAND | wxALL,
 		10);
 	auto controlSizer = new wxBoxSizer(wxHORIZONTAL);
@@ -44,7 +39,7 @@ TextEntryDialog::TextEntryDialog(wxWindow* parent, const wxString& title, const 
 		wxBU_TOP);
 	auto cancelButton = new wxButton(
 		this,
-		wxID_CANCEL,
+		New_Canel_Button,
 		"cancel",
 		wxDefaultPosition,
 		wxDefaultSize,
@@ -68,11 +63,11 @@ TextEntryDialog::TextEntryDialog(wxWindow* parent, const wxString& title, const 
 		&TextEntryDialog::on_save_button_clicked,
 		this,
 		SAVE_BUTTON);
-	saveButton->Bind(
+	cancelButton->Bind(
 		wxEVT_BUTTON,
 		&TextEntryDialog::on_cancel_button_clicked,
 		this,
-		wxID_CANCEL);
+		New_Canel_Button);
 	alignLeftButton->Bind(
 		wxEVT_BUTTON,
 		&TextEntryDialog::on_align_left_button_clicked,
@@ -91,7 +86,7 @@ TextEntryDialog::TextEntryDialog(wxWindow* parent, const wxString& title, const 
 	controlSizer->Add(alignLeftButton, 0, wxALL);
 	controlSizer->AddSpacer(5);
 	controlSizer->Add(alignRightButton, 0, wxALL);
-	baseSizer->Add(controlSizer, 1, wxALL | wxEXPAND, 10);
+	baseSizer->Add(controlSizer, 0, wxALL, 10);
 	SetSizerAndFit(baseSizer);
 }
 
@@ -119,7 +114,10 @@ void TextEntryDialog::on_save_button_clicked(wxCommandEvent& event)
 		if (DB_Manager::instance()->add_record(fileName,
 			wxString::Format("./saved mems/%s.txt", fileName)) == SQLITE_DONE) {
 			wxMessageBox("saved successfully!");
-			Close();
+
+			wxWindow* prnt = GetParent();
+			wxCommandEvent* event = new wxCommandEvent(wxEVT_BUTTON, SaveSuccessful);
+			wxQueueEvent(prnt, event);
 		}
 		else {
 			wxMessageBox("name must be unique!");
@@ -134,7 +132,10 @@ void TextEntryDialog::on_save_button_clicked(wxCommandEvent& event)
 
 void TextEntryDialog::on_cancel_button_clicked(wxCommandEvent& event)
 {
-	Destroy();
+	wxWindow* prnt = GetParent();
+	wxEvent* evt = new wxCommandEvent(wxEVT_BUTTON, New_Canel_Button);
+	//wxPostEvent(prnt, evt);
+	wxQueueEvent(prnt, evt);
 }
 
 void TextEntryDialog::on_align_left_button_clicked(wxCommandEvent& event)

@@ -6,7 +6,7 @@
 #include "EditText.h"
 
 enum {
-	NEWTEXT = 45,
+	NEWTEXT = wxID_HIGHEST,
 	LEARN,
 	SHOW,
 	START,
@@ -17,7 +17,9 @@ enum {
 	IdLearn,
 	IdEdit,
 	IdEditPage,
-	IdEditText
+	IdEditText,
+	CreateLesson,
+	IdHome
 };
 
 #define CLOSE_TO_WINDOW 66
@@ -34,7 +36,9 @@ MainFrame::MainFrame()
 	CreateStatusBar(2);
 	SetStatusText(wxT("Welcome to Qmem"));
 	Bind(wxEVT_COMMAND_MENU_SELECTED, &MainFrame::on_child_added_new_record, this, CLOSE_TO_WINDOW);
-	Bind(wxEVT_BUTTON, &MainFrame::on_exit_selected, this, CancelLearn);
+	Bind(wxEVT_BUTTON, &MainFrame::on_end_edit, this, CancelLearn);
+	Bind(wxEVT_BUTTON, &MainFrame::on_end_edit, this, New_Canel_Button);
+	Bind(wxEVT_BUTTON, &MainFrame::on_end_edit, this, SaveSuccessful);
 	Bind(wxEVT_BUTTON, &MainFrame::on_end_edit, this, EndEdit);
 	auto sizer = new wxBoxSizer(wxVERTICAL);
 	m_book = new wxSimplebook(this, id_m_book);
@@ -54,6 +58,8 @@ MainFrame::MainFrame()
 	{
 		list_box->Append(DB_Manager::instance()->retrieve_results()[i].name);
 	}
+	if(list_box->GetCount() > 0)
+		list_box->SetSelection(list_box->GetTopItem());
 	Bind(wxEVT_LISTBOX_DCLICK, &MainFrame::on_open_selected_button_clicked, this, BUTTON_LIST_OPEN);
 	Bind(wxEVT_BUTTON, &MainFrame::on_remove_selected_button_clicked, this, REMOVE_RECORD);
 	Bind(wxEVT_BUTTON, &MainFrame::on_learn_selected_button_clicked, this, IdLearn);
@@ -76,36 +82,22 @@ MainFrame::MainFrame()
 	m_book->AddPage(start_panel, "Start");
 	results_dlg = new Results_Dlg(m_book, "results");
 	m_book->AddPage(results_dlg, "results");
-	auto new_text_dialog = new TextEntryDialog(m_book, "New Text", wxDefaultSize);
-	m_book->AddPage(new_text_dialog, "new text");
 	m_book->SetSelection(0);
 
-	wxFont f(
-		18,
-		wxFONTFAMILY_DEFAULT,
-		wxFONTSTYLE_NORMAL,
-		wxFONTWEIGHT_BOLD,
-		false,
-		"Tahoma");
 
-	auto welcome_panel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize);
-	auto welcome_sizer = new wxBoxSizer(wxHORIZONTAL);
-	auto welcomeText = new wxStaticText(
-		welcome_panel,
-		WELCOME,
-		"",
-		wxDefaultPosition,
-		wxDefaultSize,
-		wxALIGN_CENTER
-	);
-	welcome_sizer->Add(welcomeText, 1, wxEXPAND | wxALL);
-	welcome_panel->SetSizer(welcome_sizer);
+	auto control_panel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize);
+	auto control_panel_sizer = new wxBoxSizer(wxHORIZONTAL);
+	auto create_lesson = new wxButton(control_panel, CreateLesson, "New Lesson");
+	auto home_button = new wxButton(control_panel, IdHome, "Home");
+	create_lesson->Bind(wxEVT_BUTTON, &MainFrame::on_new_text_selected, this);
+	home_button->Bind(wxEVT_BUTTON, &MainFrame::on_show_start, this);
 
-	welcomeText->SetLabel("Welcome to Qmem");
-	welcomeText->SetFont(f);
-	welcomeText->SetForegroundColour(wxColour("red"));
+	control_panel_sizer->Add(home_button, 0,  wxTOP|wxLEFT, 10);
+	control_panel_sizer->Add(create_lesson, 0,  wxTOP|wxLEFT, 10);
+	control_panel->SetSizer(control_panel_sizer);
 
-	sizer->Add(welcome_panel, 0.5, wxEXPAND | wxALL);
+
+	sizer->Add(control_panel, 0.5, wxEXPAND | wxALL);
 	sizer->Add(m_book, 3, wxEXPAND | wxALL, 0);
 	SetSizer(sizer);
 	SetMenuBar(make_m_bar());
@@ -159,17 +151,14 @@ wxMenuBar* MainFrame::make_m_bar()
 
 void MainFrame::on_new_text_selected(wxCommandEvent& event)
 {
-	/* m_book->DeleteAllPages();
-	 auto new_text_dialog = new TextEntryDialog(m_book, "New Text", wxDefaultSize);
-	 m_book->AddPage(new_text_dialog, "new text");*/
-	m_book->SetSelection(2);
+	auto new_text_dialog = new TextEntryDialog(m_book, "New Text", wxDefaultSize);
+	m_book->AddPage(new_text_dialog, "new text");
+	m_book->SetSelection(m_book->GetPageCount()-1);
 }
 
 void MainFrame::on_exit_selected(wxCommandEvent& event)
 {
-	//Destroy();
-	m_book->SetSelection(0);
-	m_book->DeletePage(m_book->GetPageCount() - 1);
+	Destroy();
 }
 
 void MainFrame::on_show_lessons(wxCommandEvent& event)
@@ -223,10 +212,14 @@ void MainFrame::on_open_selected_button_clicked(wxCommandEvent& event)
 }
 
 void MainFrame::on_learn_selected_button_clicked(wxCommandEvent& event) {
-	wxString address = "./saved mems/";
-	auto LW = new LearnWindow(m_book, "Learn", wxString::Format("%s%s.txt", address, list_box->GetStringSelection()));
-	m_book->AddPage(LW, "Learn");
-	m_book->SetSelection(3);
+	wxString file_name;
+	if ((file_name = list_box->GetStringSelection()) != "") {
+		wxString address(wxString::Format("./saved mems/%s.txt", file_name));
+		auto LW = new LearnWindow(m_book, "Learn", address);
+		m_book->AddPage(LW, "Learn");
+		m_book->SetSelection(m_book->GetPageCount() - 1);
+
+	}
 }
 
 void MainFrame::on_edit_selected_button_clicked(wxCommandEvent& event)
@@ -239,6 +232,12 @@ void MainFrame::on_edit_selected_button_clicked(wxCommandEvent& event)
 
 void MainFrame::on_end_edit(wxCommandEvent& event)
 {
+	list_box->Clear();
+	for (int i = 0; i < DB_Manager::instance()->retrieve_results().size(); i++)
+	{
+		list_box->Append(DB_Manager::instance()->retrieve_results()[i].name);
+		list_box->SetSelection(list_box->GetTopItem());
+	}
 	m_book->SetSelection(0);
 	m_book->DeletePage(m_book->GetPageCount() - 1);
 }
