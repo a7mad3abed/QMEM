@@ -59,7 +59,7 @@ MainFrame::MainFrame()
 		list_box->Append(DB_Manager::instance()->retrieve_results()[i].name);
 	}
 	if(list_box->GetCount() > 0)
-		list_box->SetSelection(list_box->GetTopItem());
+		list_box->SetSelection(list_box->GetCount()-1);
 	Bind(wxEVT_LISTBOX_DCLICK, &MainFrame::on_open_selected_button_clicked, this, BUTTON_LIST_OPEN);
 	Bind(wxEVT_BUTTON, &MainFrame::on_remove_selected_button_clicked, this, REMOVE_RECORD);
 	Bind(wxEVT_BUTTON, &MainFrame::on_learn_selected_button_clicked, this, IdLearn);
@@ -236,7 +236,7 @@ void MainFrame::on_end_edit(wxCommandEvent& event)
 	for (int i = 0; i < DB_Manager::instance()->retrieve_results().size(); i++)
 	{
 		list_box->Append(DB_Manager::instance()->retrieve_results()[i].name);
-		list_box->SetSelection(list_box->GetTopItem());
+		list_box->SetSelection(list_box->GetCount()-1);
 	}
 	m_book->SetSelection(0);
 	m_book->DeletePage(m_book->GetPageCount() - 1);

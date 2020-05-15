@@ -11,7 +11,7 @@ if(UNIX)
     link_directories(/usr/lib)
 endif(UNIX)
 
-set(SRCS main.cpp MainFrame.cpp LearnWindow.h LearnWindow.cpp TextEntryWindow.cpp TextEntryWindow.h Results_Dlg.cpp DB_Manager.cpp )
+set(SRCS main.cpp MainFrame.cpp LearnWindow.h LearnWindow.cpp TextEntryWindow.cpp TextEntryWindow.h Results_Dlg.cpp DB_Manager.cpp EditText.cpp EditText.h )
 
 add_executable(QMEM WIN32 ${SRCS})
 
