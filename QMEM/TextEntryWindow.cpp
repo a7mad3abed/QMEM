@@ -3,12 +3,13 @@
 #include "DB_Manager.h"
 #include <string>
 #include <sstream>
+#include <wx/wfstream.h>
 
 
 #define CLOSE_TO_WINDOW 66
 
 TextEntryDialog::TextEntryDialog(wxWindow* parent, const wxString& title, const wxSize& size)
-	:wxWindow(
+	:wxPanel(
 		parent,
 		wxID_ANY,
 		wxDefaultPosition,
@@ -30,27 +31,35 @@ TextEntryDialog::TextEntryDialog(wxWindow* parent, const wxString& title, const 
 		wxEXPAND | wxALL,
 		10);
 	auto controlSizer = new wxBoxSizer(wxHORIZONTAL);
+	wxImage new_image(wxT("./images/savebtn.png"), wxBITMAP_TYPE_PNG);
+	new_image.Rescale(40, 40);
+	wxBitmap BM_saveButton(new_image, 0);
 	auto saveButton = new wxButton(
 		this,
 		SAVE_BUTTON,
-		"save",
+		"",
 		wxDefaultPosition,
 		wxDefaultSize,
-		wxBU_TOP);
+		wxBU_TOP|wxBU_NOTEXT|wxNO_BORDER);
+	saveButton->SetBitmap(BM_saveButton,wxLEFT);
 	auto cancelButton = new wxButton(
 		this,
 		New_Canel_Button,
 		"cancel",
 		wxDefaultPosition,
 		wxDefaultSize,
-		wxBU_TOP);
+		wxBU_TOP|wxBU_NOTEXT|wxNO_BORDER);
+	new_image.LoadFile(wxT("./images/cancelbtn.png"), wxBITMAP_TYPE_PNG);
+	new_image.Rescale(40, 40);
+	wxBitmap BM_cancelButton(new_image, 0);
+	cancelButton->SetBitmap(BM_cancelButton);
 	auto alignLeftButton = new wxButton(
 		this,
 		ALIGN_LEFT_BUTTON,
 		"align left",
 		wxDefaultPosition,
 		wxDefaultSize,
-		wxBU_TOP);
+		wxBU_TOP | wxNO_BORDER);
 	auto alignRightButton = new wxButton(
 		this,
 		ALIGN_RIGHT_BUTTON,
@@ -78,16 +87,14 @@ TextEntryDialog::TextEntryDialog(wxWindow* parent, const wxString& title, const 
 		&TextEntryDialog::on_align_right_button_clicked,
 		this,
 		ALIGN_RIGHT_BUTTON);
-	controlSizer->AddSpacer(5);
+	controlSizer->AddStretchSpacer(2);
 	controlSizer->Add(saveButton, 0, wxALL);
-	controlSizer->AddSpacer(5);
 	controlSizer->Add(cancelButton, 0, wxALL);
-	controlSizer->AddSpacer(5);
 	controlSizer->Add(alignLeftButton, 0, wxALL);
-	controlSizer->AddSpacer(5);
 	controlSizer->Add(alignRightButton, 0, wxALL);
-	baseSizer->Add(controlSizer, 0, wxALL, 10);
-	SetSizerAndFit(baseSizer);
+	controlSizer->AddStretchSpacer(2);
+	baseSizer->Add(controlSizer, 0, wxEXPAND|wxALL, 10);
+	SetSizer(baseSizer);
 }
 
 TextEntryDialog::~TextEntryDialog()

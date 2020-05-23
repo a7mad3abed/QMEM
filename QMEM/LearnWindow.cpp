@@ -26,6 +26,7 @@ LearnWindow::LearnWindow(wxWindow* parent, const wxString& title, const wxString
 		wxDefaultSize,
 		wxTE_MULTILINE | wxTE_RICH2 | wxTE_READONLY);
 	first_text_->LoadFile(address, wxTEXT_TYPE_ANY);
+	first_text_->Hide();
 
 	second_text_ = new wxRichTextCtrl(
 		this,
@@ -33,7 +34,7 @@ LearnWindow::LearnWindow(wxWindow* parent, const wxString& title, const wxString
 		"",
 		wxDefaultPosition,
 		wxDefaultSize,
-		wxTE_MULTILINE | wxTE_RICH2);
+		wxTE_MULTILINE | wxTEXT_ALIGNMENT_RIGHT);
 
 	second_text_->Bind(wxEVT_TEXT, &LearnWindow::on_text_changed, this);
 	second_text_->SetFocus();
@@ -53,7 +54,7 @@ LearnWindow::LearnWindow(wxWindow* parent, const wxString& title, const wxString
 	top_sizer->Add(text_sizer, 5, wxALL | wxEXPAND);
 
 	hide_left = new wxToggleButton(this, HIDE_LEFT, "hide");
-	hide_left->SetValue(false);
+	hide_left->SetValue(true);
 	Bind(wxEVT_TOGGLEBUTTON, &LearnWindow::on_hide_left_button_clicked, this, HIDE_LEFT);
 
 	auto cancelButton = new wxButton(this, CancelLearn, "Cancel");
@@ -153,17 +154,13 @@ void LearnWindow::on_text_changed(wxCommandEvent & event)
 
 void LearnWindow::on_align_left_button_clicked(wxCommandEvent & event)
 {
-	wxTextAttr attr;
-	attr.SetAlignment(wxTEXT_ALIGNMENT_LEFT);
-	second_text_->SetStyle(0, second_text_->GetLastPosition(), attr);
+	second_text_->ApplyAlignmentToSelection(wxTEXT_ALIGNMENT_LEFT);
 	second_text_->SetFocus();
 }
 
 void LearnWindow::on_align_right_button_clicked(wxCommandEvent & event)
 {
-	wxTextAttr attr;
-	attr.SetAlignment(wxTEXT_ALIGNMENT_RIGHT);
-	second_text_->SetStyle(0, second_text_->GetLastPosition(), attr);
+	second_text_->ApplyAlignmentToSelection(wxTEXT_ALIGNMENT_RIGHT);
 	second_text_->SetFocus();
 }
 

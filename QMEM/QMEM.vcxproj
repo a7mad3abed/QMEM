@@ -162,16 +162,16 @@
     <ClCompile Include="sqlite3.c" />
     <ClCompile Include="TextEntryWindow.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="LearnWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DB_Manager.h" />
     <ClInclude Include="EditText.h" />
     <ClInclude Include="MainFrame.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="resource1.h" />
     <ClInclude Include="Results_Dlg.h" />
     <ClInclude Include="TextEntryWindow.h" />
-    <ClInclude Include="MainWindow.h" />
     <ClInclude Include="LearnWindow.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

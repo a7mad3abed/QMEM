@@ -10,7 +10,7 @@ enum {
 };
 
 class TextEntryDialog :
-	public wxWindow
+	public wxPanel
 {
 public:
 	TextEntryDialog(wxWindow* parent, const wxString& title, const wxSize& size);
