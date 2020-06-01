@@ -14,6 +14,12 @@ LearnWindow::LearnWindow(wxWindow* parent, const wxString& title, const wxString
 {
 	//CreateStatusBar(1);
 	//SetStatusText("Welcome to Learn Module!");
+	SetBackgroundColour(RGB(55, 168, 213));
+
+	wxFont f;
+	f.SetFamily(wxFONTFAMILY_SCRIPT);
+	f.SetSymbolicSize(wxFONTSIZE_LARGE);
+
 	auto* top_sizer = new wxBoxSizer(wxVERTICAL);
 	auto* text_sizer = new wxBoxSizer(wxHORIZONTAL);
 	auto* control_sizer = new wxBoxSizer(wxHORIZONTAL);
@@ -43,32 +49,45 @@ LearnWindow::LearnWindow(wxWindow* parent, const wxString& title, const wxString
 		1,
 		wxALL | wxEXPAND |
 		wxRESERVE_SPACE_EVEN_IF_HIDDEN,
-		1);
+		10);
 
 	text_sizer->Add(second_text_,
 		1,
 		wxALL | wxEXPAND |
 		wxRESERVE_SPACE_EVEN_IF_HIDDEN,
-		1);
+		10);
 
 	top_sizer->Add(text_sizer, 5, wxALL | wxEXPAND);
 
-	hide_left = new wxToggleButton(this, HIDE_LEFT, "hide");
+	hide_left = new wxToggleButton(this, HIDE_LEFT, "Show", wxDefaultPosition, wxDefaultSize, wxNO_BORDER);
 	hide_left->SetValue(true);
 	Bind(wxEVT_TOGGLEBUTTON, &LearnWindow::on_hide_left_button_clicked, this, HIDE_LEFT);
 
-	auto cancelButton = new wxButton(this, CancelLearn, "Cancel");
-	auto align_left_button = new wxButton(this, Learn_ALIGN_LEFT_BUTTON, "align left");
-	auto align_right_button = new wxButton(this, Learn_ALIGN_RIGHT_BUTTON, "align right");
+	auto cancelButton = new wxButton(this, CancelLearn, "Cancel", wxDefaultPosition, wxDefaultSize, wxNO_BORDER);
+	auto align_left_button = new wxButton(this, Learn_ALIGN_LEFT_BUTTON, "Align left", wxDefaultPosition, wxDefaultSize, wxNO_BORDER);
+	auto align_right_button = new wxButton(this, Learn_ALIGN_RIGHT_BUTTON, "Align right", wxDefaultPosition, wxDefaultSize, wxNO_BORDER);
 
 	align_right_button->Bind(wxEVT_BUTTON, &LearnWindow::on_align_right_button_clicked, this, Learn_ALIGN_RIGHT_BUTTON);
 	align_left_button->Bind(wxEVT_BUTTON, &LearnWindow::on_align_left_button_clicked, this, Learn_ALIGN_LEFT_BUTTON);
 	cancelButton->Bind(wxEVT_BUTTON, &LearnWindow::on_cancel_button_clicked, this);
 
-	control_sizer->AddSpacer(10);
-	control_sizer->Add(hide_left, 0, wxALL, 10);
-	control_sizer->AddSpacer(5);
+	cancelButton->SetFont(f);
+	align_left_button->SetFont(f);
+	align_right_button->SetFont(f);
+	hide_left->SetFont(f);
 
+	cancelButton->SetBackgroundColour(RGB(55, 168, 213));
+	align_left_button->SetBackgroundColour(RGB(55, 168, 213));
+	align_right_button->SetBackgroundColour(RGB(55, 168, 213));
+	hide_left->SetBackgroundColour(RGB(55, 168, 213));
+
+	cancelButton->SetForegroundColour(*wxWHITE);
+	align_left_button->SetForegroundColour(*wxWHITE);
+	align_right_button->SetForegroundColour(*wxWHITE);
+	hide_left->SetForegroundColour(*wxWHITE);
+
+	control_sizer->AddStretchSpacer(1);
+	control_sizer->Add(hide_left, 0, wxALL, 10);
 	control_sizer->Add(
 		cancelButton,
 		0,
@@ -77,6 +96,7 @@ LearnWindow::LearnWindow(wxWindow* parent, const wxString& title, const wxString
 
 	control_sizer->Add(align_left_button, 0, wxALL, 10);
 	control_sizer->Add(align_right_button, 0, wxALL, 10);
+	control_sizer->AddStretchSpacer(1);
 
 	top_sizer->Add(control_sizer, 1, wxALL | wxEXPAND);
 	SetSizer(top_sizer);

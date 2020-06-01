@@ -4,6 +4,7 @@
 #include "TextEntryWindow.h"
 #include "LearnWindow.h"
 #include "EditText.h"
+#include "DB_Manager.h"
 
 
 enum {
@@ -33,13 +34,22 @@ MainFrame::MainFrame()
 	:wxFrame(nullptr, wxID_ANY, "QMEM", wxDefaultPosition, wxSize(800, 600), wxDEFAULT_FRAME_STYLE)
 {
 	Center();
+	DB_Manager::instance();
 
 	wxIcon mainIcon;
 	mainIcon.LoadFile("./images/Qmem.ico", wxBITMAP_TYPE_ICO);
 	SetIcon(mainIcon);
 
-	CreateStatusBar(2);
+	wxFont f;
+	f.SetFamily(wxFONTFAMILY_SCRIPT);
+	f.SetSymbolicSize(wxFONTSIZE_LARGE);
+
+	SetBackgroundColour(RGB(55, 168, 213));
+
+	CreateStatusBar(1);
 	SetStatusText(wxT("Welcome to Qmem"));
+	GetStatusBar()->SetBackgroundColour(RGB(55, 168, 213));
+	GetStatusBar()->SetFont(f);
 	
 	Bind(wxEVT_BUTTON, &MainFrame::on_end_edit, this, CancelLearn);
 	Bind(wxEVT_BUTTON, &MainFrame::on_end_edit, this, New_Canel_Button);
@@ -49,7 +59,6 @@ MainFrame::MainFrame()
 	Bind(wxEVT_BUTTON, &MainFrame::on_learn_selected_button_clicked, this, IdLearn);
 	Bind(wxEVT_BUTTON, &MainFrame::on_edit_selected_button_clicked, this, IdEdit);
 
-	DB_Manager::instance()->init_db();
 
 	m_book = new wxSimplebook(this, id_m_book);
 
@@ -63,32 +72,42 @@ MainFrame::MainFrame()
 		wxDefaultSize
 	);
 
-	for (int i = 0; i < DB_Manager::instance()->retrieve_results().size(); i++)
+	for (int i = 0; i < DB_Manager::instance().retrieve_results().size(); i++)
 	{
-		list_box->Append(DB_Manager::instance()->retrieve_results()[i].name);
+		list_box->Append(DB_Manager::instance().retrieve_results()[i].name);
 	}
 	if(list_box->GetCount() > 0)
 		list_box->SetSelection(list_box->GetCount()-1);
 
+
 	auto remove_selected_button = new wxButton(
 		start_panel,
 		REMOVE_RECORD,
-		"remove",
+		"Remove",
 		wxDefaultPosition,
 		wxDefaultSize,
 		wxNO_BORDER);
+	remove_selected_button->SetFont(f);
+	remove_selected_button->SetBackgroundColour(RGB(55, 168, 213));
+	remove_selected_button->SetForegroundColour(*wxWHITE);
 	auto learn_selected_button = new wxButton(
 		start_panel,
 		IdLearn,
-		"learn",
+		"Learn",
 		wxDefaultPosition,
 		wxDefaultSize,
 		wxNO_BORDER);
-	auto edit_selected_button = new wxButton(start_panel, IdEdit, "edit");
+	learn_selected_button->SetFont(f);
+	learn_selected_button->SetBackgroundColour(RGB(55, 168, 213));
+	learn_selected_button->SetForegroundColour(*wxWHITE);
+	auto edit_selected_button = new wxButton(start_panel, IdEdit, "Edit", wxDefaultPosition, wxDefaultSize, wxNO_BORDER);
+	edit_selected_button->SetBackgroundColour(RGB(55, 168, 213));
+	edit_selected_button->SetForegroundColour(*wxWHITE);
+	edit_selected_button->SetFont(f);
 
 	auto list_box_sizer = new wxBoxSizer(wxVERTICAL);
 	auto button_sizer = new wxBoxSizer(wxHORIZONTAL);
-	list_box_sizer->Add(list_box, 1, wxEXPAND | wxALL, 10);
+	list_box_sizer->Add(list_box, 1, wxEXPAND | wxALL, 20);
 
 	button_sizer->AddStretchSpacer(1);
 	button_sizer->Add(remove_selected_button, 0, wxLEFT | wxBOTTOM, 10);
@@ -104,9 +123,19 @@ MainFrame::MainFrame()
 	m_book->SetSelection(0);
 
 	auto control_panel = new wxPanel(this, wxID_ANY, wxDefaultPosition, wxDefaultSize);
-	auto create_lesson = new wxButton(control_panel, CreateLesson, "New Lesson");
-	auto home_button = new wxButton(control_panel, IdHome, "Home");
-	auto exit_button = new wxButton(control_panel, wxID_CLOSE, "exit");
+	auto create_lesson = new wxButton(control_panel, CreateLesson, "New Lesson", wxDefaultPosition, wxDefaultSize, wxNO_BORDER);
+	auto home_button = new wxButton(control_panel, IdHome, "Home", wxDefaultPosition, wxDefaultSize, wxNO_BORDER);
+	auto exit_button = new wxButton(control_panel, wxID_CLOSE, "Exit", wxDefaultPosition, wxDefaultSize, wxNO_BORDER);
+	create_lesson->SetFont(f);
+	create_lesson->SetBackgroundColour(RGB(55,168,213));
+	create_lesson->SetForegroundColour(*wxWHITE);
+	home_button->SetFont(f);
+	home_button->SetBackgroundColour(RGB(55,168,213));
+	home_button->SetForegroundColour(*wxWHITE);
+	exit_button->SetFont(f);
+	exit_button->SetBackgroundColour(RGB(55,168,213));
+	exit_button->SetForegroundColour(*wxWHITE);
+
 	create_lesson->Bind(wxEVT_BUTTON, &MainFrame::on_new_text_selected, this);
 	home_button->Bind(wxEVT_BUTTON, &MainFrame::on_show_start, this);
 	exit_button->Bind(wxEVT_BUTTON, &MainFrame::on_exit_selected, this);
@@ -127,6 +156,7 @@ MainFrame::MainFrame()
 	SetSizer(sizer);
 
 	SetMenuBar(make_m_bar());
+	
 }
 
 wxMenuBar* MainFrame::make_m_bar()
@@ -177,7 +207,7 @@ wxMenuBar* MainFrame::make_m_bar()
 
 void MainFrame::on_new_text_selected(wxCommandEvent& event)
 {
-	auto new_text_dialog = new TextEntryDialog(m_book, "New Text", wxDefaultSize);
+	new_text_dialog = new TextEntryDialog(m_book, "New Text", wxDefaultSize);
 	m_book->AddPage(new_text_dialog, "new text");
 	m_book->SetSelection(m_book->GetPageCount()-1);
 }
@@ -195,11 +225,16 @@ void MainFrame::on_show_lessons(wxCommandEvent& event)
 
 void MainFrame::on_show_start(wxCommandEvent& event)
 {
+	if (m_book->GetPageCount() > 2) {
+		for (int i = 2; i < m_book->GetPageCount(); i++) {
+			m_book->DeletePage(i);
+		}
+	}
 	m_book->SetSelection(0);
 	list_box->Clear();
-	for (int i = 0; i < DB_Manager::instance()->retrieve_results().size(); i++)
+	for (int i = 0; i < DB_Manager::instance().retrieve_results().size(); i++)
 	{
-		list_box->Append(DB_Manager::instance()->retrieve_results()[i].name);
+		list_box->Append(DB_Manager::instance().retrieve_results()[i].name);
 	}
 
 	if(list_box->GetCount() > 0)
@@ -208,10 +243,15 @@ void MainFrame::on_show_start(wxCommandEvent& event)
 
 void MainFrame::on_child_added_new_record(wxCommandEvent& event)
 {
+	if (m_book->GetPageCount() > 2) {
+		for (int i = 2; i < m_book->GetPageCount(); i++) {
+			m_book->DeletePage(i);
+		}
+	}
 	list_box->Clear();
-	for (int i = 0; i < DB_Manager::instance()->retrieve_results().size(); i++)
+	for (int i = 0; i < DB_Manager::instance().retrieve_results().size(); i++)
 	{
-		list_box->Append(DB_Manager::instance()->retrieve_results()[i].name);
+		list_box->Append(DB_Manager::instance().retrieve_results()[i].name);
 	}
 
 	if(list_box->GetCount() > 0)
@@ -220,13 +260,13 @@ void MainFrame::on_child_added_new_record(wxCommandEvent& event)
 
 void MainFrame::on_remove_selected_button_clicked(wxCommandEvent& event)
 {
-	DB_Manager::instance()->remove_record(list_box->GetStringSelection());
+	DB_Manager::instance().remove_record(list_box->GetStringSelection());
 	wxRemoveFile(wxString::Format("./saved mems/%s.txt", list_box->GetStringSelection()));
 
 	list_box->Clear();
-	for (int i = 0; i < DB_Manager::instance()->retrieve_results().size(); i++)
+	for (int i = 0; i < DB_Manager::instance().retrieve_results().size(); i++)
 	{
-		list_box->Append(DB_Manager::instance()->retrieve_results()[i].name);
+		list_box->Append(DB_Manager::instance().retrieve_results()[i].name);
 	}
 
 	if(list_box->GetCount() > 0)
@@ -244,7 +284,7 @@ void MainFrame::on_learn_selected_button_clicked(wxCommandEvent& event) {
 	wxString file_name;
 	if ((file_name = list_box->GetStringSelection()) != "") {
 		wxString address(wxString::Format("./saved mems/%s.txt", file_name));
-		auto LW = new LearnWindow(m_book, "Learn", address);
+		LW = new LearnWindow(m_book, "Learn", address);
 		m_book->AddPage(LW, "Learn");
 		if(m_book->GetPageCount() > 0)
 			m_book->SetSelection(m_book->GetPageCount() - 1);
@@ -262,13 +302,17 @@ void MainFrame::on_edit_selected_button_clicked(wxCommandEvent& event)
 
 void MainFrame::on_end_edit(wxCommandEvent& event)
 {
+	if (m_book->GetPageCount() > 2) {
+		for (int i = 2; i < m_book->GetPageCount(); i++) {
+			m_book->DeletePage(i);
+		}
+	}
 	list_box->Clear();
-	for (int i = 0; i < DB_Manager::instance()->retrieve_results().size(); i++)
+	for (int i = 0; i < DB_Manager::instance().retrieve_results().size(); i++)
 	{
-		list_box->Append(DB_Manager::instance()->retrieve_results()[i].name);
+		list_box->Append(DB_Manager::instance().retrieve_results()[i].name);
 		list_box->SetSelection(list_box->GetCount()-1);
 	}
-	m_book->DeletePage(m_book->GetPageCount() - 1);
 	
 	if(m_book->GetPageCount() > 0)
 		m_book->SetSelection(0);

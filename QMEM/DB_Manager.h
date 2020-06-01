@@ -14,12 +14,16 @@ class DB_Manager
         int init_table() const;
         int remove_record(const char* name);
         std::vector<Result> retrieve_results() const;
-        static DB_Manager* instance();
+        static DB_Manager& instance();
+
+protected:
+    explicit DB_Manager();
 
     private:
-		DB_Manager();
+		std::vector<Result> results;
         ~DB_Manager();
         DB_Manager(const DB_Manager&);
+        DB_Manager& operator=(const DB_Manager& dbM);
         sqlite3 *db;
 
 };
@@ -28,5 +32,7 @@ struct Result
 {
 	std::string name;
 	std::string address;
+    std::string date;
+    std::string id;
 };
 

@@ -1,4 +1,0 @@
-/home/ibrahiah/Downloads/clion-2020.1.1/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /home/ibrahiah/CLionProjects/QMEM/QMEM
--- Configuring done
--- Generating done
--- Build files have been written to: /home/ibrahiah/CLionProjects/QMEM/QMEM/cmake-build-debug

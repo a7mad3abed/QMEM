@@ -1,3 +1,0 @@
-/home/ibrahiah/CLionProjects/QMEM/QMEM/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/ibrahiah/CLionProjects/QMEM/QMEM/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/ibrahiah/CLionProjects/QMEM/QMEM/cmake-build-debug/CMakeFiles/QMEM.dir

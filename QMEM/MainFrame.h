@@ -7,8 +7,12 @@
 
 #include "wx/simplebook.h"
 
+#include <memory>
+
 class Results_Dlg;
 class EditText;
+class LearnWindow;
+class TextEntryDialog;
 
 class MainFrame : public wxFrame
 {
@@ -38,6 +42,8 @@ private:
 private:
 	wxSimplebook* m_book;
 	wxListBox* list_box;
+	LearnWindow* LW;
+	TextEntryDialog* new_text_dialog;
 	Results_Dlg* results_dlg;
 	EditText* m_editor;
 };

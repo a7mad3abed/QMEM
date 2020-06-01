@@ -15,7 +15,9 @@ TextEntryDialog::TextEntryDialog(wxWindow* parent, const wxString& title, const 
 		wxDefaultPosition,
 		size)
 {
-	if (!DB_Manager::instance()->init_db()) wxMessageBox("error initializing the datebase");
+	wxFont f;
+	f.SetFamily(wxFONTFAMILY_SCRIPT);
+	f.SetSymbolicSize(wxFONTSIZE_LARGE);
 
 	auto baseSizer = new wxBoxSizer(wxVERTICAL);
 	textEntry = new wxTextCtrl(
@@ -31,42 +33,42 @@ TextEntryDialog::TextEntryDialog(wxWindow* parent, const wxString& title, const 
 		wxEXPAND | wxALL,
 		10);
 	auto controlSizer = new wxBoxSizer(wxHORIZONTAL);
-	wxImage new_image(wxT("./images/savebtn.png"), wxBITMAP_TYPE_PNG);
-	new_image.Rescale(40, 40);
-	wxBitmap BM_saveButton(new_image, 0);
+	//wxImage new_image(wxT("./images/savebtn.png"), wxBITMAP_TYPE_PNG);
+	//new_image.Rescale(40, 40);
+	//wxBitmap BM_saveButton(new_image, 0);
 	auto saveButton = new wxButton(
 		this,
 		SAVE_BUTTON,
-		"",
+		"save",
 		wxDefaultPosition,
 		wxDefaultSize,
-		wxBU_TOP|wxBU_NOTEXT|wxNO_BORDER);
-	saveButton->SetBitmap(BM_saveButton,wxLEFT);
+		wxNO_BORDER);
+	//saveButton->SetBitmap(BM_saveButton,wxLEFT);
 	auto cancelButton = new wxButton(
 		this,
 		New_Canel_Button,
 		"cancel",
 		wxDefaultPosition,
 		wxDefaultSize,
-		wxBU_TOP|wxBU_NOTEXT|wxNO_BORDER);
-	new_image.LoadFile(wxT("./images/cancelbtn.png"), wxBITMAP_TYPE_PNG);
-	new_image.Rescale(40, 40);
-	wxBitmap BM_cancelButton(new_image, 0);
-	cancelButton->SetBitmap(BM_cancelButton);
+		wxNO_BORDER);
+	//new_image.LoadFile(wxT("./images/cancelbtn.png"), wxBITMAP_TYPE_PNG);
+	//new_image.Rescale(40, 40);
+	//wxBitmap BM_cancelButton(new_image, 0);
+	//cancelButton->SetBitmap(BM_cancelButton);
 	auto alignLeftButton = new wxButton(
 		this,
 		ALIGN_LEFT_BUTTON,
 		"align left",
 		wxDefaultPosition,
 		wxDefaultSize,
-		wxBU_TOP | wxNO_BORDER);
+		 wxNO_BORDER);
 	auto alignRightButton = new wxButton(
 		this,
 		ALIGN_RIGHT_BUTTON,
 		"align right",
 		wxDefaultPosition,
 		wxDefaultSize,
-		wxBU_TOP);
+		wxNO_BORDER);
 	saveButton->Bind(
 		wxEVT_BUTTON,
 		&TextEntryDialog::on_save_button_clicked,
@@ -87,6 +89,22 @@ TextEntryDialog::TextEntryDialog(wxWindow* parent, const wxString& title, const 
 		&TextEntryDialog::on_align_right_button_clicked,
 		this,
 		ALIGN_RIGHT_BUTTON);
+
+	saveButton->SetBackgroundColour(RGB(55, 168, 213));
+	cancelButton->SetBackgroundColour(RGB(55, 168, 213));
+	alignLeftButton->SetBackgroundColour(RGB(55, 168, 213));
+	alignRightButton->SetBackgroundColour(RGB(55, 168, 213));
+
+	saveButton->SetForegroundColour(*wxWHITE);
+	cancelButton->SetForegroundColour(*wxWHITE);
+	alignLeftButton->SetForegroundColour(*wxWHITE);
+	alignRightButton->SetForegroundColour(*wxWHITE);
+
+	saveButton->SetFont(f);
+	cancelButton->SetFont(f);
+	alignLeftButton->SetFont(f);
+	alignRightButton->SetFont(f);
+
 	controlSizer->AddStretchSpacer(2);
 	controlSizer->Add(saveButton, 0, wxALL);
 	controlSizer->Add(cancelButton, 0, wxALL);
@@ -118,7 +136,7 @@ void TextEntryDialog::on_save_button_clicked(wxCommandEvent& event)
 		!(fileName = dlg.GetValue()).empty() &&
 		textEntry->SaveFile(wxString::Format("./saved mems/%s.txt", fileName), wxTEXT_TYPE_ANY))
 	{
-		if (DB_Manager::instance()->add_record(fileName,
+		if (DB_Manager::instance().add_record(fileName,
 			wxString::Format("./saved mems/%s.txt", fileName)) == SQLITE_DONE) {
 			wxMessageBox("saved successfully!");
 

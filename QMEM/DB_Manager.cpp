@@ -10,6 +10,7 @@ DB_Manager::~DB_Manager()
     sqlite3_close(db);
 }
 
+
 bool DB_Manager::init_db()
 {
     if ((sqlite3_open("Qmem.db", &db)) != SQLITE_OK) {
@@ -27,7 +28,11 @@ int DB_Manager::init_table() const
 {
     int rc = 0;
     sqlite3_stmt* stmt;
-    const char* zSql = "CREATE TABLE if not exists Learn_Text ( id INTEGER PRIMARY KEY, name TEXT UNIQUE NOT NULL, address TEXT );";
+    const char* zSql = "CREATE TABLE if not exists Learn_Text (\
+                        id INTEGER PRIMARY KEY,\
+                        name TEXT UNIQUE NOT NULL,\
+                        address TEXT,\
+                        Timestamp DATETIME DEFAULT CURRENT_TIMESTAMP);";
     sqlite3_prepare_v2(db, zSql, -1, &stmt, 0);
     rc = sqlite3_step(stmt);
     sqlite3_finalize(stmt);
@@ -94,11 +99,16 @@ std::vector<Result> DB_Manager::retrieve_results() const
         for (auto i = 0; i < sqlite3_column_count(stmt); i++)
         {
 
+            if (i == 0)
+            {
+                newResult.id = reinterpret_cast<const char*>(sqlite3_column_text(stmt, i));
+            }
             if (i == 1)
             {
                 newResult.name = reinterpret_cast<const char*>(sqlite3_column_text(stmt, i));
             }
             if(i == 2) newResult.address = reinterpret_cast<const char*>(sqlite3_column_text(stmt, i));
+            if (i == 3) newResult.date = reinterpret_cast<const char*>(sqlite3_column_text(stmt, i));
         }
         results.push_back(newResult);
 
@@ -107,8 +117,9 @@ std::vector<Result> DB_Manager::retrieve_results() const
 
 }
 
-DB_Manager* DB_Manager::instance()
+DB_Manager& DB_Manager::instance()
 {
-    return new DB_Manager();
+    static DB_Manager singleton;
+    return singleton;
 }
 
